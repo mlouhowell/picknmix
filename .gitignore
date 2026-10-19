@@ -6,3 +6,8 @@ test-results
 playwright-report
 .DS_Store
 review/shots
+
+# heavy 3D review videos (regenerate with scripts/capture-3d.mjs <slug> video)
+review/*/preview.mp4
+review/*/preview.webm
+review/*/preview-transparent.webp

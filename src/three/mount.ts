@@ -23,11 +23,14 @@ export async function mountCandy(el: HTMLElement, slug: string, opts: MountOptio
   el.appendChild(box);
   try {
     const stage = createStage(box, mod.SCENE, { maxPixelRatio: opts.maxPixelRatio ?? 2 });
+    const t0 = performance.now();
     const mesh = mod.createCandy(stage);
-    return startCandy(stage, mesh, mod.FLOAT, mod.SCENE, {
+    const buildMs = performance.now() - t0; // budget: <= 300 ms (3D_CANDY_GUIDELINES §9)
+    const api = startCandy(stage, mesh, mod.FLOAT, mod.SCENE, {
       seed: opts.seed ?? mod.FLOAT.seed,
       speed: opts.speed ?? mod.FLOAT.speed,
     });
+    return Object.assign(api, { buildMs, realSizeMm: mod.REAL_SIZE_MM });
   } catch (e) {
     box.remove(); // WebGL unavailable: caller keeps the PNG poster
     throw e;

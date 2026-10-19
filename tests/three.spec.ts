@@ -1,7 +1,10 @@
 import { test, expect, type Page } from '@playwright/test';
+import { readdirSync } from 'node:fs';
 import data from '../content/candies.json' with { type: 'json' };
 
 const with3d = data.candies.filter((c) => c.model3d).map((c) => c.slug);
+/** every 3D module, including ones awaiting approval (not yet enabled via model3d) */
+const modules = readdirSync('src/three/candies').filter((f) => f.endsWith('.ts')).map((f) => f.replace(/\.ts$/, ''));
 const without3d = data.candies.filter((c) => !c.model3d).map((c) => c.slug);
 type W = { candy: { ready: boolean; pause(): void; at(t: number): void; loopSeconds: number; staticTime: number } };
 const ready = (page: Page) => page.waitForFunction(() => (window as unknown as W).candy?.ready, null, { timeout: 30000 });
@@ -18,6 +21,9 @@ for (const slug of with3d) {
     expect(three.length).toBeGreaterThan(0);
   });
 
+}
+
+for (const slug of modules) {
   test(`${slug}: loop is seamless (at(0) == at(loopSeconds)), also at ?speed=2`, async ({ page }) => {
     for (const q of ['', '?speed=2']) {
       await page.goto(`/3d/${slug}/${q}`);

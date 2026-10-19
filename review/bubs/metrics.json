@@ -1,0 +1,76 @@
+{
+  "slug": "bubs",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.974,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.25,
+        0.25
+      ],
+      "hero": [
+        241,
+        160,
+        181
+      ],
+      "render": [
+        239,
+        152,
+        174
+      ],
+      "chromaRatio": 1.08
+    },
+    {
+      "at": [
+        0.75,
+        0.25
+      ],
+      "hero": [
+        161,
+        212,
+        221
+      ],
+      "render": [
+        150,
+        200,
+        210
+      ],
+      "chromaRatio": 0.99
+    },
+    {
+      "at": [
+        0.3,
+        0.62
+      ],
+      "hero": [
+        239,
+        141,
+        164
+      ],
+      "render": [
+        247,
+        178,
+        195
+      ],
+      "chromaRatio": 0.69
+    }
+  ],
+  "chromaPass": false,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 218,
+  "triangles": 55332,
+  "drawCalls": 1,
+  "textures": 2,
+  "loopSeconds": 22,
+  "staticTime": 16,
+  "realSizeMm": 32
+}

@@ -56,7 +56,8 @@ if (mode === 'still') {
     await page.evaluate((t) => window.candy.at(t), i / FPS);
     await shot(`${fr}/f${String(i).padStart(4, '0')}.png`);
   }
-  const ff = (...a) => execFileSync('ffmpeg', ['-y', '-loglevel', 'error', ...a], { stdio: 'inherit' });
+  const FFMPEG = (await import('ffmpeg-static').catch(() => null))?.default ?? 'ffmpeg';
+  const ff = (...a) => execFileSync(FFMPEG, ['-y', '-loglevel', 'error', ...a], { stdio: 'inherit' });
   const src = ['-framerate', String(FPS), '-i', `${fr}/f%04d.png`];
   ff('-f', 'lavfi', '-i', `color=c=0xecebe7:s=${SIZE}x${SIZE}:r=${FPS}`, ...src, '-filter_complex',
     '[0][1]overlay=format=auto:shortest=1,scale=640:640', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-movflags', '+faststart', `${OUT}/preview.mp4`);
