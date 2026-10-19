@@ -1,26 +1,39 @@
 ---
 // Landing, figma 3:679 (chosen; 10:11 / 10:155 / 3:226 are explorations, not built).
-// Composition from content/landing-layout.json; copy from content/site.json. Each candy links to its page (linksTo).
+// Composition from content/landing-layout.json (mode: "universe" fly-through or the "collage" of 3:679);
+// copy from content/site.json. Each candy links to its page.
 import Base from '../layouts/Base.astro';
 import BackgroundCandies from '../components/BackgroundCandies.astro';
+import CandyUniverse from '../components/CandyUniverse.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
 import { site, landing } from '../lib/content';
 ---
 <Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
   <main class="landing" data-figma="3:679">
-    <BackgroundCandies fit="contain" includeHero links>
-      <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
-      <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
-        <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
-        <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
-      </hgroup>
-    </BackgroundCandies>
+    {landing.mode === 'universe' ? (
+      <CandyUniverse>
+        <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
+        <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
+          <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
+          <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
+        </hgroup>
+      </CandyUniverse>
+    ) : (
+      <BackgroundCandies fit="contain" includeHero links>
+        <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
+        <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
+          <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
+          <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
+        </hgroup>
+      </BackgroundCandies>
+    )}
     <CornerOrnaments />
   </main>
 </Base>
 
 <script>
   import '../scripts/landing-scroll';
+  import '../scripts/landing-universe';
 </script>
 
 <style>
@@ -34,6 +47,7 @@ import { site, landing } from '../lib/content';
     position: absolute; left: 50%; top: var(--cy); translate: -50% -50%;
     display: grid; justify-items: center; gap: calc(var(--space-eyebrow-title) - var(--landing-eyebrow-leading));
     text-align: center; inline-size: var(--landing-title-w); max-inline-size: 90vw;
+    pointer-events: none; /* candies behind the title stay clickable */
   }
   .eyebrow { font-size: var(--type-eyebrow-size); line-height: var(--landing-eyebrow-leading); }
   .title {

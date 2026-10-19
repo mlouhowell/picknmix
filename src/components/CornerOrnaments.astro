@@ -20,7 +20,7 @@ const corners = [
 </div>
 
 <style>
-  .ornaments { position: fixed; inset: 0; pointer-events: none; color: var(--color-brand); }
+  .ornaments { position: fixed; inset: 0; z-index: 1; pointer-events: none; color: var(--color-brand); } /* frames the landing candies */
   .corner {
     --ow: calc(var(--ornament-w-canvas) * var(--canvas-unit));
     --oh: calc(var(--ornament-h-canvas) * var(--canvas-unit));

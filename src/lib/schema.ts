@@ -81,6 +81,7 @@ const slot = z.object({
 });
 
 export const LandingLayoutSchema = z.object({
+  mode: z.enum(['universe', 'collage']), // OPEN: universe fly-through (doodle-style) vs the still 3:679 collage
   canvas: z.object({ w: z.number().positive(), h: z.number().positive() }),
   title: z.object({ figmaNode: figmaId, centerYPct: pct }),
   sharpHero: slot,
@@ -97,6 +98,25 @@ export const LandingLayoutSchema = z.object({
     scrollSpinDeg: z.number(),
     scrollSensitivity: z.number().min(0),
     scrollReturnPerSecond: z.number().positive(),
+  }),
+  // mode "universe": every candy floats in depth; scrolling flies through them (lib/universe.ts)
+  universe: z.object({
+    copies: z.number().int().min(1),
+    lanes: z.array(z.tuple([z.number(), z.number()])).min(1),
+    jitterPx: z.number().min(0),
+    itemPx: z.number().positive(),
+    perspectivePx: z.number().positive(),
+    stepZ: z.number().positive(),
+    fadeInPx: z.number().positive(),
+    fadeOutStartZ: z.number().max(0),
+    fadeOutEndZ: z.number().max(0),
+    farBlurPx: z.number().min(0),
+    blurStartZ: z.number().max(0),
+    spinDeg: z.number(),
+    scrollSpeed: z.number().min(0),
+    ease: z.number().positive(),
+    driftPxPerSecond: z.number().min(0),
+    focusZ: z.number().max(0),
   }),
 });
 
