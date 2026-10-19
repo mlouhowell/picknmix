@@ -7,15 +7,17 @@ import type { Candy } from '../lib/schema';
 import { site, neighbours, candyHref } from '../lib/content';
 interface Props { candy: Candy }
 const { candy } = Astro.props;
-const { next } = neighbours(candy.slug);
+const { next, prev } = neighbours(candy.slug);
 const rowDetails = site.candyPage.layout.details === 'row';
 ---
 <aside class="panel" data-figma="8:211">
   <nav class="buttons" aria-label={site.siteName}>
     <!-- figma 8:212 close -->
-    <IconButton href="/" label={site.candyPage.close} icon="close" figma="8:212" />
+    <IconButton href="/" label={site.candyPage.close} icon="close" figma="8:212" nav="close" />
     <!-- figma 8:214 next -->
-    <IconButton href={candyHref(next)} label={site.candyPage.next} icon="next" figma="8:214" rel="next" />
+    <IconButton href={candyHref(next)} label={site.candyPage.next} icon="next" figma="8:214" rel="next" nav="next" />
+    <!-- no Figma button for previous: keyboard (<-) / swipe target only -->
+    <a href={candyHref(prev)} rel="prev" data-nav="prev" hidden aria-hidden="true" tabindex="-1"></a>
   </nav>
   <article class="content" data-figma="8:219">
     <!-- figma 8:238 title (Fraunces stand-in for Begum, OPEN) -->

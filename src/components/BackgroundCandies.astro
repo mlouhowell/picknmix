@@ -14,7 +14,7 @@ const slots = [
 ].filter((s) => hasImg(s.src));
 const px = (pct: number, of: number) => Math.round((pct / 100) * of);
 ---
-<div class:list={['stage', fit]} data-figma="3:679">
+<div class:list={['stage', fit]} data-figma="3:679" transition:persist={fit === 'cover' ? 'candy-background' : undefined}>
   <div class="slots" aria-hidden="true">
   {slots.map((s) => (
     <div class:list={['slot', { sharp: s.sharp }]} data-figma={s.figmaNode}

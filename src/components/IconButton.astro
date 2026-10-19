@@ -1,9 +1,9 @@
 ---
 // figma 8:212 (close) / 8:214 (next): 45px round button, icon 8:213 / 8:215. Rendered as a link (navigation).
-interface Props { href: string; label: string; icon: 'close' | 'next' | 'prev'; figma: string; rel?: string; id?: string }
-const { href, label, icon, figma, rel, id } = Astro.props;
+interface Props { href: string; label: string; icon: 'close' | 'next' | 'prev'; figma: string; rel?: string; nav?: string }
+const { href, label, icon, figma, rel, nav } = Astro.props;
 ---
-<a class="icon-button" href={href} aria-label={label} title={label} data-figma={figma} rel={rel} id={id}>
+<a class="icon-button" href={href} aria-label={label} title={label} data-figma={figma} rel={rel} data-nav={nav}>
   {icon === 'close' ? (
     <svg class="close" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
   ) : (
