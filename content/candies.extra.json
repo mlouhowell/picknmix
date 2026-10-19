@@ -28,7 +28,7 @@
     "sheetName": "Pastellfiskar (Swedish Fish)", "figmaNode": "8:192", "heroNode": "8:237",
     "type": "Jelly / wine gum candy",
     "hero": { "src": "candies/pastellfiskar/hero.png", "alt": "Green Malaco pastellfisk jelly fish", "credit": "Malaco shop product photo (kalaskungen), copyrighted", "license": "reference-only" },
-    "model3d": null,
+    "model3d": { "src": "3d/pastellfiskar/preview.png", "seed": 4 },
     "variants": [
       { "name": "Yellow fish", "src": "candies/pastellfiskar/variant-yellow-fish.png", "figmaNode": "12:58", "credit": "Malaco shop product photo (kalaskungen), copyrighted", "license": "reference-only" },
       { "name": "Red fish (US Swedish Fish)", "src": "candies/pastellfiskar/variant-red-fish-us.png", "figmaNode": "12:62", "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)", "license": "open" },
@@ -39,7 +39,7 @@
     "sheetName": "Kexchoklad", "figmaNode": "8:263", "heroNode": "8:308",
     "type": "Chocolate wafer bar",
     "hero": { "src": "candies/kexchoklad/hero.png", "alt": "Kexchoklad bar in its red and yellow checked wrapper", "credit": "User-supplied packet photo (wrapper design by Cloetta)", "license": "user-supplied" },
-    "model3d": null,
+    "model3d": { "src": "3d/kexchoklad/preview.png", "seed": 25 },
     "variants": [
       { "name": "Kexchoklad Vegan (wrapped)", "src": "candies/kexchoklad/variant-vegan.png", "figmaNode": "12:78", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
       { "name": "Kexchoklad Mini (wrapped)", "src": "candies/kexchoklad/variant-mini.png", "figmaNode": "12:82", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
@@ -50,7 +50,7 @@
     "sheetName": "Ahlgrens bilar", "figmaNode": "8:322", "heroNode": "8:367",
     "type": "Foam candy (skumgodis)",
     "hero": { "src": "candies/ahlgrens-bilar/hero.png", "alt": "Green Ahlgrens bilar foam candy car", "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
-    "model3d": null,
+    "model3d": { "src": "3d/ahlgrens-bilar/preview.png", "seed": 6 },
     "variants": [
       { "name": "White car", "src": "candies/ahlgrens-bilar/variant-white-car.png", "figmaNode": "12:90", "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)", "license": "open" },
       { "name": "Pink car", "src": null, "figmaNode": "12:94", "credit": null, "license": null },
@@ -62,7 +62,7 @@
     "sheetName": "Daim", "figmaNode": "8:389", "heroNode": "8:434",
     "type": "Chocolate-coated almond toffee",
     "hero": { "src": "candies/daim/hero.png", "alt": "Daim bar", "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image", "license": "reference-only" },
-    "model3d": null,
+    "model3d": { "src": "3d/daim/preview.png", "seed": 3 },
     "variants": [
       { "name": "Daim Mint (wrapped)", "src": "candies/daim/variant-mint.png", "figmaNode": "12:106", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
       { "name": "Daim Orange (wrapped)", "src": "candies/daim/variant-orange.png", "figmaNode": "12:110", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" }
@@ -85,7 +85,7 @@
     "sheetName": "Gott & Blandat", "figmaNode": "8:519", "heroNode": "8:564",
     "type": "Mixed fruit jelly & licorice",
     "hero": { "src": "candies/gott-blandat/hero.png", "alt": "Licorice cat from Gott & Blandat", "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
-    "model3d": null,
+    "model3d": { "src": "3d/gott-blandat/preview.png", "seed": 6 },
     "variants": [
       { "name": "Licorice sailboat (Original mix)", "src": "candies/gott-blandat/variant-licorice-sailboat.png", "figmaNode": "12:142", "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
       { "name": "Red fruit fish (Original mix)", "src": "candies/gott-blandat/variant-red-fruit-fish.png", "figmaNode": "12:146", "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
@@ -98,7 +98,7 @@
     "sheetName": "Cola candies", "figmaNode": "17:22", "heroNode": "17:79",
     "type": "Gummy candy (sour, sugar-coated)",
     "hero": { "src": "candies/cola/hero.png", "alt": "Sour sugar-coated cola bottle gummy", "credit": "User-supplied photo", "license": "user-supplied" },
-    "model3d": null,
+    "model3d": { "src": "3d/cola/preview.png", "seed": 3 },
     "variants": [
       { "name": "Malaco Colaflaskor", "src": "candies/cola/variant-malaco-colaflaskor.png", "figmaNode": "17:62", "credit": "matsiktet.se / Cloetta product image, copyrighted", "license": "reference-only" },
       { "name": "Sura Colanappar (sour)", "src": "candies/cola/variant-sura-colanappar.png", "figmaNode": "17:80", "credit": "joselind.se retailer image", "license": "reference-only" },

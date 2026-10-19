@@ -12,7 +12,7 @@
     "open": 20,
     "user-supplied": 3,
     "reference-only": 28,
-    "own": 17,
+    "own": 23,
     "own (traced from 1890s plate, public domain source)": 3
   },
   "files": [
@@ -841,6 +841,54 @@
       "license": "own",
       "credit": "Own 3D render (src/three/candies/bubs.ts)",
       "usedFor": "bubs model3d poster"
+    },
+    {
+      "path": "3d/pastellfiskar/preview.png",
+      "bytes": 188265,
+      "sha256": "1e949fc38ac8",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/pastellfiskar.ts)",
+      "usedFor": "pastellfiskar model3d poster"
+    },
+    {
+      "path": "3d/cola/preview.png",
+      "bytes": 200869,
+      "sha256": "3ac0a8f229fc",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/cola.ts)",
+      "usedFor": "cola model3d poster"
+    },
+    {
+      "path": "3d/gott-blandat/preview.png",
+      "bytes": 240844,
+      "sha256": "b21cd2c443da",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/gott-blandat.ts)",
+      "usedFor": "gott-blandat model3d poster"
+    },
+    {
+      "path": "3d/ahlgrens-bilar/preview.png",
+      "bytes": 165671,
+      "sha256": "c3818ca62095",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/ahlgrens-bilar.ts)",
+      "usedFor": "ahlgrens-bilar model3d poster"
+    },
+    {
+      "path": "3d/kexchoklad/preview.png",
+      "bytes": 298265,
+      "sha256": "2d8456f48073",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/kexchoklad.ts)",
+      "usedFor": "kexchoklad model3d poster"
+    },
+    {
+      "path": "3d/daim/preview.png",
+      "bytes": 180747,
+      "sha256": "cbae7571addb",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/daim.ts)",
+      "usedFor": "daim model3d poster"
     }
   ]
 }

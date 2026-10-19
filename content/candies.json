@@ -174,7 +174,10 @@
         "credit": "Malaco shop product photo (kalaskungen), copyrighted",
         "license": "reference-only"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/pastellfiskar/preview.png",
+        "seed": 4
+      },
       "variants": [
         {
           "name": "Yellow fish",
@@ -241,7 +244,10 @@
         "credit": "User-supplied packet photo (wrapper design by Cloetta)",
         "license": "user-supplied"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/kexchoklad/preview.png",
+        "seed": 25
+      },
       "variants": [
         {
           "name": "Kexchoklad Vegan (wrapped)",
@@ -308,7 +314,10 @@
         "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
         "license": "open"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/ahlgrens-bilar/preview.png",
+        "seed": 6
+      },
       "variants": [
         {
           "name": "White car",
@@ -377,7 +386,10 @@
         "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image",
         "license": "reference-only"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/daim/preview.png",
+        "seed": 3
+      },
       "variants": [
         {
           "name": "Daim Mint (wrapped)",
@@ -514,7 +526,10 @@
         "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
         "license": "open"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/gott-blandat/preview.png",
+        "seed": 6
+      },
       "variants": [
         {
           "name": "Licorice sailboat (Original mix)",
@@ -595,7 +610,10 @@
         "credit": "User-supplied photo",
         "license": "user-supplied"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/cola/preview.png",
+        "seed": 3
+      },
       "variants": [
         {
           "name": "Malaco Colaflaskor",
