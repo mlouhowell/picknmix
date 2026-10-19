@@ -1,0 +1,76 @@
+{
+  "slug": "gott-blandat",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.989,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.62,
+        0.28
+      ],
+      "hero": [
+        53,
+        52,
+        50
+      ],
+      "render": [
+        43,
+        41,
+        41
+      ],
+      "chromaRatio": 0.68
+    },
+    {
+      "at": [
+        0.25,
+        0.72
+      ],
+      "hero": [
+        63,
+        62,
+        60
+      ],
+      "render": [
+        106,
+        104,
+        105
+      ],
+      "chromaRatio": 0.75
+    },
+    {
+      "at": [
+        0.82,
+        0.62
+      ],
+      "hero": [
+        55,
+        53,
+        52
+      ],
+      "render": [
+        67,
+        65,
+        65
+      ],
+      "chromaRatio": 0.79
+    }
+  ],
+  "chromaPass": false,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 275,
+  "triangles": 47260,
+  "drawCalls": 1,
+  "textures": 2,
+  "loopSeconds": 22,
+  "staticTime": 17,
+  "realSizeMm": 24
+}

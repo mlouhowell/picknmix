@@ -5,7 +5,8 @@
 //                                                         + hero-3d-512.webp / hero-3d-1024.webp
 //   node scripts/capture-3d.mjs <slug> video            -> preview.mp4 (grey), preview.webm (VP9 alpha),
 //                                                         preview-transparent.webp (needs ffmpeg)
-//   node scripts/capture-3d.mjs <slug> pose x,y,z ...   -> review/<slug>/pose.png (fixed orientations on #ecebe7)
+//   node scripts/capture-3d.mjs <slug> pose x,y,z ...   -> review/<slug>/pose.png (x,y,z = Euler DEGREES; on #ecebe7)
+// Run against `npm run preview`, not `astro dev`: dev reloads the page whenever any candy module changes.
 // Options: --base=URL  --out=DIR  --size=800
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';

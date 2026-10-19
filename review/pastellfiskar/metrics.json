@@ -1,0 +1,76 @@
+{
+  "slug": "pastellfiskar",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.964,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.45,
+        0.62
+      ],
+      "hero": [
+        128,
+        153,
+        5
+      ],
+      "render": [
+        62,
+        111,
+        4
+      ],
+      "chromaRatio": 0.85
+    },
+    {
+      "at": [
+        0.12,
+        0.45
+      ],
+      "hero": [
+        107,
+        147,
+        18
+      ],
+      "render": [
+        176,
+        199,
+        64
+      ],
+      "chromaRatio": 1.04
+    },
+    {
+      "at": [
+        0.88,
+        0.55
+      ],
+      "hero": [
+        103,
+        141,
+        9
+      ],
+      "render": [
+        126,
+        161,
+        37
+      ],
+      "chromaRatio": 1
+    }
+  ],
+  "chromaPass": true,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 153,
+  "triangles": 47980,
+  "drawCalls": 1,
+  "textures": 3,
+  "loopSeconds": 22,
+  "staticTime": 19.4,
+  "realSizeMm": 50
+}

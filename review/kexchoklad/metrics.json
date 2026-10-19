@@ -1,0 +1,76 @@
+{
+  "slug": "kexchoklad",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.982,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.101,
+        0.399
+      ],
+      "hero": [
+        234,
+        204,
+        90
+      ],
+      "render": [
+        215,
+        168,
+        79
+      ],
+      "chromaRatio": 0.88
+    },
+    {
+      "at": [
+        0.035,
+        0.494
+      ],
+      "hero": [
+        202,
+        66,
+        61
+      ],
+      "render": [
+        240,
+        71,
+        68
+      ],
+      "chromaRatio": 1.2
+    },
+    {
+      "at": [
+        0.234,
+        0.557
+      ],
+      "hero": [
+        195,
+        130,
+        57
+      ],
+      "render": [
+        222,
+        159,
+        84
+      ],
+      "chromaRatio": 0.97
+    }
+  ],
+  "chromaPass": true,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 31,
+  "triangles": 65280,
+  "drawCalls": 1,
+  "textures": 3,
+  "loopSeconds": 22,
+  "staticTime": 11.5,
+  "realSizeMm": 150
+}

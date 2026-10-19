@@ -1,0 +1,93 @@
+{
+  "slug": "cola",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.988,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.78,
+        0.36
+      ],
+      "hero": [
+        98,
+        76,
+        63
+      ],
+      "render": [
+        163,
+        133,
+        123
+      ],
+      "chromaRatio": 1.03
+    },
+    {
+      "at": [
+        0.85,
+        0.29
+      ],
+      "hero": [
+        119,
+        98,
+        85
+      ],
+      "render": [
+        156,
+        125,
+        114
+      ],
+      "chromaRatio": 1.19
+    },
+    {
+      "at": [
+        0.47,
+        0.53
+      ],
+      "hero": [
+        187,
+        178,
+        157
+      ],
+      "render": [
+        201,
+        191,
+        173
+      ],
+      "chromaRatio": 0.87
+    },
+    {
+      "at": [
+        0.25,
+        0.72
+      ],
+      "hero": [
+        210,
+        207,
+        187
+      ],
+      "render": [
+        208,
+        203,
+        184
+      ],
+      "chromaRatio": 0.96
+    }
+  ],
+  "chromaPass": true,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 141,
+  "triangles": 45632,
+  "drawCalls": 1,
+  "textures": 2,
+  "loopSeconds": 22,
+  "staticTime": 15.75,
+  "realSizeMm": 40
+}

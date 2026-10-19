@@ -1,0 +1,76 @@
+{
+  "slug": "ahlgrens-bilar",
+  "pose": [
+    0,
+    0,
+    0
+  ],
+  "iou": 0.98,
+  "iouPass": true,
+  "swatches": [
+    {
+      "at": [
+        0.45,
+        0.45
+      ],
+      "hero": [
+        201,
+        224,
+        178
+      ],
+      "render": [
+        218,
+        234,
+        191
+      ],
+      "chromaRatio": 0.9
+    },
+    {
+      "at": [
+        0.2,
+        0.55
+      ],
+      "hero": [
+        192,
+        218,
+        170
+      ],
+      "render": [
+        211,
+        231,
+        178
+      ],
+      "chromaRatio": 1.05
+    },
+    {
+      "at": [
+        0.75,
+        0.65
+      ],
+      "hero": [
+        215,
+        240,
+        194
+      ],
+      "render": [
+        214,
+        232,
+        183
+      ],
+      "chromaRatio": 1.03
+    }
+  ],
+  "chromaPass": true,
+  "loopOk": {
+    "speed1": true,
+    "?speed=2": true
+  },
+  "fps": 60,
+  "buildMs": 139,
+  "triangles": 53320,
+  "drawCalls": 1,
+  "textures": 2,
+  "loopSeconds": 22,
+  "staticTime": 18,
+  "realSizeMm": 36
+}
