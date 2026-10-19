@@ -14,4 +14,9 @@ const { candy } = Astro.props;
 <style>
   .hero { inline-size: var(--hero-size); block-size: var(--hero-size); max-inline-size: 100%; position: relative; }
   .hero :global(.poster), .hero :global(.poster img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+  .hero :global(.poster), .hero :global(.candy-canvas) { transition: opacity var(--duration-page) var(--ease-out); }
+  .hero :global(.candy-canvas) { position: absolute; inset: 0; opacity: 0; }
+  .hero :global(.candy-canvas canvas) { inline-size: 100%; block-size: 100%; }
+  .hero:global(.is-3d) :global(.candy-canvas) { opacity: 1; }
+  .hero:global(.is-3d) :global(.poster) { opacity: 0; }
 </style>

@@ -1,0 +1,38 @@
+---
+// Standalone 3D preview page per candy (/3d/<slug>/): transparent full-viewport canvas for capture + review.
+// Same window.candy API as the legacy single-file pages; ?seed=N and ?speed=N supported.
+const modules = import.meta.glob('../../three/candies/*.ts');
+export function getStaticPaths() {
+  return Object.keys(import.meta.glob('../../three/candies/*.ts')).map((p) => ({
+    params: { slug: p.split('/').pop()!.replace(/\.ts$/, '') },
+  }));
+}
+void modules;
+const { slug } = Astro.params;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{slug} · 3D</title>
+    <style is:global>
+      html, body { margin: 0; block-size: 100%; background: transparent; overflow: hidden; }
+      #candy, .candy-canvas { position: absolute; inset: 0; }
+      .candy-canvas canvas { display: block; inline-size: 100%; block-size: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="candy" data-slug={slug}></div>
+    <script>
+      import { mountCandy } from '../../three/mount';
+      const el = document.getElementById('candy')!;
+      const q = new URLSearchParams(location.search);
+      const num = (k: string) => (q.has(k) ? Number(q.get(k)) || undefined : undefined);
+      mountCandy(el, el.dataset.slug!, { seed: num('seed'), speed: num('speed') })
+        .then((api) => { (window as unknown as { candy: unknown }).candy = api; })
+        .catch((e) => console.error(e));
+    </script>
+  </body>
+</html>
