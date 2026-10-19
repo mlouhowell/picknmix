@@ -18,12 +18,14 @@ test('landing 3:679: copy, centred title, flush ornaments, slots driven by data'
     expect([b.x, b.y, b.width, b.height].map(Math.round)).toEqual([x, y, w, h]);
   }
 
+  // let load-time transitions (blur follows the stage size) settle
+  await page.waitForFunction(() => document.getAnimations().every((a) => !(a instanceof CSSTransition)));
   // every slot with an image renders with its blur / opacity / rotation from landing-layout.json
   for (const s of layout.blurredCandies.filter((s) => s.src)) {
     const st = await page.locator(`.slot[data-figma="${s.figmaNode}"]`).evaluate((el) => {
       const c = getComputedStyle(el); return { filter: c.filter, opacity: c.opacity, rotate: c.rotate };
     });
-    expect(st.filter).toBe(`blur(${s.blurPx}px)`);
+    expect(Number(st.filter.match(/blur\(([\d.]+)px\)/)?.[1])).toBeCloseTo(s.blurPx, 1);
     expect(Number(st.opacity)).toBeCloseTo(s.opacity, 2);
     expect(st.rotate).toBe(`${s.rotateDeg}deg`);
   }
@@ -70,4 +72,32 @@ test('every landing candy links to its candy page (linksTo), with a readable lab
     await page.waitForURL(`**/candy/${s.linksTo}/`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   }
+});
+
+test('scrolling stirs the landing candies (near ones move most), then they settle back home', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  const sy = () => page.$$eval('.slot', (els) => els.map((e) => Number(getComputedStyle(e).getPropertyValue('--sy') || 0)));
+  expect((await sy()).every((v) => v === 0)).toBe(true);
+  await page.mouse.move(700, 300);
+  await page.mouse.wheel(0, 600);
+  await page.waitForTimeout(300);
+  const { moved, sharp } = await page.evaluate(() => {
+    const v = (e: Element) => Math.abs(Number(getComputedStyle(e).getPropertyValue('--sy')));
+    return { moved: [...document.querySelectorAll('.slot')].map(v), sharp: v(document.querySelector('.slot.sharp')!) };
+  });
+  expect(moved.some((v) => v > 5)).toBe(true);
+  expect(sharp).toBe(Math.max(...moved)); // the sharp (nearest) candy travels farthest
+  await page.waitForTimeout(4000);
+  expect((await sy()).every((v) => Math.abs(v) < 2)).toBe(true);
+});
+
+test('reduced motion: scrolling leaves the landing candies still', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.mouse.move(700, 300);
+  await page.mouse.wheel(0, 600);
+  await page.waitForTimeout(300);
+  const v = await page.$$eval('.slot', (els) => els.map((e) => getComputedStyle(e).getPropertyValue('--sy')));
+  expect(v.every((x) => !x || Number(x) === 0)).toBe(true);
 });

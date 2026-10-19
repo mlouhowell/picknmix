@@ -1,5 +1,5 @@
 {
-  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults. linksTo: candy slug the slot opens (null = not clickable). Cherry and raspberry aren't in the candy list, so they open Gott & Blandat (OPEN: confirm the mapping).",
+  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults. linksTo: candy slug the slot opens (null = not clickable). Cherry and raspberry aren't in the candy list, so they open Gott & Blandat (OPEN: confirm the mapping). motion.scroll*: scrolling stirs the candies: up to scrollTravel canvas px (nearest candy) and scrollSpinDeg extra spin, easing back home at scrollReturnPerSecond.",
   "canvas": {
     "w": 1400,
     "h": 1038
@@ -129,6 +129,10 @@
     "spinSeconds": 90,
     "depthSeconds": 14,
     "scaleNear": 1.12,
-    "scaleFar": 0.88
+    "scaleFar": 0.88,
+    "scrollTravel": 140,
+    "scrollSpinDeg": 50,
+    "scrollSensitivity": 0.0015,
+    "scrollReturnPerSecond": 1.6
   }
 }

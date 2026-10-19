@@ -7,6 +7,7 @@
 // exactly at its Figma pose. Off under prefers-reduced-motion.
 // links (landing): slots with linksTo become links to that candy page; hover/focus brings the candy into focus
 // (no blur, full opacity) and holds it still so it's easy to click. Behind candy pages the collage stays decorative.
+// Landing only: scripts/landing-scroll.ts stirs the slots on scroll via --sy / --sr (depth: sharp = near = most).
 import Picture from './Picture.astro';
 import { landing, site, getCandy, candyHref } from '../lib/content';
 import { hasImg } from '../lib/img';
@@ -28,9 +29,12 @@ const link = (slug: string | null) => {
   const c = getCandy(slug);
   return { href: candyHref(c), label: site.landing.candyLinkLabel.replace('{name}', c.name) };
 };
+const maxBlur = Math.max(...slots.map((s) => s.blurPx), 1);
+const depthOf = (blur: number) => +(1 - 0.75 * (blur / maxBlur)).toFixed(3); // 1 = sharp/near, 0.25 = most blurred
+const stir = links ? JSON.stringify({ travel: m.scrollTravel, spin: m.scrollSpinDeg, sensitivity: m.scrollSensitivity, returnPerSecond: m.scrollReturnPerSecond }) : undefined;
 const px = (pct: number, of: number) => Math.round((pct / 100) * of);
 ---
-<div class:list={['stage', fit]} data-figma="3:679" transition:persist={fit === 'cover' ? 'candy-background' : undefined}>
+<div class:list={['stage', fit]} data-figma="3:679" data-scroll-stir={stir} transition:persist={fit === 'cover' ? 'candy-background' : undefined}>
   <div class="slots" aria-hidden={links ? undefined : 'true'}>
   {slots.map((s, i) => {
     const l = link(s.linksTo);
@@ -38,6 +42,7 @@ const px = (pct: number, of: number) => Math.round((pct / 100) * of);
     return (
       <Tag class:list={['slot', { sharp: s.sharp, link: !!l }]} data-figma={s.figmaNode}
         href={l?.href} aria-label={l?.label} aria-hidden={l ? undefined : 'true'}
+        data-depth={depthOf(s.blurPx)} data-dir={i % 2 ? -1 : 1}
         style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity};${motionVars(s, i)}`}>
         <div class="depth"><div class="spin">
           <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
@@ -60,7 +65,8 @@ const px = (pct: number, of: number) => Math.round((pct / 100) * of);
   .stage.contain { inline-size: min(100vw, 100vh * var(--canvas-ratio)); }
   .slot {
     position: absolute; left: var(--l); top: var(--t); inline-size: var(--w); block-size: var(--h);
-    rotate: var(--r); opacity: var(--o);
+    rotate: calc(var(--r) + var(--sr, 0deg)); opacity: var(--o);
+    translate: 0 calc(var(--sy, 0) * 100cqw / var(--canvas-w-unitless)); /* scroll stir, canvas px */
     /* blur is in canvas px; scale it with the stage */
     filter: blur(calc(var(--blur) * 100cqw / var(--canvas-w-unitless)));
   }

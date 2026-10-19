@@ -63,6 +63,9 @@ test('reduced motion: 3D holds a single still at staticTime', async ({ page }) =
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(`/candy/${with3d[0]}/`);
   await ready(page);
+  await expect(page.locator('.hero')).toHaveClass(/is-3d/);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(300); // first frames + poster fade settle
   const a = await page.locator('.hero').screenshot();
   await page.waitForTimeout(600);
   const b = await page.locator('.hero').screenshot();

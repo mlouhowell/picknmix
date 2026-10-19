@@ -91,6 +91,12 @@ export const LandingLayoutSchema = z.object({
     depthSeconds: z.number().positive(),
     scaleNear: z.number().positive(),
     scaleFar: z.number().positive(),
+    // scrolling stirs the candies (landing only): travel in canvas px for the nearest candy, extra spin,
+    // push per wheel px, and how fast they ease back home
+    scrollTravel: z.number().min(0),
+    scrollSpinDeg: z.number(),
+    scrollSensitivity: z.number().min(0),
+    scrollReturnPerSecond: z.number().positive(),
   }),
 });
 
