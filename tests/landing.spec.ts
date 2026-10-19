@@ -29,8 +29,8 @@ test('landing 3:679: copy, centred title, flush ornaments, slots driven by data'
   }
   // the sharp hero renders too (no blur)
   await expect(page.locator(`.slot.sharp[data-figma="${layout.sharpHero.figmaNode}"] img`)).toBeVisible();
-  // decorative art is hidden from assistive tech
-  await expect(page.locator('.slots')).toHaveAttribute('aria-hidden', 'true');
+  // candies are labelled links; any slot that isn't a link is hidden from assistive tech
+  for (const el of await page.locator('.slot:not(a)').all()) await expect(el).toHaveAttribute('aria-hidden', 'true');
   await expect(page.locator('.ornaments')).toHaveAttribute('aria-hidden', 'true');
 });
 
@@ -56,4 +56,18 @@ test('landing candies spin slowly and drift nearer/farther; still under reduced 
   await page.reload();
   const r = await page.locator('.spin').first().evaluate((el) => getComputedStyle(el).animationName);
   expect(r).toBe('none');
+});
+
+test('every landing candy links to its candy page (linksTo), with a readable label', async ({ page }) => {
+  const slots = [layout.sharpHero, ...layout.blurredCandies].filter((s) => s.src && s.linksTo);
+  expect(slots.length).toBeGreaterThan(0);
+  for (const s of slots) {
+    await page.goto('/');
+    const a = page.locator(`a.slot[data-figma="${s.figmaNode}"]`);
+    await expect(a).toHaveAttribute('href', `/candy/${s.linksTo}/`);
+    await expect(a).toHaveAttribute('aria-label', /\S/);
+    await a.click({ force: true }); // it's moving; force skips the stability wait
+    await page.waitForURL(`**/candy/${s.linksTo}/`);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  }
 });

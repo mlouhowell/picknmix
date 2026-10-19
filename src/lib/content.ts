@@ -21,6 +21,10 @@ export const candies: Candy[] = parse(CandiesFileSchema, candiesJson, 'content/c
   (a, b) => a.order - b.order,
 );
 
+for (const s of [landing.sharpHero, ...landing.blurredCandies])
+  if (s.linksTo && !candies.some((c) => c.slug === s.linksTo))
+    throw new Error(`content/landing-layout.json: slot ${s.figmaNode} links to unknown candy "${s.linksTo}"`);
+
 export function getCandy(slug: string): Candy {
   const c = candies.find((c) => c.slug === slug);
   if (!c) throw new Error(`Unknown candy slug "${slug}"`);

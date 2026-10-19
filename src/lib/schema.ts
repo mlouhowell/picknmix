@@ -47,7 +47,7 @@ export const CandiesFileSchema = z
 
 export const SiteSchema = z.object({
   siteName: text,
-  landing: z.object({ eyebrow: text, title: text }),
+  landing: z.object({ eyebrow: text, title: text, candyLinkLabel: text }), // {name} = candy name
   candyPage: z.object({
     detailsHeading: text,
     labels: z.object({ year: text, type: text, maker: text }),
@@ -74,6 +74,7 @@ const slot = z.object({
   widthPct: pct,
   heightPct: pct,
   rotateDeg: z.number(),
+  linksTo: z.string().nullable(), // candy slug opened on click (null = decorative only)
   // optional per-slot motion overrides (defaults in landing.motion)
   spinSeconds: z.number().positive().optional(),
   depthSeconds: z.number().positive().optional(),
@@ -82,7 +83,7 @@ const slot = z.object({
 export const LandingLayoutSchema = z.object({
   canvas: z.object({ w: z.number().positive(), h: z.number().positive() }),
   title: z.object({ figmaNode: figmaId, centerYPct: pct }),
-  sharpHero: slot.extend({ linksTo: z.string().nullable() }),
+  sharpHero: slot,
   blurredCandies: z.array(slot.extend({ blurPx: z.number().min(0), opacity: z.number().min(0).max(1) })),
   // slow spin + drift nearer/farther (scale); off under prefers-reduced-motion
   motion: z.object({

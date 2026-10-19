@@ -3,7 +3,8 @@
   "siteName": "Pick N Mix",
   "landing": {
     "eyebrow": "A short history of",
-    "title": "Swedish Candy"
+    "title": "Swedish Candy",
+    "candyLinkLabel": "Read about {name}"
   },
   "candyPage": {
     "detailsHeading": "Details",

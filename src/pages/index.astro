@@ -1,6 +1,6 @@
 ---
 // Landing, figma 3:679 (chosen; 10:11 / 10:155 / 3:226 are explorations, not built).
-// Composition from content/landing-layout.json; copy from content/site.json.
+// Composition from content/landing-layout.json; copy from content/site.json. Each candy links to its page (linksTo).
 import Base from '../layouts/Base.astro';
 import BackgroundCandies from '../components/BackgroundCandies.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
@@ -8,7 +8,7 @@ import { site, landing } from '../lib/content';
 ---
 <Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
   <main class="landing" data-figma="3:679">
-    <BackgroundCandies fit="contain" includeHero>
+    <BackgroundCandies fit="contain" includeHero links>
       <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
       <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
         <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>

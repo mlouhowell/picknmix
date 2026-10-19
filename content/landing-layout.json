@@ -1,5 +1,5 @@
 {
-  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults.",
+  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults. linksTo: candy slug the slot opens (null = not clickable). Cherry and raspberry aren't in the candy list, so they open Gott & Blandat (OPEN: confirm the mapping).",
   "canvas": {
     "w": 1400,
     "h": 1038
@@ -17,7 +17,7 @@
     "widthPct": 22.286,
     "heightPct": 30.366,
     "rotateDeg": 0,
-    "linksTo": null
+    "linksTo": "gott-blandat"
   },
   "blurredCandies": [
     {
@@ -30,7 +30,8 @@
       "heightPct": 14.572,
       "rotateDeg": -15,
       "blurPx": 3,
-      "opacity": 0.85
+      "opacity": 0.85,
+      "linksTo": "bubs"
     },
     {
       "figmaNode": "3:680",
@@ -42,7 +43,8 @@
       "heightPct": 12.334,
       "rotateDeg": 60,
       "blurPx": 6,
-      "opacity": 0.7
+      "opacity": 0.7,
+      "linksTo": "cola"
     },
     {
       "figmaNode": "3:691",
@@ -54,7 +56,8 @@
       "heightPct": 5.289,
       "rotateDeg": 45,
       "blurPx": 7,
-      "opacity": 0.65
+      "opacity": 0.65,
+      "linksTo": "cola"
     },
     {
       "figmaNode": "3:696",
@@ -66,7 +69,8 @@
       "heightPct": 22.676,
       "rotateDeg": 90,
       "blurPx": 4,
-      "opacity": 0.8
+      "opacity": 0.8,
+      "linksTo": "pastellfiskar"
     },
     {
       "figmaNode": "3:695",
@@ -78,7 +82,8 @@
       "heightPct": 11.061,
       "rotateDeg": -26.48,
       "blurPx": 2,
-      "opacity": 0.9
+      "opacity": 0.9,
+      "linksTo": "kexchoklad"
     },
     {
       "figmaNode": "3:685",
@@ -90,7 +95,8 @@
       "heightPct": 10.289,
       "rotateDeg": -90,
       "blurPx": 4,
-      "opacity": 0.8
+      "opacity": 0.8,
+      "linksTo": "gott-blandat"
     },
     {
       "figmaNode": "3:683",
@@ -102,7 +108,8 @@
       "heightPct": 8.676,
       "rotateDeg": -90,
       "blurPx": 7,
-      "opacity": 0.65
+      "opacity": 0.65,
+      "linksTo": "bubs"
     },
     {
       "figmaNode": "3:687",
@@ -114,7 +121,8 @@
       "heightPct": 12.004,
       "rotateDeg": -90,
       "blurPx": 2.5,
-      "opacity": 0.85
+      "opacity": 0.85,
+      "linksTo": "polkagris"
     }
   ],
   "motion": {

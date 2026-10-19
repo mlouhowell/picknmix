@@ -5,11 +5,13 @@
 // Motion (landing.motion): each candy spins slowly in place and drifts nearer/farther (scale). Durations are
 // staggered per slot and directions alternate so the collage never moves in lockstep; at t=0 every slot sits
 // exactly at its Figma pose. Off under prefers-reduced-motion.
+// links (landing): slots with linksTo become links to that candy page; hover/focus brings the candy into focus
+// (no blur, full opacity) and holds it still so it's easy to click. Behind candy pages the collage stays decorative.
 import Picture from './Picture.astro';
-import { landing } from '../lib/content';
+import { landing, site, getCandy, candyHref } from '../lib/content';
 import { hasImg } from '../lib/img';
-interface Props { fit?: 'contain' | 'cover'; includeHero?: boolean }
-const { fit = 'cover', includeHero = false } = Astro.props;
+interface Props { fit?: 'contain' | 'cover'; includeHero?: boolean; links?: boolean }
+const { fit = 'cover', includeHero = false, links = false } = Astro.props;
 const slots = [
   ...landing.blurredCandies.map((s) => ({ ...s, sharp: false })),
   ...(includeHero ? [{ ...landing.sharpHero, blurPx: 0, opacity: 1, sharp: true }] : []),
@@ -21,18 +23,28 @@ const motionVars = (s: (typeof slots)[number], i: number) =>
   `--dir:${i % 2 ? -1 : 1};` +
   `--depth:${s.depthSeconds ?? +(m.depthSeconds * (0.8 + frac(i, 0.29) * 0.4)).toFixed(2)}s;` +
   `--near:${m.scaleNear};--far:${m.scaleFar}`;
+const link = (slug: string | null) => {
+  if (!links || !slug) return null;
+  const c = getCandy(slug);
+  return { href: candyHref(c), label: site.landing.candyLinkLabel.replace('{name}', c.name) };
+};
 const px = (pct: number, of: number) => Math.round((pct / 100) * of);
 ---
 <div class:list={['stage', fit]} data-figma="3:679" transition:persist={fit === 'cover' ? 'candy-background' : undefined}>
-  <div class="slots" aria-hidden="true">
-  {slots.map((s, i) => (
-    <div class:list={['slot', { sharp: s.sharp }]} data-figma={s.figmaNode}
-      style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity};${motionVars(s, i)}`}>
-      <div class="depth"><div class="spin">
-        <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
-      </div></div>
-    </div>
-  ))}
+  <div class="slots" aria-hidden={links ? undefined : 'true'}>
+  {slots.map((s, i) => {
+    const l = link(s.linksTo);
+    const Tag = l ? 'a' : 'div';
+    return (
+      <Tag class:list={['slot', { sharp: s.sharp, link: !!l }]} data-figma={s.figmaNode}
+        href={l?.href} aria-label={l?.label} aria-hidden={l ? undefined : 'true'}
+        style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity};${motionVars(s, i)}`}>
+        <div class="depth"><div class="spin">
+          <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
+        </div></div>
+      </Tag>
+    );
+  })}
   </div>
   <slot />
 </div>
@@ -53,6 +65,12 @@ const px = (pct: number, of: number) => Math.round((pct / 100) * of);
     filter: blur(calc(var(--blur) * 100cqw / var(--canvas-w-unitless)));
   }
   .slot.sharp { filter: none; }
+  .slot.link {
+    pointer-events: auto; cursor: pointer;
+    transition: filter var(--duration-page) var(--ease-out), opacity var(--duration-page) var(--ease-out);
+  }
+  .slot.link:hover, .slot.link:focus-visible { filter: none; opacity: 1; }
+  .slot.link:hover *, .slot.link:focus-visible * { animation-play-state: paused; }
   .depth, .spin { inline-size: 100%; block-size: 100%; }
   .slot :global(picture), .slot :global(img) { display: block; inline-size: 100%; block-size: 100%; object-fit: contain; }
   @media (prefers-reduced-motion: no-preference) {
