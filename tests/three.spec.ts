@@ -72,9 +72,11 @@ test('reduced motion: 3D holds a single still at staticTime', async ({ page }) =
 test('3D is torn down when navigating away (no leaked WebGL contexts)', async ({ page }) => {
   await page.goto(`/candy/${with3d[0]}/`);
   await ready(page);
+  await page.evaluate(() => { (window as unknown as { candy: object & { old?: boolean } }).candy.old = true; });
   await page.locator('[data-nav="next"]').click();
   await page.waitForURL(/candy\//);
-  await page.waitForFunction(() => !(window as unknown as Partial<W>).candy); // old API cleared on teardown
+  // old API cleared on teardown (the next page may mount its own 3D candy)
+  await page.waitForFunction(() => !(window as unknown as { candy?: { old?: boolean } }).candy?.old);
   await page.locator('[data-nav="prev"]').evaluate((a: HTMLAnchorElement) => a.click());
   await ready(page);
   await expect(page.locator('canvas')).toHaveCount(1);

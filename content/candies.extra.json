@@ -14,7 +14,7 @@
     "sheetName": "BUBS", "figmaNode": "8:121", "heroNode": "8:166",
     "type": "Foam & jelly candy",
     "hero": { "src": "candies/bubs/hero.png", "alt": "Pink and blue BUBS Bubblegum Skalle candy skull", "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)", "license": "user-supplied" },
-    "model3d": null,
+    "model3d": { "src": "3d/bubs/preview.png", "seed": 3 },
     "variants": [
       { "name": "Lemon Raspberry Skalle", "src": "candies/bubs/variant-lemon-raspberry-skalle.png", "figmaNode": "12:34", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
       { "name": "Cool Cola Skalle", "src": "candies/bubs/variant-cool-cola-skalle.png", "figmaNode": "12:38", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },

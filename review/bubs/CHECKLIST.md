@@ -1,6 +1,6 @@
 # BUBS (Bubblegum Skalle): 3D review, round 1
 
-Module: `src/three/candies/bubs.ts` · preview page: `/3d/bubs/` · status: **awaiting your review** (not yet enabled on the site; `model3d` stays `null` until you approve).
+Module: `src/three/candies/bubs.ts` · preview page: `/3d/bubs/` · status: **approved by owner 2026-10-19**, enabled on the site.
 
 | File | What |
 |---|---|
@@ -25,8 +25,8 @@ Module: `src/three/candies/bubs.ts` · preview page: `/3d/bubs/` · status: **aw
 - [x] Reduced motion: single still at `staticTime` 16.0 (seed 3: face 0.97 toward camera, upright 0.97).
 - [x] Performance: 60 fps (headless Chrome, indicative), **55,332 triangles** (≤ 60k), 1 draw call, 2 textures (env + letters raster is CPU-only), geometry build **218 ms** (≤ 300 ms).
 - [~] Exports: `public/3d/bubs/preview.png` + `hero-3d-512/1024.webp`. Videos are in `review/bubs/` (too heavy to ship as-is: WebM 21 MB; I'll compress with a lighter profile after approval).
-- [ ] `content/candies.extra.json` → `model3d` + `REAL_SIZE_MM` (32 mm): **on approval** (one-line change).
-- [ ] Your approval recorded in `review/APPROVALS.md`.
+- [x] `content/candies.extra.json` → `model3d` (seed 3). `REAL_SIZE_MM` 32 mm still an estimate.
+- [x] Your approval recorded in `review/APPROVALS.md` (2026-10-19).
 
 ## How it's built
 - **Shape:** the hero's alpha silhouette as a 2D SDF, extruded with a pillowy 0.1 bevel. The moulded front has a cranium dome, cheekbones, a soft eye-hole rim, a maxilla bulge, crossbones with knuckle ends and raised "BUBS" lettering. The back is flatter, like the starch-poured side. Surface nets mesh, with seeded lumpiness.

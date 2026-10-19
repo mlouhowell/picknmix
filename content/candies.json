@@ -68,7 +68,10 @@
         "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)",
         "license": "user-supplied"
       },
-      "model3d": null,
+      "model3d": {
+        "src": "3d/bubs/preview.png",
+        "seed": 3
+      },
       "variants": [
         {
           "name": "Lemon Raspberry Skalle",
