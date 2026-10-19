@@ -1,0 +1,39 @@
+---
+// Candy page template, figma 8:192 (Pastellfiskar reference). One page per candy in candies.json.
+import Base from '../../layouts/Base.astro';
+import BackgroundCandies from '../../components/BackgroundCandies.astro';
+import Backdrop from '../../components/Backdrop.astro';
+import CandyPanel from '../../components/CandyPanel.astro';
+import CandyHero from '../../components/CandyHero.astro';
+import { candies } from '../../lib/content';
+import type { Candy } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return candies.map((candy) => ({ params: { slug: candy.slug }, props: { candy } }));
+}
+interface Props { candy: Candy }
+const { candy } = Astro.props;
+---
+<Base title={candy.name} description={candy.about}>
+  <BackgroundCandies fit="cover" />
+  <Backdrop />
+  <div class="candy-page" data-figma={candy.figma.page}>
+    <CandyPanel candy={candy} />
+    <main class="hero-area">
+      <CandyHero candy={candy} />
+    </main>
+  </div>
+</Base>
+
+<style>
+  .candy-page {
+    position: relative;
+    display: grid; grid-template-columns: var(--panel-w) 1fr;
+    min-block-size: 100vh; min-block-size: 100dvh;
+  }
+  .hero-area {
+    position: sticky; top: 0;
+    block-size: 100vh; block-size: 100dvh;
+    display: grid; place-items: center;
+  }
+</style>

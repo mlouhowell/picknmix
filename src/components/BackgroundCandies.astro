@@ -1,0 +1,42 @@
+---
+// Blurred candy collage (landing 3:679 slots from content/landing-layout.json). Positioned in % of a
+// canvas-ratio stage. fit="contain" = landing (stage fits the viewport), "cover" = behind candy pages.
+// Slots without a src (cherry, pink foam, sharp hero: OPEN) are skipped.
+import Picture from './Picture.astro';
+import { landing } from '../lib/content';
+import { hasImg } from '../lib/img';
+interface Props { fit?: 'contain' | 'cover'; includeHero?: boolean }
+const { fit = 'cover', includeHero = false } = Astro.props;
+const slots = [
+  ...landing.blurredCandies.map((s) => ({ ...s, sharp: false })),
+  ...(includeHero ? [{ ...landing.sharpHero, blurPx: 0, opacity: 1, sharp: true }] : []),
+].filter((s) => hasImg(s.src));
+const px = (pct: number, of: number) => Math.round((pct / 100) * of);
+---
+<div class:list={['stage', fit]} aria-hidden="true" data-figma="3:679">
+  {slots.map((s) => (
+    <div class:list={['slot', { sharp: s.sharp }]} data-figma={s.figmaNode}
+      style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity}`}>
+      <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
+    </div>
+  ))}
+</div>
+
+<style>
+  .stage {
+    position: fixed; left: 50%; top: 50%; translate: -50% -50%;
+    aspect-ratio: var(--canvas-ratio);
+    container-type: inline-size;
+    pointer-events: none;
+  }
+  .stage.cover { inline-size: max(100vw, 100vh * var(--canvas-ratio)); }
+  .stage.contain { inline-size: min(100vw, 100vh * var(--canvas-ratio)); }
+  .slot {
+    position: absolute; left: var(--l); top: var(--t); inline-size: var(--w); block-size: var(--h);
+    rotate: var(--r); opacity: var(--o);
+    /* blur is in canvas px; scale it with the stage */
+    filter: blur(calc(var(--blur) * 100cqw / var(--canvas-w-unitless)));
+  }
+  .slot.sharp { filter: none; }
+  .slot :global(picture), .slot :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+</style>

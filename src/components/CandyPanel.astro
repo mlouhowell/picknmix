@@ -1,0 +1,52 @@
+---
+// figma 8:211 Frame 6 (429 white panel) + 8:219 Content stack (375 wide, from y 96, gap 12).
+import IconButton from './IconButton.astro';
+import DetailsList from './DetailsList.astro';
+import SimilarCandies from './SimilarCandies.astro';
+import type { Candy } from '../lib/schema';
+import { site, neighbours, candyHref } from '../lib/content';
+interface Props { candy: Candy }
+const { candy } = Astro.props;
+const { next } = neighbours(candy.slug);
+const rowDetails = site.candyPage.layout.details === 'row';
+---
+<aside class="panel" data-figma="8:211">
+  <nav class="buttons" aria-label={site.siteName}>
+    <!-- figma 8:212 close -->
+    <IconButton href="/" label={site.candyPage.close} icon="close" figma="8:212" />
+    <!-- figma 8:214 next -->
+    <IconButton href={candyHref(next)} label={site.candyPage.next} icon="next" figma="8:214" rel="next" />
+  </nav>
+  <article class="content" data-figma="8:219">
+    <!-- figma 8:238 title (Fraunces stand-in for Begum, OPEN) -->
+    <h1 class="title" data-figma="8:238" tabindex="-1">{candy.name}</h1>
+    {rowDetails && <DetailsList candy={candy} />}
+    <!-- figma 8:221 body -->
+    <p class="body" data-figma="8:221">{candy.about}</p>
+    {!rowDetails && <DetailsList candy={candy} />}
+    <SimilarCandies candy={candy} />
+  </article>
+</aside>
+
+<style>
+  .panel {
+    background: var(--color-surface);
+    padding: var(--space-panel);
+    padding-block-end: var(--space-panel-bottom);
+    position: relative;
+  }
+  .buttons { display: flex; justify-content: space-between; }
+  .content {
+    inline-size: var(--content-w); max-inline-size: 100%;
+    margin-block-start: calc(var(--space-content-top) - var(--space-panel) - var(--button-size));
+    display: grid; gap: var(--space-stack);
+  }
+  .title {
+    font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
+    font-size: var(--type-candy-title-size); font-weight: var(--type-candy-title-weight);
+    line-height: var(--type-candy-title-leading);
+    color: var(--color-brand); text-align: center;
+  }
+  .title:focus { outline: none; }
+  .body { font-size: var(--type-body-size); line-height: var(--type-body-leading); }
+</style>

@@ -1,0 +1,16 @@
+---
+// Responsive image from a logical asset src (lib/img.ts): webp srcset + png fallback.
+import { img } from '../lib/img';
+interface Props {
+  src: string; alt: string; displayWidth: number; sizes?: string;
+  eager?: boolean; class?: string; figma?: string;
+}
+const { src, alt, displayWidth, sizes, eager = false, class: cls, figma } = Astro.props;
+const s = img(src, displayWidth);
+const sz = sizes ?? `${displayWidth}px`;
+---
+<picture class={cls} data-figma={figma}>
+  <source type="image/webp" srcset={s.webp} sizes={sz} />
+  <img src={s.fallback} srcset={s.png} sizes={sz} alt={alt} width={s.width} height={s.height}
+    loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager ? 'high' : 'auto'} />
+</picture>

@@ -1,0 +1,27 @@
+---
+// figma 8:212 (close) / 8:214 (next): 45px round button, icon 8:213 / 8:215. Rendered as a link (navigation).
+interface Props { href: string; label: string; icon: 'close' | 'next' | 'prev'; figma: string; rel?: string; id?: string }
+const { href, label, icon, figma, rel, id } = Astro.props;
+---
+<a class="icon-button" href={href} aria-label={label} title={label} data-figma={figma} rel={rel} id={id}>
+  {icon === 'close' ? (
+    <svg class="close" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
+  ) : (
+    <svg class:list={['arrow', { flip: icon === 'prev' }]} viewBox="0 0 18 15" aria-hidden="true"><path d="M1 7.5h15.5M10.5 1.5l6 6-6 6" /></svg>
+  )}
+</a>
+
+<style>
+  .icon-button {
+    inline-size: var(--button-size); block-size: var(--button-size);
+    border-radius: var(--button-radius);
+    background: var(--color-button-bg); color: var(--color-icon);
+    display: grid; place-items: center; flex: none;
+    transition: filter var(--duration-fast) var(--ease-out);
+  }
+  .icon-button:hover { filter: brightness(0.96); }
+  svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .close { inline-size: var(--icon-close); block-size: var(--icon-close); }
+  .arrow { inline-size: var(--icon-arrow-w); block-size: var(--icon-arrow-h); }
+  .flip { transform: scaleX(-1); }
+</style>

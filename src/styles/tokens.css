@@ -22,6 +22,7 @@
   --color-text-muted: #77746e;       /* detail labels 8:225, similar-candy captions 12:61 */
   --color-surface: #ffffff;          /* page + info panel 8:211 */
   --color-button-bg: #f2f1f1;        /* close / next buttons 8:212, 8:214 */
+  --color-icon: #6b6b6b;             /* close X 8:213 + arrow 8:215 (sampled from Figma render of 8:211) */
   --color-tile-stroke: #dadada;      /* similar-candy image box stroke 12:59 (new on 8:192) */
   --color-placeholder-bg: #f2f1f1;   /* image placeholder tiles (being removed in Figma) */
   /* backdrop over blurred background candies, 8:210 */
@@ -54,10 +55,13 @@
   --type-detail-leading: 27px;
   --type-caption-size: 12px;         /* tile label 12:61: Funnel Sans Regular 12, #77746E */
   --type-caption-weight: 400;
+  --type-caption-leading: 15px;      /* 12:61 one line = 15 tall (2 lines = 30, 12:65) */
+  --type-candy-title-leading: 30px;  /* 8:238 h 30 */
 
   /* ---------- Spacing ---------- */
   --space-panel: 24px;               /* panel inset; buttons at 24/24 */
   --space-content-top: 96px;         /* content stack starts at y=96 */
+  --space-panel-bottom: 48px;        /* breathing room under Similar Candies when content scrolls (no Figma node) */
   --space-stack: 12px;               /* gap between title/body/details/heading/grid 8:219 */
   --space-detail-col: 16px;          /* label->value gap in stacked details 8:224 */
   --space-tile-gap: 12px;            /* grid gap 8:231 */
@@ -66,6 +70,8 @@
 
   /* ---------- Layout ---------- */
   --canvas-w: 1400px;  --canvas-h: 1038px;
+  --canvas-w-unitless: 1400;  --canvas-h-unitless: 1038;   /* for % / scale maths on the collage stage */
+  --canvas-ratio: calc(var(--canvas-w-unitless) / var(--canvas-h-unitless));
   --panel-w: 429px;                  /* info panel 8:211 */
   --content-w: 375px;                /* 8:219 */
   --detail-label-w: 130px;  --detail-value-w: 229px;
@@ -78,7 +84,7 @@
   /* ---------- Components ---------- */
   --button-size: 45px;
   --button-radius: 30px;             /* = full circle */
-  --icon-close: 14px;                /* 8:213 */
+  --icon-close: 12px;                /* 8:213 vector is 12x12 (was 14: corrected from get_metadata) */
   --icon-arrow-w: 18px;  --icon-arrow-h: 15px;   /* 8:215 */
   --tile-stroke-width: 1px;          /* INSIDE stroke: use border + box-sizing:border-box (box stays 117x117) */
   --tile-stroke: var(--tile-stroke-width) solid var(--color-tile-stroke);

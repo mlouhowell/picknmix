@@ -1,0 +1,32 @@
+---
+// figma 12:58 Similar Candies tile: 117 box (12:59) with 1px INSIDE stroke, 109 image inset 4 (12:60), caption 12:61.
+import Picture from './Picture.astro';
+import type { Variant } from '../lib/schema';
+interface Props { variant: Variant }
+const { variant } = Astro.props;
+---
+<li class="tile" data-figma={variant.figmaNode}>
+  <figure>
+    <div class="box">
+      {variant.src && <Picture src={variant.src} alt={variant.name} displayWidth={109} class="img" />}
+    </div>
+    <figcaption>{variant.name}</figcaption>
+  </figure>
+</li>
+
+<style>
+  figure { margin: 0; inline-size: var(--tile-size); }
+  .box {
+    inline-size: var(--tile-size); block-size: var(--tile-size);
+    border: var(--tile-stroke); box-sizing: border-box; /* inside stroke: box stays 117x117 */
+    padding: calc(var(--space-tile-inset) - var(--tile-stroke-width)); /* image sits 4px from the OUTER edge */
+    background: var(--color-surface);
+  }
+  .box:empty { background: var(--color-placeholder-bg); }
+  .box :global(img) { inline-size: var(--tile-img); block-size: var(--tile-img); object-fit: contain; }
+  figcaption {
+    margin-block-start: var(--space-tile-caption);
+    font-size: var(--type-caption-size); font-weight: var(--type-caption-weight);
+    line-height: var(--type-caption-leading); color: var(--color-text-muted);
+  }
+</style>

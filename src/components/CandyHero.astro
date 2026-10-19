@@ -1,0 +1,17 @@
+---
+// figma 8:236 Hero: 512 box centred in the area right of the panel. PNG poster now; the 3D mount
+// (Phase 5) reads data-model3d and replaces the poster once ready. model3d null = PNG only.
+import Picture from './Picture.astro';
+import type { Candy } from '../lib/schema';
+interface Props { candy: Candy }
+const { candy } = Astro.props;
+---
+<div class="hero" data-figma="8:236" data-slug={candy.slug}
+  data-model3d={candy.model3d ? JSON.stringify(candy.model3d) : undefined}>
+  <Picture src={candy.hero.src} alt={candy.hero.alt} displayWidth={512} eager class="poster" figma={candy.figma.hero} />
+</div>
+
+<style>
+  .hero { inline-size: var(--hero-size); block-size: var(--hero-size); max-inline-size: 100%; position: relative; }
+  .hero :global(.poster), .hero :global(.poster img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+</style>

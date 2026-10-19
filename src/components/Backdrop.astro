@@ -1,0 +1,13 @@
+---
+// figma 8:210 Rectangle 7: white 60% + black 10% fills with a 21px background blur, over the blurred candies.
+---
+<div class="backdrop" data-figma="8:210" aria-hidden="true"></div>
+
+<style>
+  .backdrop {
+    position: fixed; inset: 0;
+    background: var(--backdrop-tint);
+    backdrop-filter: blur(var(--backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+  }
+</style>

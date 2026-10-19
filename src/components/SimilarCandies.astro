@@ -1,0 +1,22 @@
+---
+// figma 8:230 heading + 8:231 grid ("Similar Candies", from site.json; never "Other candies").
+import SimilarTile from './SimilarTile.astro';
+import type { Candy } from '../lib/schema';
+import { site, visibleVariants } from '../lib/content';
+interface Props { candy: Candy }
+const variants = visibleVariants(Astro.props.candy);
+---
+{variants.length > 0 && (
+  <section class="similar" data-figma="8:230" aria-labelledby="similar-heading">
+    <h2 id="similar-heading" class="section-heading" data-figma="8:230">{site.candyPage.similarHeading}</h2>
+    <ul class="grid" data-figma="8:231">
+      {variants.map((v) => <SimilarTile variant={v} />)}
+    </ul>
+  </section>
+)}
+
+<style>
+  .similar { display: grid; gap: var(--space-stack); }
+  .section-heading { font-size: var(--type-section-size); font-weight: var(--type-section-weight); line-height: var(--type-section-leading); }
+  .grid { display: grid; grid-template-columns: repeat(3, var(--tile-size)); gap: var(--space-tile-gap); }
+</style>
