@@ -1,12 +1,41 @@
 ---
-// Landing 3:679 is built in Phase 3. Phase 1 placeholder: proves content loads + validates.
+// Landing, figma 3:679 (chosen; 10:11 / 10:155 / 3:226 are explorations, not built).
+// Composition from content/landing-layout.json; copy from content/site.json.
 import Base from '../layouts/Base.astro';
-import { site, candies, candyHref } from '../lib/content';
+import BackgroundCandies from '../components/BackgroundCandies.astro';
+import CornerOrnaments from '../components/CornerOrnaments.astro';
+import { site, landing } from '../lib/content';
 ---
-<Base>
-  <main data-figma="3:679">
-    <p>{site.landing.eyebrow}</p>
-    <h1>{site.landing.title}</h1>
-    <ul>{candies.map((c) => <li><a href={candyHref(c)}>{c.name}</a></li>)}</ul>
+<Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
+  <main class="landing" data-figma="3:679">
+    <BackgroundCandies fit="contain" includeHero>
+      <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
+      <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
+        <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
+        <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
+      </hgroup>
+    </BackgroundCandies>
+    <CornerOrnaments />
   </main>
 </Base>
+
+<style>
+  .landing {
+    /* 1 canvas px, so the collage + ornaments scale with the viewport like the 1400x1038 frame */
+    --canvas-unit: min(100vw / var(--canvas-w-unitless), 100vh / var(--canvas-h-unitless));
+    min-block-size: 100vh; min-block-size: 100dvh;
+    overflow: hidden;
+  }
+  .title-group {
+    position: absolute; left: 50%; top: var(--cy); translate: -50% -50%;
+    display: grid; justify-items: center; gap: calc(var(--space-eyebrow-title) - var(--landing-eyebrow-leading));
+    text-align: center; inline-size: var(--landing-title-w); max-inline-size: 90vw;
+  }
+  .eyebrow { font-size: var(--type-eyebrow-size); line-height: var(--landing-eyebrow-leading); }
+  .title {
+    font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
+    font-size: var(--type-hero-title-size); font-weight: var(--type-hero-title-weight);
+    letter-spacing: var(--type-hero-title-tracking); line-height: var(--type-hero-title-leading);
+    color: var(--color-brand);
+  }
+</style>

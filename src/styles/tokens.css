@@ -71,6 +71,7 @@
   /* ---------- Layout ---------- */
   --canvas-w: 1400px;  --canvas-h: 1038px;
   --canvas-w-unitless: 1400;  --canvas-h-unitless: 1038;   /* for % / scale maths on the collage stage */
+  --canvas-unit: 1px;                /* 1 canvas px; the landing redefines it to scale with the viewport */
   --canvas-ratio: calc(var(--canvas-w-unitless) / var(--canvas-h-unitless));
   --panel-w: 429px;                  /* info panel 8:211 */
   --content-w: 375px;                /* 8:219 */
@@ -79,7 +80,8 @@
   --tile-size: 117px;  --tile-img: 109px;
   --hero-size: 512px;                /* 8:236, centred in the area right of the panel */
   --landing-title-w: 482px;  --landing-eyebrow-w: 412px;
-  --ornament-size: 310px;            /* landing corners 3:701 TL, 3:941 TR, 3:781 BL, 3:861 BR (flush to edges) */
+  --ornament-size: 310px;
+  --ornament-size-canvas: 310;       /* same, in canvas units: landing scales it with the stage (x --canvas-unit) */            /* landing corners 3:701 TL, 3:941 TR, 3:781 BL, 3:861 BR (flush to edges) */
 
   /* ---------- Components ---------- */
   --button-size: 45px;
@@ -95,6 +97,7 @@
   --bg-candy-blur-near: 2px;   --bg-candy-blur-mid: 4px;   --bg-candy-blur-far: 7px;
   --bg-candy-opacity-near: .90; --bg-candy-opacity-mid: .80; --bg-candy-opacity-far: .65;
   --landing-hero-size: 312px;        /* sharp hero candy 3:700 at x1014 y402 */
+  --landing-eyebrow-leading: 15px;   /* 3:690 h 15 */
 
   --hairline: 1px;                   /* utility (visually-hidden clip box) */
 

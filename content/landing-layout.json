@@ -40,9 +40,10 @@
       "topPct": 10.94,
       "widthPct": 11.59,
       "heightPct": 14.73,
-      "rotateDeg": 60,
+      "rotateDeg": -125,
       "blurPx": 6,
-      "opacity": 0.7
+      "opacity": 0.7,
+      "_note": "rotation tuned for our cut-out (ring at bottom natively) to match the 3:679 render; Figma value 60 applied to its screenshot crop"
     },
     {
       "figmaNode": "3:691",
@@ -64,9 +65,10 @@
       "topPct": 11.21,
       "widthPct": 16.81,
       "heightPct": 12.25,
-      "rotateDeg": 90,
+      "rotateDeg": -8,
       "blurPx": 4,
-      "opacity": 0.8
+      "opacity": 0.8,
+      "_note": "our cut-out is horizontal natively; Figma value 90 applied to its rotated screenshot crop"
     },
     {
       "figmaNode": "3:695",
