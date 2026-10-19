@@ -1,0 +1,673 @@
+{
+  "_generated": "by scripts/build-content.mjs from Google Sheet 1v2O18LwUW7YszRJD7LrXheRAQqyuLvKE3J-PQu7dUKY tab \"Candy\" + candies.extra.json. Do not edit by hand.",
+  "candies": [
+    {
+      "slug": "polkagris",
+      "order": 1,
+      "name": "Polkagris",
+      "year": "1859",
+      "type": "Hard peppermint candy (stick)",
+      "maker": "Amalia Eriksson (now many Gränna shops)",
+      "about": "Polkagris is a red and white peppermint stick from Gränna. The inventor of the candy, Amalia Eriksson, was said to have made a medicine out of vinegar, sugar, water, and peppermint oil for her sick daughter. In 1859 the town let her open a bakery and make \"so-called polkagrisar.\" As a widow with little money, her candies became a welcome income stream. She grew rich and died in 1923, aged 99.",
+      "hero": {
+        "src": "candies/polkagris/hero-3d.png",
+        "alt": "Red and white striped polkagris peppermint candy",
+        "credit": "Own 3D render (polkagris-3d)",
+        "license": "own"
+      },
+      "model3d": {
+        "src": "3d/polkagris/index.html",
+        "seed": 7
+      },
+      "variants": [
+        {
+          "name": "Polkagris pieces (bite-size)",
+          "src": "candies/polkagris/variant-pieces.png",
+          "figmaNode": "12:26",
+          "credit": "\"Polkagris candy from Ruotsinpyhtää\", JIP, CC BY-SA 4.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Flavoured sockerstänger",
+          "src": null,
+          "figmaNode": "12:30",
+          "credit": null,
+          "license": null
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Polkagrisar.jpg/500px-Polkagrisar.jpg",
+          "credit": "CC BY-SA 2.0, Franklin Heijnen (Wikimedia Commons)"
+        },
+        "hero": "Own 3D render (polkagris-3d)",
+        "variants": [
+          {
+            "name": "Polkagris pieces (bite-size)",
+            "credit": "\"Polkagris candy from Ruotsinpyhtää\", JIP, CC BY-SA 4.0 (Wikimedia Commons)",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:58",
+        "hero": "8:103"
+      }
+    },
+    {
+      "slug": "bubs",
+      "order": 2,
+      "name": "BUBS",
+      "year": "1992",
+      "type": "Foam & jelly candy",
+      "maker": "BUBS (owned by Orkla since 2023)",
+      "about": "BUBS began in 1992 in Huskvarna, near Jönköping. The Lindström family put their house up as security for a bank loan to buy their first candy machine. The name comes from four of them: Bernt, Ulrik, Birgitta and Stefan. They chose bold shapes such as skulls, ovals and diamonds. There are many skulls, from sour to salty licorice to Cool Cola. In 2023 the family sold BUBS to Orkla. In 2024 TikTok videos made this candy popular in the U.S. and ever since there has been a lot of interest in Swedish Candy and stores popping up all over New York, LA, and now SF.",
+      "hero": {
+        "src": "candies/bubs/hero.png",
+        "alt": "Pink and blue BUBS Bubblegum Skalle candy skull",
+        "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)",
+        "license": "user-supplied"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Lemon Raspberry Skalle",
+          "src": "candies/bubs/variant-lemon-raspberry-skalle.png",
+          "figmaNode": "12:34",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Cool Cola Skalle",
+          "src": "candies/bubs/variant-cool-cola-skalle.png",
+          "figmaNode": "12:38",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Raspberry Salty Licorice Skalle",
+          "src": "candies/bubs/variant-raspberry-salty-licorice-skalle.png",
+          "figmaNode": "12:42",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Raspberry Salty Licorice Skalle (foam)",
+          "src": "candies/bubs/variant-raspberry-salty-licorice-skum.png",
+          "figmaNode": "12:46",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Banana Toffee Ovals",
+          "src": "candies/bubs/variant-banana-toffee-ovals.png",
+          "figmaNode": "12:50",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Tutti Frutti Diamond",
+          "src": "candies/bubs/variant-tutti-frutti-diamond.png",
+          "figmaNode": "12:54",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://www.bubs.se/wp-content/uploads/sites/128/2025/11/Cool-Colaskalle.png",
+          "credit": "BUBS product image, copyrighted (reference only)"
+        },
+        "hero": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)",
+        "variants": [
+          {
+            "name": "Lemon Raspberry Skalle",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Cool Cola Skalle",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Raspberry Salty Licorice Skalle",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Raspberry Salty Licorice Skalle (foam)",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Banana Toffee Ovals",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Tutti Frutti Diamond",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:121",
+        "hero": "8:166"
+      }
+    },
+    {
+      "slug": "pastellfiskar",
+      "order": 3,
+      "name": "Pastellfiskar (Swedish Fish)",
+      "year": "Unknown",
+      "type": "Jelly / wine gum candy",
+      "maker": "Malaco (now Cloetta)",
+      "about": "Malaco makes small, chewy fish called pastellfiskar, or \"pastel fish.\" They are the equivalent to the American Swedish Fish which was originally invented for the American market. Pastellfiskar are a firm jelly sweet, not a gummy with four flavors: lemon, orange, pear and berry. There is also a sour version.",
+      "hero": {
+        "src": "candies/pastellfiskar/hero.png",
+        "alt": "Green Malaco pastellfisk jelly fish",
+        "credit": "Malaco shop product photo (kalaskungen), copyrighted",
+        "license": "reference-only"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Yellow fish",
+          "src": "candies/pastellfiskar/variant-yellow-fish.png",
+          "figmaNode": "12:58",
+          "credit": "Malaco shop product photo (kalaskungen), copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Red fish (US Swedish Fish)",
+          "src": "candies/pastellfiskar/variant-red-fish-us.png",
+          "figmaNode": "12:62",
+          "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Salt sill (licorice fish)",
+          "src": "candies/pastellfiskar/variant-salt-sill.png",
+          "figmaNode": "12:70",
+          "credit": "\"Salt.sill.jpeg\", Bishonen, public domain (Wikimedia Commons)",
+          "license": "open"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://www.kalaskungen.com/pub_images/original/MAL1017669.jpg",
+          "credit": "Shop product image, copyrighted (reference only)"
+        },
+        "hero": "Malaco shop product photo (kalaskungen), copyrighted",
+        "variants": [
+          {
+            "name": "Yellow fish",
+            "credit": "Malaco shop product photo (kalaskungen), copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Red fish (US Swedish Fish)",
+            "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Salt sill (licorice fish)",
+            "credit": "\"Salt.sill.jpeg\", Bishonen, public domain (Wikimedia Commons)",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:192",
+        "hero": "8:237"
+      }
+    },
+    {
+      "slug": "kexchoklad",
+      "order": 4,
+      "name": "Kexchoklad",
+      "year": "1921",
+      "type": "Chocolate wafer bar",
+      "maker": "Cloetta",
+      "about": "Kexchoklad is thin wafers coated in milk chocolate. Cloetta first sold it in 1921 as \"Five o'clock kex-choklad,\" a snack for the afternoon. It got its short name in 1938, with the checked pattern on its red and yellow wrapper. The brand has long associated with skiing and hiking. Selling it as a snack to take with you on the journey. Many of their advertisements have featured famous skiiers.",
+      "hero": {
+        "src": "candies/kexchoklad/hero.png",
+        "alt": "Kexchoklad bar in its red and yellow checked wrapper",
+        "credit": "User-supplied packet photo (wrapper design by Cloetta)",
+        "license": "user-supplied"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Kexchoklad Vegan (wrapped)",
+          "src": "candies/kexchoklad/variant-vegan.png",
+          "figmaNode": "12:78",
+          "credit": "Open Food Facts packshot, CC BY-SA",
+          "license": "open"
+        },
+        {
+          "name": "Kexchoklad Mini (wrapped)",
+          "src": "candies/kexchoklad/variant-mini.png",
+          "figmaNode": "12:82",
+          "credit": "Open Food Facts packshot, CC BY-SA",
+          "license": "open"
+        },
+        {
+          "name": "Kexchoklad Jätte (wrapped)",
+          "src": "candies/kexchoklad/variant-jatte.png",
+          "figmaNode": "12:86",
+          "credit": "Open Food Facts packshot, CC BY-SA",
+          "license": "open"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Kexchoklad%2C_1.jpg/500px-Kexchoklad%2C_1.jpg",
+          "credit": "CC BY-SA 4.0, Lokal_Profil (Wikimedia Commons)"
+        },
+        "hero": "User-supplied packet photo (wrapper design by Cloetta)",
+        "variants": [
+          {
+            "name": "Kexchoklad Vegan (wrapped)",
+            "credit": "Open Food Facts packshot, CC BY-SA",
+            "license": "open"
+          },
+          {
+            "name": "Kexchoklad Mini (wrapped)",
+            "credit": "Open Food Facts packshot, CC BY-SA",
+            "license": "open"
+          },
+          {
+            "name": "Kexchoklad Jätte (wrapped)",
+            "credit": "Open Food Facts packshot, CC BY-SA",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:263",
+        "hero": "8:308"
+      }
+    },
+    {
+      "slug": "ahlgrens-bilar",
+      "order": 5,
+      "name": "Ahlgrens bilar",
+      "year": "1953",
+      "type": "Foam candy (skumgodis)",
+      "maker": "Ahlgrens, Gävle (now Cloetta)",
+      "about": "These are chewy foam sweets shaped like cars, in pink, green and white. Ahlgrens, a firm in Gävle, made them in 1953. The original plan was to make marshmallows but when the recipe they used didn't rise, it still tasted good, so they kept it. Cloetta now makes them and calls them \"the world's best-selling car.\"",
+      "hero": {
+        "src": "candies/ahlgrens-bilar/hero.png",
+        "alt": "Green Ahlgrens bilar foam candy car",
+        "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+        "license": "open"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "White car",
+          "src": "candies/ahlgrens-bilar/variant-white-car.png",
+          "figmaNode": "12:90",
+          "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Pink car",
+          "src": null,
+          "figmaNode": "12:94",
+          "credit": null,
+          "license": null
+        },
+        {
+          "name": "Saltlakrits (salty licorice)",
+          "src": "candies/ahlgrens-bilar/variant-saltlakrits.png",
+          "figmaNode": "12:98",
+          "credit": "\"Cloetta Ahlgrens bilar - Saltlakrits-9009.jpg\", Raimond Spekking, CC BY-SA 4.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Sursockrade (sour)",
+          "src": null,
+          "figmaNode": "12:102",
+          "credit": null,
+          "license": null
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ahlgrens_bilar.jpg/500px-Ahlgrens_bilar.jpg",
+          "credit": "CC BY-SA 4.0, Lokal_Profil (Wikimedia Commons)"
+        },
+        "hero": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+        "variants": [
+          {
+            "name": "White car",
+            "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Saltlakrits (salty licorice)",
+            "credit": "\"Cloetta Ahlgrens bilar - Saltlakrits-9009.jpg\", Raimond Spekking, CC BY-SA 4.0 (Wikimedia Commons)",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:322",
+        "hero": "8:367"
+      }
+    },
+    {
+      "slug": "daim",
+      "order": 6,
+      "name": "Daim",
+      "year": "1953",
+      "type": "Chocolate-coated almond toffee",
+      "maker": "Marabou (now Mondelez)",
+      "about": "Daim is a thin, crisp almond toffee coated in milk chocolate. Marabou's boss wanted to make the US Heath bar for the European market but Heath said no. Marabou decided, then, to make its own and began selling in Sweden and Norway in 1953. It was first spelled \"Dajm,\" after the US \"dime.\" The spelling became \"Daim\" in 1990.",
+      "hero": {
+        "src": "candies/daim/hero.png",
+        "alt": "Daim bar",
+        "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image",
+        "license": "reference-only"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Daim Mint (wrapped)",
+          "src": "candies/daim/variant-mint.png",
+          "figmaNode": "12:106",
+          "credit": "Open Food Facts packshot, CC BY-SA",
+          "license": "open"
+        },
+        {
+          "name": "Daim Orange (wrapped)",
+          "src": "candies/daim/variant-orange.png",
+          "figmaNode": "12:110",
+          "credit": "Open Food Facts packshot, CC BY-SA",
+          "license": "open"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Daim-Bar-Split.jpg/500px-Daim-Bar-Split.jpg",
+          "credit": "CC0, Evan-Amos (Wikimedia Commons)"
+        },
+        "hero": "Bestway Wholesale product image (EAN 7310511803001), retailer image",
+        "variants": [
+          {
+            "name": "Daim Mint (wrapped)",
+            "credit": "Open Food Facts packshot, CC BY-SA",
+            "license": "open"
+          },
+          {
+            "name": "Daim Orange (wrapped)",
+            "credit": "Open Food Facts packshot, CC BY-SA",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:389",
+        "hero": "8:434"
+      }
+    },
+    {
+      "slug": "djungelvral",
+      "order": 7,
+      "name": "Djungelvrål",
+      "year": "1982",
+      "type": "Salty licorice (salmiak)",
+      "maker": "Malaco (now Cloetta)",
+      "about": "Djungelvrål means \"jungle roar.\" Malaco, the swedish candy company, launched it in 1982. The sweets are small, soft licorice animals coated in salmiak, a salt with a sharp, salty bite. The bag holds four shapes: a monkey, a lion, a squirrel and an elephant. No one seems to know why those four were picked but a monkey is always on the bag and featured in their advertisements.",
+      "hero": {
+        "src": "candies/djungelvral/hero.png",
+        "alt": "Djungelvrål salty licorice monkey",
+        "credit": "User's own photo",
+        "license": "own"
+      },
+      "model3d": {
+        "src": "3d/djungelvral/index.html",
+        "seed": 13
+      },
+      "variants": [
+        {
+          "name": "Monkey",
+          "src": "candies/djungelvral/variant-monkey.png",
+          "figmaNode": "12:122",
+          "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Lion",
+          "src": "candies/djungelvral/variant-lion.png",
+          "figmaNode": "12:126",
+          "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Squirrel",
+          "src": "candies/djungelvral/variant-squirrel.png",
+          "figmaNode": "12:130",
+          "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Elephant",
+          "src": "candies/djungelvral/variant-elephant.png",
+          "figmaNode": "12:134",
+          "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+          "license": "open"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Djungelvr%C3%A5l%2C_1.jpg/500px-Djungelvr%C3%A5l%2C_1.jpg",
+          "credit": "CC BY-SA 4.0, Lokal_Profil (Wikimedia Commons)"
+        },
+        "hero": "User's own photo",
+        "variants": [
+          {
+            "name": "Monkey",
+            "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Lion",
+            "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Squirrel",
+            "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Elephant",
+            "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:452",
+        "hero": "8:497"
+      }
+    },
+    {
+      "slug": "gott-blandat",
+      "order": 8,
+      "name": "Gott & Blandat",
+      "year": "1979",
+      "type": "Mixed fruit jelly & licorice",
+      "maker": "Malaco (now Cloetta)",
+      "about": "Gott & Blandat means \"tasty and mixed.\" It is a bag of soft, chewy sweets in many colors and shapes, with fruit and licorice flavors. Malaco, the candy company, began selling it in 1979 as a creative way to use up leftovers. When the factory packed loose sweets, it was often left with 50 to 100 kilos of mixed kinds, so these went into assorted bags. There are now more than ten kinds, such as salty, sour and toffee.",
+      "hero": {
+        "src": "candies/gott-blandat/hero.png",
+        "alt": "Licorice cat from Gott & Blandat",
+        "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+        "license": "open"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Licorice sailboat (Original mix)",
+          "src": "candies/gott-blandat/variant-licorice-sailboat.png",
+          "figmaNode": "12:142",
+          "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Red fruit fish (Original mix)",
+          "src": "candies/gott-blandat/variant-red-fruit-fish.png",
+          "figmaNode": "12:146",
+          "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Orange fruit disc (Original mix)",
+          "src": "candies/gott-blandat/variant-orange-fruit-disc.png",
+          "figmaNode": "12:150",
+          "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+          "license": "open"
+        },
+        {
+          "name": "Gott & Blandat Salt",
+          "src": null,
+          "figmaNode": "12:154",
+          "credit": null,
+          "license": null
+        },
+        {
+          "name": "Gott & Blandat Sur",
+          "src": null,
+          "figmaNode": "12:158",
+          "credit": null,
+          "license": null
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Gott_%26_blandat%2C_1.jpg/500px-Gott_%26_blandat%2C_1.jpg",
+          "credit": "CC BY-SA 4.0, Lokal_Profil (Wikimedia Commons)"
+        },
+        "hero": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+        "variants": [
+          {
+            "name": "Licorice sailboat (Original mix)",
+            "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Red fruit fish (Original mix)",
+            "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+            "license": "open"
+          },
+          {
+            "name": "Orange fruit disc (Original mix)",
+            "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+            "license": "open"
+          }
+        ]
+      },
+      "figma": {
+        "page": "8:519",
+        "hero": "8:564"
+      }
+    },
+    {
+      "slug": "cola",
+      "order": 9,
+      "name": "Cola candies",
+      "year": "1965",
+      "type": "Gummy candy (sour, sugar-coated)",
+      "maker": "Various (Haribo, Malaco/Cloetta, BUBS)",
+      "about": "In 1915 the Root Glass Company in Indiana designed a curved glass bottle for Coca-Cola. Its shop foreman was a Swede, Alexander Samuelson. The bottle went on sale in 1916. Its shape later became the mold for cola candies. Haribo in Germany sold gummy cola bottles from 1965. Malaco began selling colaflaskor in Sweden in the 1980s. They are still a classic in Swedish pick-and-mix.",
+      "hero": {
+        "src": "candies/cola/hero.png",
+        "alt": "Sour sugar-coated cola bottle gummy",
+        "credit": "User-supplied photo",
+        "license": "user-supplied"
+      },
+      "model3d": null,
+      "variants": [
+        {
+          "name": "Malaco Colaflaskor",
+          "src": "candies/cola/variant-malaco-colaflaskor.png",
+          "figmaNode": "17:62",
+          "credit": "matsiktet.se / Cloetta product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Sura Colanappar (sour)",
+          "src": "candies/cola/variant-sura-colanappar.png",
+          "figmaNode": "17:80",
+          "credit": "joselind.se retailer image",
+          "license": "reference-only"
+        },
+        {
+          "name": "S-Märke Fizzy Cola",
+          "src": "candies/cola/variant-smarke-fizzy-cola.png",
+          "figmaNode": "17:84",
+          "credit": "happycandy.se retailer image",
+          "license": "reference-only"
+        },
+        {
+          "name": "BUBS Cool Cola Skalle",
+          "src": "candies/bubs/variant-cool-cola-skalle.png",
+          "figmaNode": "17:88",
+          "credit": "bubs.se product image, copyrighted",
+          "license": "reference-only"
+        },
+        {
+          "name": "Haribo Happy-Cola (German brand, bag)",
+          "src": "candies/cola/variant-haribo-happy-cola-bag.png",
+          "figmaNode": "17:92",
+          "credit": "Haribo packshot, copyrighted",
+          "license": "reference-only"
+        }
+      ],
+      "credits": {
+        "sheetImage": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Haribo-Happy-Cola.jpg/500px-Haribo-Happy-Cola.jpg",
+          "credit": "Public domain, Evan-Amos (Wikimedia Commons)"
+        },
+        "hero": "User-supplied photo",
+        "variants": [
+          {
+            "name": "Malaco Colaflaskor",
+            "credit": "matsiktet.se / Cloetta product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Sura Colanappar (sour)",
+            "credit": "joselind.se retailer image",
+            "license": "reference-only"
+          },
+          {
+            "name": "S-Märke Fizzy Cola",
+            "credit": "happycandy.se retailer image",
+            "license": "reference-only"
+          },
+          {
+            "name": "BUBS Cool Cola Skalle",
+            "credit": "bubs.se product image, copyrighted",
+            "license": "reference-only"
+          },
+          {
+            "name": "Haribo Happy-Cola (German brand, bag)",
+            "credit": "Haribo packshot, copyrighted",
+            "license": "reference-only"
+          }
+        ]
+      },
+      "figma": {
+        "page": "17:22",
+        "hero": "17:79"
+      }
+    }
+  ]
+}

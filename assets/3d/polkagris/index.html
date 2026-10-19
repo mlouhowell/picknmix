@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Polkagris pillow – 3D</title>
+<style>
+  /* Transparent page so the candy sits on whatever colour the host page / iframe has. */
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  #candy { position: absolute; inset: 0; }
+  #candy canvas { display: block; width: 100%; height: 100%; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="candy" role="img" aria-label="A chalky, sugar-dusted peppermint pillow candy with soft raspberry stripes, slowly spinning"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+/* ==========================================================================
+   CANDY CONFIG – tweak these to restyle or reuse for another candy
+   ========================================================================== */
+const CANDY = {
+  // Shape (world units). Width : length ≈ 1 : 1.3
+  width: 1.0,               // across the pillow
+  length: 1.32,             // end to end
+  squareness: 0.84,         // cross-section: 1 = round, lower = squarer "pillow" sides
+  bluntness: 0.66,          // lengthwise profile: 1 = egg/ellipsoid, lower = fuller barrel with rounded ends
+  endPinch: 0.38,           // how much the ends flatten into a pinched ridge (hand-cut look)
+  twist: 0.6,               // radians of twist from end to end
+  lumpiness: 0.06,          // irregular hand-made bumps (fraction of size)
+  lumpScale: 1.6,           // size of the bumps (higher = smaller, busier bumps)
+  seed: 7,                  // change for a differently shaped piece
+  segments: [192, 128],     // [around, along] mesh resolution
+
+  // Colours (sRGB hex)
+  bodyColor: '#f3ebdf',     // creamy off-white
+  stripeColor: '#c22846',   // raspberry / peppermint red stripe centre
+  stripeEdgeColor: '#93122f', // slightly deeper stripe edges
+  powderColor: '#fdfbf7',   // icing-sugar dusting
+
+  // Stripes (run lengthwise, follow the twist)
+  stripeCount: 5,
+  stripeWidth: 0.045,       // fraction of the circumference per stripe
+  stripeJitter: 0.12,       // 0 = perfectly even spacing/width, higher = more hand-made
+  stripeFuzz: 0.006,        // soft, grainy stripe edges (fraction of circumference)
+
+  // Chalky powder surface
+  powder: 0.12,             // how much the dusting veils the colours (0–1)
+  stripePowder: 0.6,        // powder multiplier on the red stripes (<1 lets the red read through)
+  grain: 0.7,               // strength of the fine sugar-grain bump
+  grainScale: 70,           // grain frequency (higher = finer)
+  roughness: 1.0,
+  sheen: 0.5,               // soft velvety rim light typical of powdered surfaces
+  warmth: 0.05,             // faint warm glow in shadows (fake subsurface)
+};
+
+const SCENE = {
+  fov: 28,
+  framePadding: 1.12,                  // >1 adds breathing room around the tumbling piece
+  exposure: 0.92,
+};
+
+// Zero-gravity tumble (see applyFloat). Everything returns to its start after loopSeconds / speed,
+// so exported videos loop seamlessly.
+const FLOAT = {
+  seed: 1,                  // motion seed; override per embed with ?seed=N (start pose, axes, phases)
+  speed: 1,                 // 1 = calm. 2 = twice as fast (loop halves; still seamless)
+  loopSeconds: 22,          // length of one seamless motion loop at speed 1
+  spinTurns: 2,             // whole turns about the candy's own spin axis per loop (~11 s per turn)
+  precessTurns: 1,          // whole turns the spin axis precesses around per loop (slow wander)
+  drift: 0.05,              // positional drift/bob, as a fraction of the candy's size
+  driftCycles: [1, 2, 1],   // whole sine cycles per loop on x, y, z (gentle Lissajous float)
+  staticTime: 9.2,          // pose (seconds into the loop) shown with prefers-reduced-motion
+};
+/* ========================================================================== */
+
+// @candy-kit:begin (generated from /workspace/candy-kit/candy-kit.js – edit there, then run build.py)
+// ---------- candy-kit: shared stage, lighting, zero-g float, loop & API ----
+// Source of truth: /workspace/candy-kit/candy-kit.js. Run `python3 /workspace/candy-kit/build.py`
+// to inline it into every candy page (pages stay single-file).
+// Expects `THREE` and `RoomEnvironment` to be imported by the page.
+
+/** Seeded 3D value noise in [-1, 1]. */
+function makeNoise3(seed) {
+  const hash = (x, y, z) => {
+    let h = (x * 374761393 + y * 668265263 + z * 1274126177 + seed * 1442695041) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
+  };
+  const fade = t => t * t * (3 - 2 * t);
+  return (x, y, z) => {
+    const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    const xf = fade(x - xi), yf = fade(y - yi), zf = fade(z - zi);
+    const L = (a, b, t) => a + (b - a) * t;
+    const c = (dx, dy, dz) => hash(xi + dx, yi + dy, zi + dz);
+    return L(L(L(c(0,0,0), c(1,0,0), xf), L(c(0,1,0), c(1,1,0), xf), yf),
+             L(L(c(0,0,1), c(1,0,1), xf), L(c(0,1,1), c(1,1,1), xf), yf), zf) * 2 - 1;
+  };
+}
+/** Seeded PRNG in [0, 1). */
+function mulberry32(a) {
+  return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+
+/** Transparent renderer + soft modern studio lighting shared by every candy.
+ *  Lights are fixed in space, so tumbling candies appear to float past them. */
+function createStage(container, { fov = 28, exposure = 0.92 } = {}) {
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);                // transparent background
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = exposure;
+  container.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;   // soft studio fill
+  const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
+
+  const key = new THREE.DirectionalLight(0xffffff, 1.7);   // soft key, upper left-front
+  key.position.set(-4, 4, 2.5);
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xfff0e6, 0.3);  // warm fill from the right
+  fill.position.set(4, 0.5, 2);
+  scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.7);   // back rim to separate from the page
+  rim.position.set(1, 3, -4);
+  scene.add(rim);
+  return { container, renderer, scene, camera, lights: { key, fill, rim } };
+}
+
+/** Zero-gravity tumble for any Object3D: constant spin about a body axis + slow precession of
+ *  that axis, plus a smooth Lissajous drift. Seeded so every candy starts, spins and drifts
+ *  differently. Integer turns/cycles per loop => update(t) and update(t + loop) are identical.
+ *  Returns { update(seconds), loop }. `size` scales the drift (world units). */
+function applyFloat(object, { seed = 1, speed = 1, drift = 0.05, size = 1,
+  loopSeconds = 22, spinTurns = 2, precessTurns = 1, driftCycles = [1, 2, 1] } = {}) {
+  const rnd = mulberry32(seed * 7919 + 13);
+  const randUnit = () => { const z = rnd() * 2 - 1, a = rnd() * Math.PI * 2, r = Math.sqrt(1 - z * z);
+    return new THREE.Vector3(r * Math.cos(a), z, r * Math.sin(a)); };
+  const randQuat = () => new THREE.Quaternion().setFromAxisAngle(randUnit(), rnd() * Math.PI * 2);
+
+  const base = randQuat();                         // random starting orientation
+  // spin axis tilted 55–85° from the candy's local Y so it tumbles end over end (not just rolls)
+  const tiltA = THREE.MathUtils.degToRad(55 + rnd() * 30), spinAz = rnd() * Math.PI * 2;
+  const spinAxis = new THREE.Vector3(Math.sin(tiltA) * Math.cos(spinAz), Math.cos(tiltA), Math.sin(tiltA) * Math.sin(spinAz))
+    .applyQuaternion(base).normalize();
+  // precession axis: 20–40° off the spin axis (a lazy wobble, not a wild one)
+  const off = randUnit().cross(spinAxis).normalize();
+  const precAxis = spinAxis.clone().applyAxisAngle(off, THREE.MathUtils.degToRad(20 + rnd() * 20));
+  const sSpin = rnd() < 0.5 ? -1 : 1, sPrec = rnd() < 0.5 ? -1 : 1;
+  const phase = rnd();                             // time offset so candies are out of sync
+  const dPh = [rnd(), rnd(), rnd()];
+  const loop = loopSeconds / speed;
+  const qs = new THREE.Quaternion(), qp = new THREE.Quaternion(), TAU = Math.PI * 2;
+  const amp = drift * size;
+
+  function update(seconds) {
+    const tau = seconds / loop + phase;
+    qs.setFromAxisAngle(spinAxis, sSpin * spinTurns * TAU * tau);
+    qp.setFromAxisAngle(precAxis, sPrec * precessTurns * TAU * tau);
+    object.quaternion.copy(qp).multiply(qs).multiply(base);
+    object.position.set(
+      amp * Math.sin(TAU * (driftCycles[0] * tau + dPh[0])),
+      amp * Math.sin(TAU * (driftCycles[1] * tau + dPh[1])) * 0.8,
+      amp * Math.sin(TAU * (driftCycles[2] * tau + dPh[2])) * 0.6);
+  }
+  update(0);
+  return { update, loop };
+}
+
+/** Centres the mesh, frames it, starts the float loop (honours prefers-reduced-motion and
+ *  ?seed= / ?speed= URL params) and exposes window.candy { pause, play, at, loopSeconds }. */
+function startCandy(stage, mesh, FLOAT, SCENE) {
+  const { container, renderer, scene, camera } = stage;
+  const params = new URLSearchParams(location.search);
+  const motionSeed = Number(params.get('seed') ?? FLOAT.seed) || FLOAT.seed;
+
+  mesh.geometry.computeBoundingSphere();
+  mesh.geometry.translate(...mesh.geometry.boundingSphere.center.clone().negate().toArray()); // spin about its centre
+  mesh.geometry.computeBoundingSphere();
+  scene.add(mesh);
+  let maxR = 0;
+  { const p = mesh.geometry.attributes.position;
+    for (let i = 0; i < p.count; i++) maxR = Math.max(maxR, Math.hypot(p.getX(i), p.getY(i), p.getZ(i))); }
+  const float = applyFloat(mesh, { ...FLOAT, seed: motionSeed, speed: Number(params.get('speed')) || FLOAT.speed, size: maxR });
+  // frame the sphere the tumbling piece can reach, plus its drift
+  const boundR = maxR * (1 + FLOAT.drift * 1.1) * SCENE.framePadding;
+
+  function render() { renderer.render(scene, camera); }
+  function resize() {
+    const w = Math.max(container.clientWidth, 1), h = Math.max(container.clientHeight, 1);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    const vFov = THREE.MathUtils.degToRad(camera.fov);
+    const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
+    const dist = boundR / Math.sin(Math.min(vFov, hFov) / 2);
+    camera.position.set(0, 0, dist);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+    render();
+  }
+  new ResizeObserver(resize).observe(container);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let time = FLOAT.staticTime, last = performance.now(), running = false;
+  function setTime(t) { float.update(t); render(); }
+  function tick(now) {
+    if (!running) return;
+    time += Math.min((now - last) / 1000, 0.1); last = now;
+    setTime(time);
+    requestAnimationFrame(tick);
+  }
+  function updateMotion() {
+    const shouldRun = !reduceMotion.matches && !window.__candyManual;
+    if (shouldRun && !running) { running = true; last = performance.now(); requestAnimationFrame(tick); }
+    if (!shouldRun) { running = false; setTime(reduceMotion.matches ? FLOAT.staticTime : time); }
+  }
+  reduceMotion.addEventListener('change', updateMotion);
+  document.addEventListener('visibilitychange', () => { last = performance.now(); });
+
+  resize();
+  updateMotion();
+
+  // Hook for screenshots / page integrations: pause and pose at a given time (seconds).
+  window.candy = {
+    pause() { window.__candyManual = true; updateMotion(); },
+    play()  { window.__candyManual = false; updateMotion(); },
+    at(seconds) { time = seconds; setTime(seconds); },
+    loopSeconds: float.loop,           // exports: render exactly this long for a seamless loop
+    staticTime: FLOAT.staticTime,
+    mesh,                              // the THREE.Mesh (for integrations / debugging)
+    /** Hold a fixed orientation (Euler degrees, XYZ), e.g. candy.pose(0, 0, 0) for the reference view. */
+    pose(x = 0, y = 0, z = 0) {
+      window.__candyManual = true; updateMotion();
+      mesh.position.set(0, 0, 0); mesh.rotation.set(...[x, y, z].map(THREE.MathUtils.degToRad)); render();
+    },
+    ready: true,
+  };
+  return { float, render, maxR };
+}
+// @candy-kit:end
+
+const stage = createStage(document.getElementById('candy'), SCENE);
+const renderer = stage.renderer;
+
+// ---------- Pillow geometry (procedural superquadric + twist + lumps) -------
+function createPillowGeometry(cfg) {
+  const [nu, nv] = cfg.segments;
+  const noise = makeNoise3(cfg.seed);
+  const R = cfg.width / 2, H = cfg.length / 2;
+  const spow = (b, e) => Math.sign(b) * Math.pow(Math.abs(b), e);
+
+  // Map u (0..1) to angle so equal u steps = equal arc length around the
+  // squarish cross-section (keeps stripe widths even on flats and corners).
+  const LUT_N = 2048, lut = new Float32Array(LUT_N + 1);
+  {
+    let acc = 0, px = spow(1, cfg.squareness), pz = 0;
+    for (let k = 1; k <= LUT_N; k++) {
+      const th = (k / LUT_N) * Math.PI * 2;
+      const qx = spow(Math.cos(th), cfg.squareness), qz = spow(Math.sin(th), cfg.squareness);
+      acc += Math.hypot(qx - px, qz - pz); lut[k] = acc; px = qx; pz = qz;
+    }
+    for (let k = 0; k <= LUT_N; k++) lut[k] /= acc;
+  }
+  function angleFor(u) {
+    const w = ((u % 1) + 1) % 1; let lo = 0, hi = LUT_N;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; if (lut[m] < w) lo = m; else hi = m; }
+    const f = (w - lut[lo]) / Math.max(lut[hi] - lut[lo], 1e-9);
+    return ((lo + f) / LUT_N) * Math.PI * 2 + Math.floor(u) * Math.PI * 2;
+  }
+
+  // Surface point for u (around, 0..1) and v (end to end, 0..1)
+  function point(u, v, out) {
+    const a = v * Math.PI;                         // 0 = bottom end, PI = top end
+    const s = spow(Math.sin(a), cfg.bluntness);    // radial scale along the length
+    const y = -spow(Math.cos(a), cfg.bluntness) * H;
+    const t = y / H;                               // -1..1
+    const th = angleFor(u) + cfg.twist * t * 0.5;
+    let x = spow(Math.cos(th), cfg.squareness) * R * s;
+    let z = spow(Math.sin(th), cfg.squareness) * R * s;
+    z *= 1 - cfg.endPinch * Math.pow(Math.abs(t), 3);   // pinched ridge at the ends
+    // low-frequency lumps (scaled radially from the centre axis)
+    const k = cfg.lumpScale;
+    const n = noise(x * k + 11, y * k + 3, z * k + 5) * 0.7 + noise(x * k * 2.3, y * k * 2.3, z * k * 2.3) * 0.3;
+    const d = 1 + n * cfg.lumpiness * 2;
+    return out.set(x * d, y * (1 + n * cfg.lumpiness * 0.6), z * d);
+  }
+
+  const pos = [], nrm = [], uv = [], idx = [];
+  const p = new THREE.Vector3(), pu = new THREE.Vector3(), pv = new THREE.Vector3(), n = new THREE.Vector3();
+  const e = 1e-3;
+  for (let j = 0; j <= nv; j++) {
+    const v = j / nv;
+    for (let i = 0; i <= nu; i++) {
+      const u = i / nu;
+      point(u, v, p);
+      // analytic-ish normal from finite differences (seam-free, pole-safe)
+      const vc = Math.min(Math.max(v, 4 * e), 1 - 4 * e);
+      point(u + e, vc, pu).sub(point(u - e, vc, n));
+      point(u, vc + e, pv).sub(point(u, vc - e, n));
+      n.crossVectors(pu, pv).normalize();
+      if (j === 0) n.set(0, -1, 0); else if (j === nv) n.set(0, 1, 0);
+      pos.push(p.x, p.y, p.z); nrm.push(n.x, n.y, n.z); uv.push(u, v);
+    }
+  }
+  for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) {
+    const a = j * (nu + 1) + i, b = a + nu + 1;
+    idx.push(a, a + 1, b, a + 1, b + 1, b);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nrm, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  // make normals face outward regardless of winding
+  g.computeBoundingSphere();
+  return g;
+}
+
+// ---------- Stripe texture (u = around, v = along) --------------------------
+function createStripeTexture(cfg, maxAniso) {
+  const W = 2048, Hh = 512;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = Hh;
+  const ctx = cv.getContext('2d'), img = ctx.createImageData(W, Hh);
+  const rnd = mulberry32(cfg.seed * 977 + 1), noise = makeNoise3(cfg.seed + 31);
+  const body = new THREE.Color(cfg.bodyColor), core = new THREE.Color(cfg.stripeColor), edge = new THREE.Color(cfg.stripeEdgeColor);
+  // hand-made irregular stripe positions & widths
+  const stripes = Array.from({ length: cfg.stripeCount }, (_, k) => ({
+    c: (k + 0.5 + (rnd() - 0.5) * cfg.stripeJitter) / cfg.stripeCount,
+    w: cfg.stripeWidth * (1 + (rnd() - 0.5) * cfg.stripeJitter * 1.5) / 2,
+    ph: rnd() * 100,
+  }));
+  const sm = (a, b, x) => { const t = Math.min(Math.max((x - a) / (b - a), 0), 1); return t * t * (3 - 2 * t); };
+  const col = new THREE.Color(), out = {};
+  for (let y = 0; y < Hh; y++) {
+    const v = y / (Hh - 1);
+    for (let x = 0; x < W; x++) {
+      const u = (x + 0.5) / W;
+      let cov = 0, edgeMix = 0;
+      for (const s of stripes) {
+        // stripe centre wanders slightly along the length; width breathes
+        const wob = noise(s.ph, v * 5, 0) * 0.004 + noise(s.ph, v * 19, 7) * 0.0012;
+        let d = Math.abs(u - s.c - wob); d = Math.min(d, 1 - d);
+        const w = s.w * (1 + noise(s.ph + 5, v * 9, 3) * 0.25);
+        const grainEdge = (rnd() - 0.5) * cfg.stripeFuzz * 1.2;          // sugary, speckled edge
+        const c = 1 - sm(w - cfg.stripeFuzz, w + cfg.stripeFuzz, d + grainEdge);
+        if (c > cov) { cov = c; edgeMix = sm(w * 0.15, w * 0.95, d); }
+      }
+      col.copy(core).lerp(edge, edgeMix * 0.85);
+      col.lerp(body, 1 - cov).getRGB(out, THREE.SRGBColorSpace);   // canvas pixels are sRGB
+      const i = (y * W + x) * 4;
+      img.data[i] = out.r * 255; img.data[i + 1] = out.g * 255; img.data[i + 2] = out.b * 255; img.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.ClampToEdgeWrapping;
+  tex.anisotropy = maxAniso; tex.flipY = false;
+  return tex;
+}
+
+// ---------- Chalky powder material ----------------------------------------
+const NOISE_GLSL = /* glsl */`
+  varying vec3 vObj;
+  float h31(vec3 p){ p = fract(p * 0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
+  float vnoise(vec3 p){
+    vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(mix(h31(i), h31(i+vec3(1,0,0)), f.x), mix(h31(i+vec3(0,1,0)), h31(i+vec3(1,1,0)), f.x), f.y),
+               mix(mix(h31(i+vec3(0,0,1)), h31(i+vec3(1,0,1)), f.x), mix(h31(i+vec3(0,1,1)), h31(i+vec3(1,1,1)), f.x), f.y), f.z);
+  }
+  uniform float uPowder, uStripePowder, uGrain, uGrainScale, uWarmth;
+  uniform vec3 uPowderColor;
+`;
+function createPowderMaterial(cfg, map) {
+  const mat = new THREE.MeshPhysicalMaterial({
+    map, roughness: cfg.roughness, metalness: 0,
+    sheen: cfg.sheen, sheenRoughness: 0.9, sheenColor: new THREE.Color('#ffffff'),
+    envMapIntensity: 0.45,
+  });
+  mat.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, {
+      uPowder: { value: cfg.powder }, uStripePowder: { value: cfg.stripePowder }, uGrain: { value: cfg.grain }, uGrainScale: { value: cfg.grainScale },
+      uWarmth: { value: cfg.warmth }, uPowderColor: { value: new THREE.Color(cfg.powderColor) },
+    });
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vObj;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObj = position;');
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\n' + NOISE_GLSL)
+      // powder veils the colours with speckled icing sugar
+      .replace('#include <map_fragment>', `#include <map_fragment>
+        {
+          float s1 = vnoise(vObj * uGrainScale * 2.6);
+          float s2 = vnoise(vObj * 7.0);
+          float amt = uPowder * (0.45 + 0.55 * s1) * (0.75 + 0.5 * s2);
+          float stripeMask = clamp((diffuseColor.r - diffuseColor.g) * 2.5, 0.0, 1.0);  // red areas
+          amt *= mix(1.0, uStripePowder, stripeMask);
+          diffuseColor.rgb = mix(diffuseColor.rgb, uPowderColor, clamp(amt, 0.0, 1.0));
+          diffuseColor.rgb += (step(0.84, vnoise(vObj * uGrainScale * 4.5)) - step(vnoise(vObj * uGrainScale * 3.7 + 17.0), 0.12) * 0.6) * 0.05;  // tiny bright crystals
+        }`)
+      // fine sugar-grain bump from object-space noise (screen-space derivative bump)
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+        {
+          float h = vnoise(vObj * uGrainScale) * 0.6 + vnoise(vObj * uGrainScale * 2.3) * 0.4
+                  + vnoise(vObj * uGrainScale * 0.25) * 0.35;
+          h *= uGrain * 0.005;
+          vec3 sx = dFdx(-vViewPosition), sy = dFdy(-vViewPosition);
+          vec3 r1 = cross(sy, normal), r2 = cross(normal, sx);
+          float det = dot(sx, r1) * faceDirection;
+          vec3 grad = sign(det) * (dFdx(h) * r1 + dFdy(h) * r2);
+          normal = normalize(abs(det) * normal - grad);
+        }`)
+      // faint warm glow (fake subsurface) lifting the shadow side
+      .replace('#include <opaque_fragment>', `
+        outgoingLight += diffuseColor.rgb * vec3(1.0, 0.82, 0.74) * uWarmth;
+        #include <opaque_fragment>`);
+  };
+  return mat;
+}
+
+function createCandy(cfg) {
+  const geo = createPillowGeometry(cfg);
+  const mat = createPowderMaterial(cfg, createStripeTexture(cfg, renderer.capabilities.getMaxAnisotropy()));
+  return new THREE.Mesh(geo, mat);
+}
+
+// ---------- Go: centre, frame, float (shared candy-kit) ----------------------
+startCandy(stage, createCandy(CANDY), FLOAT, SCENE);
+</script>
+</body>
+</html>

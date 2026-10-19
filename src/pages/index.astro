@@ -1,0 +1,12 @@
+---
+// Landing 3:679 is built in Phase 3. Phase 1 placeholder: proves content loads + validates.
+import Base from '../layouts/Base.astro';
+import { site, candies, candyHref } from '../lib/content';
+---
+<Base>
+  <main data-figma="3:679">
+    <p>{site.landing.eyebrow}</p>
+    <h1>{site.landing.title}</h1>
+    <ul>{candies.map((c) => <li><a href={candyHref(c)}>{c.name}</a></li>)}</ul>
+  </main>
+</Base>

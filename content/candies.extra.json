@@ -1,0 +1,110 @@
+{
+  "_readme": "Hand-maintained fields NOT in the Google Sheet (assets, Figma node IDs, candy type, credits). Merged with content/source/candy-sheet.csv by scripts/build-content.mjs -> content/candies.json. Keys are slugs; 'sheetName' must match the sheet's Candy column exactly. 'type' lives here only until a 'Candy type' column is added to the sheet; if the sheet has that column it wins. license: open | own | user-supplied | reference-only.",
+  "polkagris": {
+    "sheetName": "Polkagris", "figmaNode": "8:58", "heroNode": "8:103",
+    "type": "Hard peppermint candy (stick)",
+    "hero": { "src": "candies/polkagris/hero-3d.png", "alt": "Red and white striped polkagris peppermint candy", "credit": "Own 3D render (polkagris-3d)", "license": "own" },
+    "model3d": { "src": "3d/polkagris/index.html", "seed": 7 },
+    "variants": [
+      { "name": "Polkagris pieces (bite-size)", "src": "candies/polkagris/variant-pieces.png", "figmaNode": "12:26", "credit": "\"Polkagris candy from Ruotsinpyhtää\", JIP, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Flavoured sockerstänger", "src": null, "figmaNode": "12:30", "credit": null, "license": null }
+    ]
+  },
+  "bubs": {
+    "sheetName": "BUBS", "figmaNode": "8:121", "heroNode": "8:166",
+    "type": "Foam & jelly candy",
+    "hero": { "src": "candies/bubs/hero.png", "alt": "Pink and blue BUBS Bubblegum Skalle candy skull", "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)", "license": "user-supplied" },
+    "model3d": null,
+    "variants": [
+      { "name": "Lemon Raspberry Skalle", "src": "candies/bubs/variant-lemon-raspberry-skalle.png", "figmaNode": "12:34", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Cool Cola Skalle", "src": "candies/bubs/variant-cool-cola-skalle.png", "figmaNode": "12:38", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Raspberry Salty Licorice Skalle", "src": "candies/bubs/variant-raspberry-salty-licorice-skalle.png", "figmaNode": "12:42", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Raspberry Salty Licorice Skalle (foam)", "src": "candies/bubs/variant-raspberry-salty-licorice-skum.png", "figmaNode": "12:46", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Banana Toffee Ovals", "src": "candies/bubs/variant-banana-toffee-ovals.png", "figmaNode": "12:50", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Tutti Frutti Diamond", "src": "candies/bubs/variant-tutti-frutti-diamond.png", "figmaNode": "12:54", "credit": "bubs.se product image, copyrighted", "license": "reference-only" }
+    ]
+  },
+  "pastellfiskar": {
+    "sheetName": "Pastellfiskar (Swedish Fish)", "figmaNode": "8:192", "heroNode": "8:237",
+    "type": "Jelly / wine gum candy",
+    "hero": { "src": "candies/pastellfiskar/hero.png", "alt": "Green Malaco pastellfisk jelly fish", "credit": "Malaco shop product photo (kalaskungen), copyrighted", "license": "reference-only" },
+    "model3d": null,
+    "variants": [
+      { "name": "Yellow fish", "src": "candies/pastellfiskar/variant-yellow-fish.png", "figmaNode": "12:58", "credit": "Malaco shop product photo (kalaskungen), copyrighted", "license": "reference-only" },
+      { "name": "Red fish (US Swedish Fish)", "src": "candies/pastellfiskar/variant-red-fish-us.png", "figmaNode": "12:62", "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Salt sill (licorice fish)", "src": "candies/pastellfiskar/variant-salt-sill.png", "figmaNode": "12:70", "credit": "\"Salt.sill.jpeg\", Bishonen, public domain (Wikimedia Commons)", "license": "open" }
+    ]
+  },
+  "kexchoklad": {
+    "sheetName": "Kexchoklad", "figmaNode": "8:263", "heroNode": "8:308",
+    "type": "Chocolate wafer bar",
+    "hero": { "src": "candies/kexchoklad/hero.png", "alt": "Kexchoklad bar in its red and yellow checked wrapper", "credit": "User-supplied packet photo (wrapper design by Cloetta)", "license": "user-supplied" },
+    "model3d": null,
+    "variants": [
+      { "name": "Kexchoklad Vegan (wrapped)", "src": "candies/kexchoklad/variant-vegan.png", "figmaNode": "12:78", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
+      { "name": "Kexchoklad Mini (wrapped)", "src": "candies/kexchoklad/variant-mini.png", "figmaNode": "12:82", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
+      { "name": "Kexchoklad Jätte (wrapped)", "src": "candies/kexchoklad/variant-jatte.png", "figmaNode": "12:86", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" }
+    ]
+  },
+  "ahlgrens-bilar": {
+    "sheetName": "Ahlgrens bilar", "figmaNode": "8:322", "heroNode": "8:367",
+    "type": "Foam candy (skumgodis)",
+    "hero": { "src": "candies/ahlgrens-bilar/hero.png", "alt": "Green Ahlgrens bilar foam candy car", "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+    "model3d": null,
+    "variants": [
+      { "name": "White car", "src": "candies/ahlgrens-bilar/variant-white-car.png", "figmaNode": "12:90", "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Pink car", "src": null, "figmaNode": "12:94", "credit": null, "license": null },
+      { "name": "Saltlakrits (salty licorice)", "src": "candies/ahlgrens-bilar/variant-saltlakrits.png", "figmaNode": "12:98", "credit": "\"Cloetta Ahlgrens bilar - Saltlakrits-9009.jpg\", Raimond Spekking, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Sursockrade (sour)", "src": null, "figmaNode": "12:102", "credit": null, "license": null }
+    ]
+  },
+  "daim": {
+    "sheetName": "Daim", "figmaNode": "8:389", "heroNode": "8:434",
+    "type": "Chocolate-coated almond toffee",
+    "hero": { "src": "candies/daim/hero.png", "alt": "Daim bar", "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image", "license": "reference-only" },
+    "model3d": null,
+    "variants": [
+      { "name": "Daim Mint (wrapped)", "src": "candies/daim/variant-mint.png", "figmaNode": "12:106", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" },
+      { "name": "Daim Orange (wrapped)", "src": "candies/daim/variant-orange.png", "figmaNode": "12:110", "credit": "Open Food Facts packshot, CC BY-SA", "license": "open" }
+    ],
+    "_unusedAssets": ["candies/daim/variant-mini-unwrapped.png (\"Daim chocolate.jpg\", Lou911, public domain) - not in Figma"]
+  },
+  "djungelvral": {
+    "sheetName": "Djungelvrål", "figmaNode": "8:452", "heroNode": "8:497",
+    "type": "Salty licorice (salmiak)",
+    "hero": { "src": "candies/djungelvral/hero.png", "alt": "Djungelvrål salty licorice monkey", "credit": "User's own photo", "license": "own" },
+    "model3d": { "src": "3d/djungelvral/index.html", "seed": 13 },
+    "variants": [
+      { "name": "Monkey", "src": "candies/djungelvral/variant-monkey.png", "figmaNode": "12:122", "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)", "license": "open" },
+      { "name": "Lion", "src": "candies/djungelvral/variant-lion.png", "figmaNode": "12:126", "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)", "license": "open" },
+      { "name": "Squirrel", "src": "candies/djungelvral/variant-squirrel.png", "figmaNode": "12:130", "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)", "license": "open" },
+      { "name": "Elephant", "src": "candies/djungelvral/variant-elephant.png", "figmaNode": "12:134", "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)", "license": "open" }
+    ]
+  },
+  "gott-blandat": {
+    "sheetName": "Gott & Blandat", "figmaNode": "8:519", "heroNode": "8:564",
+    "type": "Mixed fruit jelly & licorice",
+    "hero": { "src": "candies/gott-blandat/hero.png", "alt": "Licorice cat from Gott & Blandat", "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+    "model3d": null,
+    "variants": [
+      { "name": "Licorice sailboat (Original mix)", "src": "candies/gott-blandat/variant-licorice-sailboat.png", "figmaNode": "12:142", "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Red fruit fish (Original mix)", "src": "candies/gott-blandat/variant-red-fruit-fish.png", "figmaNode": "12:146", "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Orange fruit disc (Original mix)", "src": "candies/gott-blandat/variant-orange-fruit-disc.png", "figmaNode": "12:150", "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)", "license": "open" },
+      { "name": "Gott & Blandat Salt", "src": null, "figmaNode": "12:154", "credit": null, "license": null },
+      { "name": "Gott & Blandat Sur", "src": null, "figmaNode": "12:158", "credit": null, "license": null }
+    ]
+  },
+  "cola": {
+    "sheetName": "Cola candies", "figmaNode": "17:22", "heroNode": "17:79",
+    "type": "Gummy candy (sour, sugar-coated)",
+    "hero": { "src": "candies/cola/hero.png", "alt": "Sour sugar-coated cola bottle gummy", "credit": "User-supplied photo", "license": "user-supplied" },
+    "model3d": null,
+    "variants": [
+      { "name": "Malaco Colaflaskor", "src": "candies/cola/variant-malaco-colaflaskor.png", "figmaNode": "17:62", "credit": "matsiktet.se / Cloetta product image, copyrighted", "license": "reference-only" },
+      { "name": "Sura Colanappar (sour)", "src": "candies/cola/variant-sura-colanappar.png", "figmaNode": "17:80", "credit": "joselind.se retailer image", "license": "reference-only" },
+      { "name": "S-Märke Fizzy Cola", "src": "candies/cola/variant-smarke-fizzy-cola.png", "figmaNode": "17:84", "credit": "happycandy.se retailer image", "license": "reference-only" },
+      { "name": "BUBS Cool Cola Skalle", "src": "candies/bubs/variant-cool-cola-skalle.png", "figmaNode": "17:88", "credit": "bubs.se product image, copyrighted", "license": "reference-only" },
+      { "name": "Haribo Happy-Cola (German brand, bag)", "src": "candies/cola/variant-haribo-happy-cola-bag.png", "figmaNode": "17:92", "credit": "Haribo packshot, copyrighted", "license": "reference-only" }
+    ]
+  }
+}

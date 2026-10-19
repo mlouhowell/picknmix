@@ -1,0 +1,107 @@
+/* =====================================================================
+   Pick N Mix — design tokens (single source of truth for styling)
+   Extracted 2026-10-18 from Figma file jHQuCz5VUzOveyLVbn5jV9 via MCP.
+   The file defines no Figma variables yet (get_variable_defs = {}), so these
+   are raw values read from the nodes. Reference candy page: Pastellfiskar 8:192
+   (latest: 1px #DADADA inside stroke on Similar Candies image boxes, #77746E
+   captions, "Similar Candies" heading). Landing: 3:679 (CHOSEN by the user;
+   explorations 10:11 / 10:155 / 3:226 are history only).
+   Design canvas: 1400 x 1038. Sizes below are px at that canvas.
+   OPEN = decision still pending in Figma; keep it a token, never inline it.
+   ===================================================================== */
+
+/* Fonts: Funnel Sans + Fraunces from Google Fonts (self-host via @fontsource in the app).
+   OPEN: display font. Intended = Begum (commercial, Indian Type Foundry; needs a webfont
+   licence + files in /public/fonts). Figma uses Fraunces SemiBold (SOFT 0, WONK 1) as stand-in
+   on candy pages; landing title 3:689 is set to "Begum Medium" (renders with a fallback in Figma). Swap by editing --font-display only. */
+
+:root {
+  /* ---------- Color ---------- */
+  --color-brand: #318593;            /* titles, corner ornament (5:2), landing title 3:689 */
+  --color-text: #000000;             /* body, values, section headings */
+  --color-text-muted: #77746e;       /* detail labels 8:225, similar-candy captions 12:61 */
+  --color-surface: #ffffff;          /* page + info panel 8:211 */
+  --color-button-bg: #f2f1f1;        /* close / next buttons 8:212, 8:214 */
+  --color-tile-stroke: #dadada;      /* similar-candy image box stroke 12:59 (new on 8:192) */
+  --color-placeholder-bg: #f2f1f1;   /* image placeholder tiles (being removed in Figma) */
+  /* backdrop over blurred background candies, 8:210 */
+  --backdrop-tint: linear-gradient(rgba(0,0,0,.10), rgba(0,0,0,.10)), linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.60));
+  --backdrop-blur: 21px;
+
+  /* ---------- Type families ---------- */
+  --font-display: "Fraunces Variable", "Fraunces", "Begum", Georgia, serif;    /* OPEN: becomes "Begum", ... ("Fraunces Variable" = self-hosted @fontsource-variable/fraunces) */
+  --font-display-variation: "SOFT" 0, "WONK" 1;            /* Fraunces only; drop with Begum */
+  --font-body: "Funnel Sans", system-ui, sans-serif;
+
+  /* ---------- Type scale ---------- */
+  --type-hero-title-size: 50px;      /* landing "Swedish Candy" 3:689 (Begum Medium), h 48 */
+  --type-hero-title-weight: 500;
+  --type-hero-title-tracking: -0.05em;  /* -2.5px @ 50px */
+  --type-hero-title-leading: normal;
+  --type-eyebrow-size: 14px;         /* "A short history of" 3:690, Funnel Sans Regular, sentence case */
+  --space-eyebrow-title: 24px;       /* eyebrow top 483 -> title top 507 (group 3:1021, centred ~y 519) */
+  /* No landing body paragraph on 3:679 (explorations had a 16/27 lorem block). */
+  --type-candy-title-size: 24px;     /* 8:238 Fraunces SemiBold, centred */
+  --type-candy-title-weight: 600;
+  --type-body-size: 14px;            /* 8:221 */
+  --type-body-leading: 24px;
+  --type-section-size: 15px;         /* "Details" 8:223, "Similar Candies" 8:230: Funnel Sans SemiBold */
+  --type-section-weight: 600;
+  --type-section-leading: 27px;
+  --type-label-size: 15px;           /* 8:225 Medium, muted */
+  --type-label-weight: 500;
+  --type-value-size: 14px;           /* 8:226 Regular */
+  --type-detail-leading: 27px;
+  --type-caption-size: 12px;         /* tile label 12:61: Funnel Sans Regular 12, #77746E */
+  --type-caption-weight: 400;
+
+  /* ---------- Spacing ---------- */
+  --space-panel: 24px;               /* panel inset; buttons at 24/24 */
+  --space-content-top: 96px;         /* content stack starts at y=96 */
+  --space-stack: 12px;               /* gap between title/body/details/heading/grid 8:219 */
+  --space-detail-col: 16px;          /* label->value gap in stacked details 8:224 */
+  --space-tile-gap: 12px;            /* grid gap 8:231 */
+  --space-tile-caption: 6px;         /* image box -> caption */
+  --space-tile-inset: 4px;           /* image 109px sits 4px from the box's OUTER edge (inside stroke) */
+
+  /* ---------- Layout ---------- */
+  --canvas-w: 1400px;  --canvas-h: 1038px;
+  --panel-w: 429px;                  /* info panel 8:211 */
+  --content-w: 375px;                /* 8:219 */
+  --detail-label-w: 130px;  --detail-value-w: 229px;
+  --detail-row-col-w: 110px;         /* BUBS horizontal details row 8:151 (OPEN variant) */
+  --tile-size: 117px;  --tile-img: 109px;
+  --hero-size: 512px;                /* 8:236, centred in the area right of the panel */
+  --landing-title-w: 482px;  --landing-eyebrow-w: 412px;
+  --ornament-size: 310px;            /* landing corners 3:701 TL, 3:941 TR, 3:781 BL, 3:861 BR (flush to edges) */
+
+  /* ---------- Components ---------- */
+  --button-size: 45px;
+  --button-radius: 30px;             /* = full circle */
+  --icon-close: 14px;                /* 8:213 */
+  --icon-arrow-w: 18px;  --icon-arrow-h: 15px;   /* 8:215 */
+  --tile-stroke-width: 1px;          /* INSIDE stroke: use border + box-sizing:border-box (box stays 117x117) */
+  --tile-stroke: var(--tile-stroke-width) solid var(--color-tile-stroke);
+
+  /* ---------- Blurred background candies ---------- */
+  /* Landing 3:679 ("gentle depth of field"): 8 blurred candies (blur 2-7px, opacity .65-.90, rotated)
+     + 1 sharp hero candy 312x315 (3:700). Per-candy layout lives in src/data/landing-layout.ts. */
+  --bg-candy-blur-near: 2px;   --bg-candy-blur-mid: 4px;   --bg-candy-blur-far: 7px;
+  --bg-candy-opacity-near: .90; --bg-candy-opacity-mid: .80; --bg-candy-opacity-far: .65;
+  --landing-hero-size: 312px;        /* sharp hero candy 3:700 at x1014 y402 */
+
+  --hairline: 1px;                   /* utility (visually-hidden clip box) */
+
+  /* ---------- Focus (Phase 9; brand teal is 4.28:1, fine for a 2px ring) ---------- */
+  --focus-ring: 2px solid var(--color-brand);
+  --focus-offset: 2px;
+
+  /* ---------- Motion ---------- */
+  --motion-loop: 22s;                /* candy-kit seamless loop */
+  --ease-out: cubic-bezier(.2,.7,.2,1);
+  --duration-fast: 160ms;  --duration-page: 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0ms; --duration-page: 0ms; }
+}

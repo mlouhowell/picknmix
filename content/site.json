@@ -1,0 +1,27 @@
+{
+  "_readme": "UI strings and landing copy. Edit here, not in components (could become a 'Site' tab in the sheet). Landing 3:679 has only eyebrow + title.",
+  "siteName": "Pick N Mix",
+  "landing": {
+    "eyebrow": "A short history of",
+    "title": "Swedish Candy"
+  },
+  "candyPage": {
+    "detailsHeading": "Details",
+    "labels": {
+      "year": "Date of invention",
+      "type": "Candy type",
+      "maker": "Maker"
+    },
+    "similarHeading": "Similar Candies",
+    "close": "Close, back to all candies",
+    "next": "Next candy",
+    "prev": "Previous candy",
+    "credits": "Image credits",
+    "layout": {
+      "_note": "Reference 8:192: stacked Details block (label 130px | value), no Maker row. BUBS 8:121 tried a 3-column row incl. Maker. Switch here.",
+      "details": "stacked",
+      "showMaker": false,
+      "hidePlaceholderTiles": true
+    }
+  }
+}

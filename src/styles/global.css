@@ -1,0 +1,22 @@
+/* Base styles. Raw values live in tokens.css only. */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  color: var(--color-text);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, picture, svg, canvas { display: block; max-width: 100%; }
+h1, h2, h3, p, dl, dd, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
+.visually-hidden {
+  position: absolute; width: var(--hairline); height: var(--hairline); padding: 0; margin: calc(-1 * var(--hairline));
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

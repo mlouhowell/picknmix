@@ -1,0 +1,28 @@
+---
+// Shared document shell: fonts, tokens, base styles.
+import '@fontsource/funnel-sans/400.css';
+import '@fontsource/funnel-sans/500.css';
+import '@fontsource/funnel-sans/600.css';
+import '@fontsource-variable/fraunces/full.css'; // SOFT + WONK axes (stand-in for Begum, OPEN)
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { site } from '../lib/content';
+
+interface Props { title?: string; description?: string; noindex?: boolean }
+const { title, description, noindex = true } = Astro.props; // noindex until reference-only images are replaced (PLAN §11)
+const fullTitle = title ? `${title} · ${site.siteName}` : site.siteName;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

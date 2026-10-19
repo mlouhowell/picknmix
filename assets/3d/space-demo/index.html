@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Swedish candy – opened bag in a spaceship</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body {
+    /* deep-space backdrop: soft nebula glows + a sprinkle of stars, all CSS */
+    background:
+      radial-gradient(1px 1px at 12% 18%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 27% 72%, #fff7 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 41% 33%, #fffb 50%, transparent 51%),
+      radial-gradient(1px 1px at 58% 84%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 66% 12%, #fff9 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 79% 57%, #fffa 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 26%, #fff7 50%, transparent 51%),
+      radial-gradient(1px 1px at 93% 88%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 61%, #fff6 50%, transparent 51%),
+      radial-gradient(1px 1px at 50% 52%, #fff5 50%, transparent 51%),
+      radial-gradient(60% 50% at 75% 30%, #3a1d4a66, transparent 70%),
+      radial-gradient(50% 60% at 20% 80%, #102c4a88, transparent 70%),
+      #070a14;
+    font-family: system-ui, sans-serif;
+  }
+  /* Each candy is the candy's own index.html embed, with a different ?seed so they tumble independently. */
+  .candy { position: absolute; border: 0; background: transparent; }
+  .c1 { width: 40vmin; height: 40vmin; left: 6%;  top: 14%; }
+  .c2 { width: 36vmin; height: 36vmin; left: 38%; top: 2%;  }
+  .c4 { width: 42vmin; height: 42vmin; left: 30%; top: 46%; }
+  .c3 { width: 38vmin; height: 38vmin; left: 66%; top: 30%; }
+  .label { position: absolute; left: 24px; bottom: 20px; color: #fff8; font-size: 13px; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+  <iframe class="candy c1" src="../polkagris/index.html?seed=3" title="Polkagris" allowtransparency="true"></iframe>
+  <iframe class="candy c2" src="../djungelvral/index.html?seed=13" title="Djungelvrål" allowtransparency="true"></iframe>
+  <iframe class="candy c3" src="../polkagris/index.html?seed=21" title="Polkagris" allowtransparency="true"></iframe>
+  <iframe class="candy c4" src="../djungelvral/index.html?seed=6" title="Djungelvrål" allowtransparency="true"></iframe>
+  <div class="label">SVENSKT GODIS · ZERO-G</div>
+</body>
+</html>

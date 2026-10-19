@@ -1,0 +1,100 @@
+---
+// /dev/tokens: every token in src/styles/tokens.css, rendered live from the CSS variables, for Figma sync checks.
+// Parsed from the file at build time, so a new token shows up here with no code change.
+import { readFileSync } from 'node:fs';
+import Base from '../../layouts/Base.astro';
+
+type Token = { name: string; value: string; note: string };
+const css = readFileSync('src/styles/tokens.css', 'utf8');
+const rootBlock = css.slice(css.indexOf(':root'), css.indexOf('@media'));
+const tokens: Token[] = [];
+for (const m of rootBlock.matchAll(/(--[\w-]+)\s*:\s*([^;]+);[ \t]*(?:\/\*\s*(.*?)\s*\*\/)?/g)) {
+  tokens.push({ name: m[1]!, value: m[2]!.trim(), note: m[3] ?? '' });
+}
+const by = (re: RegExp) => tokens.filter((t) => re.test(t.name));
+const colours = by(/^--color-/);
+const typeSizes = by(/^--type-.*-size$/);
+const spacing = by(/^--space-/);
+const sizes = tokens.filter((t) => /^--(panel|content|detail|tile-size|tile-img|hero|landing|ornament|button-size|icon)/.test(t.name));
+const rest = tokens.filter((t) => ![colours, typeSizes, spacing, sizes].some((g) => g.includes(t)));
+const styleFor = (sizeToken: string) => {
+  const stem = sizeToken.replace(/-size$/, '');
+  const has = (s: string) => tokens.some((t) => t.name === stem + s);
+  const family = /hero-title|candy-title/.test(stem) ? 'var(--font-display)' : 'var(--font-body)';
+  return [
+    `font-family:${family}`,
+    `font-size:var(${sizeToken})`,
+    has('-weight') ? `font-weight:var(${stem}-weight)` : '',
+    has('-tracking') ? `letter-spacing:var(${stem}-tracking)` : '',
+    has('-leading') ? `line-height:var(${stem}-leading)` : '',
+    family.includes('display') ? 'font-variation-settings:var(--font-display-variation);color:var(--color-brand)' : '',
+  ].filter(Boolean).join(';');
+};
+---
+<Base title="Tokens">
+  <main class="dev" data-figma="tokens">
+    <h1>tokens.css</h1>
+    <p class="note">{tokens.length} tokens, parsed from <code>src/styles/tokens.css</code>. Values render through the live CSS variables.</p>
+
+    <h2>Colour</h2>
+    <ul class="swatches">
+      {colours.map((t) => (
+        <li>
+          <span class="swatch" style={`background:var(${t.name})`}></span>
+          <code>{t.name}</code><span class="val">{t.value}</span><span class="note">{t.note}</span>
+        </li>
+      ))}
+      <li>
+        <span class="swatch backdrop"></span>
+        <code>--backdrop-tint + --backdrop-blur</code><span class="note">8:210 over a candy</span>
+      </li>
+    </ul>
+
+    <h2>Type</h2>
+    <ul class="type">
+      {typeSizes.map((t) => (
+        <li>
+          <span class="specimen" style={styleFor(t.name)}>Pastellfiskar Similar Candies 1859</span>
+          <code>{t.name.replace(/-size$/, '-*')}</code><span class="val">{t.value}</span><span class="note">{t.note}</span>
+        </li>
+      ))}
+    </ul>
+
+    <h2>Spacing</h2>
+    <ul class="bars">
+      {spacing.map((t) => (
+        <li><span class="bar" style={`width:var(${t.name})`}></span><code>{t.name}</code><span class="val">{t.value}</span><span class="note">{t.note}</span></li>
+      ))}
+    </ul>
+
+    <h2>Sizes</h2>
+    <ul class="bars">
+      {sizes.map((t) => (
+        <li><span class="bar" style={`width:var(${t.name})`}></span><code>{t.name}</code><span class="val">{t.value}</span><span class="note">{t.note}</span></li>
+      ))}
+    </ul>
+
+    <h2>Other</h2>
+    <ul class="list">
+      {rest.map((t) => <li><code>{t.name}</code><span class="val">{t.value}</span><span class="note">{t.note}</span></li>)}
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .dev { padding: var(--space-panel); display: grid; gap: var(--space-stack); max-width: var(--canvas-w); }
+  h1 { font-family: var(--font-display); font-variation-settings: var(--font-display-variation); color: var(--color-brand); font-size: var(--type-candy-title-size); }
+  h2 { font-size: var(--type-section-size); font-weight: var(--type-section-weight); margin-top: var(--space-panel); }
+  .specimen { white-space: nowrap; }
+  .note { color: var(--color-text-muted); font-size: var(--type-caption-size); }
+  .val { font-size: var(--type-caption-size); }
+  ul { display: grid; gap: var(--space-tile-caption); }
+  li { display: grid; grid-template-columns: var(--tile-size) var(--detail-value-w) var(--detail-label-w) 1fr; gap: var(--space-detail-col); align-items: center; }
+  .type li { grid-template-columns: var(--content-w) var(--detail-value-w) var(--detail-label-w) 1fr; }
+  .list li { grid-template-columns: var(--detail-value-w) var(--content-w) 1fr; }
+  .swatch { height: var(--button-size); border: var(--tile-stroke); }
+  .swatch.backdrop { background: var(--backdrop-tint); backdrop-filter: blur(var(--backdrop-blur)); }
+  .bar { height: var(--space-stack); background: var(--color-brand); max-width: 100%; }
+  .bars li { grid-template-columns: var(--content-w) var(--detail-value-w) var(--detail-label-w) 1fr; }
+  code { font-size: var(--type-caption-size); }
+</style>
