@@ -10,6 +10,7 @@ function teardown() {
   document.removeEventListener('visibilitychange', current.onVis);
   current.api?.dispose();
   current = null;
+  delete (window as unknown as { candy?: unknown }).candy; // never leave a disposed API behind
 }
 
 function init() {

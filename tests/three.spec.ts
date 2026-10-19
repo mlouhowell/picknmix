@@ -74,7 +74,8 @@ test('3D is torn down when navigating away (no leaked WebGL contexts)', async ({
   await ready(page);
   await page.locator('[data-nav="next"]').click();
   await page.waitForURL(/candy\//);
+  await page.waitForFunction(() => !(window as unknown as Partial<W>).candy); // old API cleared on teardown
   await page.locator('[data-nav="prev"]').evaluate((a: HTMLAnchorElement) => a.click());
   await ready(page);
-  expect(await page.locator('canvas').count()).toBe(1);
+  await expect(page.locator('canvas')).toHaveCount(1);
 });
