@@ -12,10 +12,10 @@ test('landing 3:679: copy, centred title, flush ornaments, slots driven by data'
   expect(Math.abs(g.x + g.width / 2 - vp.width / 2)).toBeLessThan(2);
   expect(Math.abs(g.y + g.height / 2 - (vp.height * layout.title.centerYPct) / 100)).toBeLessThan(4);
 
-  // ornaments: 310 canvas px, flush to the four corners
-  for (const [id, x, y] of [['3:701', 0, 0], ['3:941', 1090, 0], ['3:781', 0, 728], ['3:861', 1090, 728]] as const) {
+  // ornaments: Figma vector 3:781 (306.8 x 310), rotated per corner, flush to the four corners
+  for (const [id, x, y, w, h] of [['3:701', 0, 0, 310, 307], ['3:941', 1093, 0, 307, 310], ['3:781', 0, 728, 307, 310], ['3:861', 1090, 731, 310, 307]] as const) {
     const b = (await page.locator(`[data-figma="${id}"]`).boundingBox())!;
-    expect([Math.round(b.x), Math.round(b.y), Math.round(b.width)]).toEqual([x, y, 310]);
+    expect([b.x, b.y, b.width, b.height].map(Math.round)).toEqual([x, y, w, h]);
   }
 
   // every slot with an image renders with its blur / opacity / rotation from landing-layout.json
@@ -27,6 +27,8 @@ test('landing 3:679: copy, centred title, flush ornaments, slots driven by data'
     expect(Number(st.opacity)).toBeCloseTo(s.opacity, 2);
     expect(st.rotate).toBe(`${s.rotateDeg}deg`);
   }
+  // the sharp hero renders too (no blur)
+  await expect(page.locator(`.slot.sharp[data-figma="${layout.sharpHero.figmaNode}"] img`)).toBeVisible();
   // decorative art is hidden from assistive tech
   await expect(page.locator('.slots')).toHaveAttribute('aria-hidden', 'true');
   await expect(page.locator('.ornaments')).toHaveAttribute('aria-hidden', 'true');
@@ -36,5 +38,22 @@ test('landing scales with the viewport (min(100vw/1400, 100vh/1038))', async ({ 
   await page.setViewportSize({ width: 700, height: 1038 });
   await page.goto('/');
   const b = (await page.locator('[data-figma="3:701"]').boundingBox())!;
-  expect(Math.round(b.width)).toBe(155);
+  expect(Math.round(b.width)).toBe(155); // TL ornament: 310 canvas px wide at half scale
+});
+
+test('landing candies spin slowly and drift nearer/farther; still under reduced motion', async ({ page }) => {
+  await page.goto('/');
+  const pose = () => page.locator('.slot').first().evaluate((el) => {
+    const d = getComputedStyle(el.querySelector('.depth')!), s = getComputedStyle(el.querySelector('.spin')!);
+    return `${d.scale}|${s.rotate}`;
+  });
+  const a = await pose(); await page.waitForTimeout(500);
+  expect(await pose()).not.toBe(a);
+  expect(await page.locator('.spin').first().evaluate((el) => getComputedStyle(el).animationDuration))
+    .not.toBe('0s');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  const r = await page.locator('.spin').first().evaluate((el) => getComputedStyle(el).animationName);
+  expect(r).toBe('none');
 });

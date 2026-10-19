@@ -81,7 +81,8 @@
   --hero-size: 512px;                /* 8:236, centred in the area right of the panel */
   --landing-title-w: 482px;  --landing-eyebrow-w: 412px;
   --ornament-size: 310px;
-  --ornament-size-canvas: 310;       /* same, in canvas units: landing scales it with the stage (x --canvas-unit) */            /* landing corners 3:701 TL, 3:941 TR, 3:781 BL, 3:861 BR (flush to edges) */
+  --ornament-w-canvas: 306.801;      /* 3:781 vector, unrotated (canvas units; landing scales it x --canvas-unit) */
+  --ornament-h-canvas: 310;          /* corners 3:701 TL rot 90, 3:941 TR rot 180, 3:781 BL, 3:861 BR rot -90 (flush to edges) */
 
   /* ---------- Components ---------- */
   --button-size: 45px;

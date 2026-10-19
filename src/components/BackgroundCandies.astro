@@ -1,8 +1,10 @@
 ---
 // Blurred candy collage (landing 3:679 slots from content/landing-layout.json). Positioned in % of a
 // canvas-ratio stage. fit="contain" = landing (stage fits the viewport), "cover" = behind candy pages.
-// Slots without a src (cherry, pink foam, sharp hero: OPEN) are skipped. Children render inside the stage
-// (landing title), positioned in the same canvas %.
+// Slots without a src are skipped. Children render inside the stage (landing title), positioned in the same canvas %.
+// Motion (landing.motion): each candy spins slowly in place and drifts nearer/farther (scale). Durations are
+// staggered per slot and directions alternate so the collage never moves in lockstep; at t=0 every slot sits
+// exactly at its Figma pose. Off under prefers-reduced-motion.
 import Picture from './Picture.astro';
 import { landing } from '../lib/content';
 import { hasImg } from '../lib/img';
@@ -12,14 +14,23 @@ const slots = [
   ...landing.blurredCandies.map((s) => ({ ...s, sharp: false })),
   ...(includeHero ? [{ ...landing.sharpHero, blurPx: 0, opacity: 1, sharp: true }] : []),
 ].filter((s) => hasImg(s.src));
+const m = landing.motion;
+const frac = (i: number, k: number) => (i * k) % 1; // deterministic per-slot variation
+const motionVars = (s: (typeof slots)[number], i: number) =>
+  `--spin:${s.spinSeconds ?? +(m.spinSeconds * (0.75 + frac(i, 0.37) / 2)).toFixed(2)}s;` +
+  `--dir:${i % 2 ? -1 : 1};` +
+  `--depth:${s.depthSeconds ?? +(m.depthSeconds * (0.8 + frac(i, 0.29) * 0.4)).toFixed(2)}s;` +
+  `--near:${m.scaleNear};--far:${m.scaleFar}`;
 const px = (pct: number, of: number) => Math.round((pct / 100) * of);
 ---
 <div class:list={['stage', fit]} data-figma="3:679" transition:persist={fit === 'cover' ? 'candy-background' : undefined}>
   <div class="slots" aria-hidden="true">
-  {slots.map((s) => (
+  {slots.map((s, i) => (
     <div class:list={['slot', { sharp: s.sharp }]} data-figma={s.figmaNode}
-      style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity}`}>
-      <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
+      style={`--l:${s.leftPct}%;--t:${s.topPct}%;--w:${s.widthPct}%;--h:${s.heightPct}%;--r:${s.rotateDeg}deg;--blur:${s.blurPx};--o:${s.opacity};${motionVars(s, i)}`}>
+      <div class="depth"><div class="spin">
+        <Picture src={s.src!} alt="" displayWidth={px(s.widthPct, landing.canvas.w)} />
+      </div></div>
     </div>
   ))}
   </div>
@@ -42,5 +53,14 @@ const px = (pct: number, of: number) => Math.round((pct / 100) * of);
     filter: blur(calc(var(--blur) * 100cqw / var(--canvas-w-unitless)));
   }
   .slot.sharp { filter: none; }
-  .slot :global(picture), .slot :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+  .depth, .spin { inline-size: 100%; block-size: 100%; }
+  .slot :global(picture), .slot :global(img) { display: block; inline-size: 100%; block-size: 100%; object-fit: contain; }
+  @media (prefers-reduced-motion: no-preference) {
+    .spin { animation: candy-spin var(--spin) linear infinite; }
+    .depth { animation: candy-depth var(--depth) ease-in-out infinite; }
+    .slot:nth-child(even) .depth { animation-direction: reverse; } /* half drift away first */
+  }
+  @keyframes candy-spin { from { rotate: 0turn; } to { rotate: calc(var(--dir) * 1turn); } }
+  /* starts and ends at the Figma size; nearer (bigger) then farther (smaller) */
+  @keyframes candy-depth { 0%, 100% { scale: 1; } 25% { scale: var(--near); } 75% { scale: var(--far); } }
 </style>

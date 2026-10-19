@@ -74,6 +74,9 @@ const slot = z.object({
   widthPct: pct,
   heightPct: pct,
   rotateDeg: z.number(),
+  // optional per-slot motion overrides (defaults in landing.motion)
+  spinSeconds: z.number().positive().optional(),
+  depthSeconds: z.number().positive().optional(),
 });
 
 export const LandingLayoutSchema = z.object({
@@ -81,6 +84,13 @@ export const LandingLayoutSchema = z.object({
   title: z.object({ figmaNode: figmaId, centerYPct: pct }),
   sharpHero: slot.extend({ linksTo: z.string().nullable() }),
   blurredCandies: z.array(slot.extend({ blurPx: z.number().min(0), opacity: z.number().min(0).max(1) })),
+  // slow spin + drift nearer/farther (scale); off under prefers-reduced-motion
+  motion: z.object({
+    spinSeconds: z.number().positive(),
+    depthSeconds: z.number().positive(),
+    scaleNear: z.number().positive(),
+    scaleFar: z.number().positive(),
+  }),
 });
 
 export type Candy = z.infer<typeof CandySchema>;

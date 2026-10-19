@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// assets/candies/**/*.png -> public/img/<same path>-<w>.{webp,png} at 256/512/1024 (never upscaled)
+// assets/candies/**/*.png + assets/landing/*.png (not landing/figma/, the raw Figma exports) -> public/img/<same path>-<w>.{webp,png} at 256/512/1024 (never upscaled)
 // + public/img/index.json (dimensions + widths per logical src) consumed by src/lib/img.ts.
 // Incremental: skips outputs newer than their source. PUBLIC_RELEASE=true skips reference-only files.
 import sharp from 'sharp';
@@ -24,7 +24,7 @@ const mtime = async (p) => (await stat(p).catch(() => null))?.mtimeMs ?? 0;
 
 const index = {};
 let made = 0, skipped = 0;
-for (const file of await walk(`${SRC}/candies`)) {
+for (const file of [...(await walk(`${SRC}/candies`)), ...(await walk(`${SRC}/landing`)).filter((f) => !f.includes('/figma/'))]) {
   const logical = relative(SRC, file);
   const license = licenseOf[logical] ?? null;
   if (PUBLIC && license === 'reference-only') { skipped++; continue; }

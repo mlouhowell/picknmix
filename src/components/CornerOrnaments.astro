@@ -1,11 +1,12 @@
 ---
 // figma 5:2 Corner Ornament; landing corners 3:701 TL, 3:941 TR, 3:781 BL, 3:861 BR (flush to the edges).
-// One SVG file (OPEN: still being refined), inlined so it takes --color-brand via currentColor, flipped per corner.
-// Swap the art by replacing assets/ornament/corner-ornament-traced.svg.
+// Figma's vector (3:781, exported read-only) is drawn for the bottom-left corner; the other corners ROTATE it
+// (not mirror), exactly as 3:679 does. Inlined so it takes --color-brand via currentColor.
+// Swap the art by replacing assets/ornament/corner-ornament-3-781.svg.
 import { readFileSync } from 'node:fs';
-const svg = readFileSync('assets/ornament/corner-ornament-traced.svg', 'utf8')
+const svg = readFileSync('assets/ornament/corner-ornament-3-781.svg', 'utf8')
   .replace(/fill="#[0-9a-fA-F]{3,8}"/g, 'fill="currentColor"')
-  .replace(/\s(width|height)="[^"]*"/g, '')
+  .replace(/\s(width|height|style|preserveAspectRatio|overflow)="[^"]*"/g, '')
   .replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 const corners = [
   { pos: 'tl', figma: '3:701' },
@@ -21,13 +22,17 @@ const corners = [
 <style>
   .ornaments { position: fixed; inset: 0; pointer-events: none; color: var(--color-brand); }
   .corner {
-    position: absolute;
-    inline-size: calc(var(--ornament-size-canvas) * var(--canvas-unit));
-    aspect-ratio: 1;
+    --ow: calc(var(--ornament-w-canvas) * var(--canvas-unit));
+    --oh: calc(var(--ornament-h-canvas) * var(--canvas-unit));
+    position: absolute; inline-size: var(--ow); block-size: var(--oh);
   }
-  .corner :global(svg) { inline-size: 100%; block-size: 100%; }
-  .tl { top: 0; left: 0; }
-  .tr { top: 0; right: 0; scale: -1 1; }
-  .bl { bottom: 0; left: 0; scale: 1 -1; }
-  .br { bottom: 0; right: 0; scale: -1 -1; }
+  /* the svg keeps its own (unrotated) box and turns inside the corner's bounding box */
+  .corner :global(svg) {
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+    inline-size: var(--ow); block-size: var(--oh); rotate: var(--rot, 0deg); }
+  .tl, .br { inline-size: var(--oh); block-size: var(--ow); }
+  .tl { top: 0; left: 0; --rot: 90deg; }
+  .tr { top: 0; right: 0; --rot: 180deg; }
+  .bl { bottom: 0; left: 0; }
+  .br { bottom: 0; right: 0; --rot: -90deg; }
 </style>

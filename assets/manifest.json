@@ -1,683 +1,846 @@
 {
- "_readme": "Inventory of assets/ copied 2026-10-18 from the box workspace. license: open (CC/PD: credit required; CC BY-SA cutouts are derivatives -> share-alike), own, user-supplied (confirm rights), reference-only (retailer/brand images: do NOT ship publicly without permission; replace before launch).",
- "sources": {
-  "candies/": "/workspace/candy-cutouts/<slug>/",
-  "3d/polkagris": "/workspace/polkagris-3d/index.html",
-  "3d/djungelvral": "/workspace/djungelvral-3d/index.html",
-  "3d/candy-kit": "/workspace/candy-kit/",
-  "3d/space-demo": "/workspace/space-demo/index.html (iframe paths rewritten to ../polkagris, ../djungelvral)",
-  "ornament/": "/workspace/corner-ornament/"
- },
- "counts": {
-  "open": 20,
-  "own": 11,
-  "user-supplied": 3,
-  "reference-only": 15
- },
- "files": [
-  {
-   "path": "candies/credits.md",
-   "bytes": 3405,
-   "sha256": "751404c9cf25"
+  "_readme": "Inventory of assets/ copied 2026-10-18 from the box workspace. license: open (CC/PD: credit required; CC BY-SA cutouts are derivatives -> share-alike), own, user-supplied (confirm rights), reference-only (retailer/brand images: do NOT ship publicly without permission; replace before launch).",
+  "sources": {
+    "candies/": "/workspace/candy-cutouts/<slug>/",
+    "3d/polkagris": "/workspace/polkagris-3d/index.html",
+    "3d/djungelvral": "/workspace/djungelvral-3d/index.html",
+    "3d/candy-kit": "/workspace/candy-kit/",
+    "3d/space-demo": "/workspace/space-demo/index.html (iframe paths rewritten to ../polkagris, ../djungelvral)",
+    "ornament/": "/workspace/corner-ornament/"
   },
-  {
-   "path": "candies/ahlgrens-bilar/hero.png",
-   "bytes": 197607,
-   "sha256": "3871922e4163",
-   "size": [
-    599,
-    396
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "hero of ahlgrens-bilar",
-   "figmaNode": "8:367"
+  "counts": {
+    "open": 20,
+    "user-supplied": 3,
+    "reference-only": 28,
+    "own": 17,
+    "own (traced from 1890s plate, public domain source)": 3
   },
-  {
-   "path": "candies/ahlgrens-bilar/variant-saltlakrits.png",
-   "bytes": 189025,
-   "sha256": "949fb3b9ae56",
-   "size": [
-    447,
-    228
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Cloetta Ahlgrens bilar - Saltlakrits-9009.jpg\", Raimond Spekking, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on ahlgrens-bilar: Saltlakrits (salty licorice)",
-   "figmaNode": "12:98"
-  },
-  {
-   "path": "candies/ahlgrens-bilar/variant-white-car.png",
-   "bytes": 172351,
-   "sha256": "e7a826448a28",
-   "size": [
-    477,
-    352
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on ahlgrens-bilar: White car",
-   "figmaNode": "12:90"
-  },
-  {
-   "path": "candies/bubs/hero.png",
-   "bytes": 202726,
-   "sha256": "793df72b4688",
-   "size": [
-    352,
-    430
-   ],
-   "mode": "RGBA",
-   "license": "user-supplied",
-   "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)",
-   "usedFor": "hero of bubs",
-   "figmaNode": "8:166"
-  },
-  {
-   "path": "candies/bubs/variant-banana-toffee-ovals.png",
-   "bytes": 373127,
-   "sha256": "d1234d96ddc5",
-   "size": [
-    642,
-    477
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Banana Toffee Ovals",
-   "figmaNode": "12:50"
-  },
-  {
-   "path": "candies/bubs/variant-bubblegum-skalle.png",
-   "bytes": 630404,
-   "sha256": "e4c5185472b2",
-   "size": [
-    656,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image (same candy as current hero)",
-   "usedFor": "unused"
-  },
-  {
-   "path": "candies/bubs/variant-cool-cola-skalle.png",
-   "bytes": 824509,
-   "sha256": "60d19ec697ef",
-   "size": [
-    656,
-    799
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Cool Cola Skalle",
-   "figmaNode": "12:38"
-  },
-  {
-   "path": "candies/bubs/variant-lemon-raspberry-skalle.png",
-   "bytes": 836397,
-   "sha256": "25fb9d556390",
-   "size": [
-    652,
-    792
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Lemon Raspberry Skalle",
-   "figmaNode": "12:34"
-  },
-  {
-   "path": "candies/bubs/variant-raspberry-salty-licorice-skalle.png",
-   "bytes": 629830,
-   "sha256": "ebb6b8333a58",
-   "size": [
-    644,
-    785
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Raspberry Salty Licorice Skalle",
-   "figmaNode": "12:42"
-  },
-  {
-   "path": "candies/bubs/variant-raspberry-salty-licorice-skum.png",
-   "bytes": 547030,
-   "sha256": "0f486e7adf58",
-   "size": [
-    655,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Raspberry Salty Licorice Skalle (foam)",
-   "figmaNode": "12:46"
-  },
-  {
-   "path": "candies/bubs/variant-tutti-frutti-diamond.png",
-   "bytes": 344482,
-   "sha256": "3c25cd9acaf4",
-   "size": [
-    641,
-    462
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "bubs.se product image, copyrighted",
-   "usedFor": "similar candy on bubs: Tutti Frutti Diamond",
-   "figmaNode": "12:54"
-  },
-  {
-   "path": "candies/cola/hero.png",
-   "bytes": 343830,
-   "sha256": "06319f6c7c44",
-   "size": [
-    639,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "user-supplied",
-   "credit": "User-supplied photo",
-   "usedFor": "hero of cola",
-   "figmaNode": "17:79"
-  },
-  {
-   "path": "candies/cola/variant-haribo-happy-cola-bag.png",
-   "bytes": 493494,
-   "sha256": "f06538bd863b",
-   "size": [
-    614,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "Haribo packshot, copyrighted",
-   "usedFor": "similar candy on cola: Haribo Happy-Cola (German brand, bag)",
-   "figmaNode": "17:92"
-  },
-  {
-   "path": "candies/cola/variant-malaco-colaflaskor.png",
-   "bytes": 97004,
-   "sha256": "bef55028ab4a",
-   "size": [
-    195,
-    475
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "matsiktet.se / Cloetta product image, copyrighted",
-   "usedFor": "similar candy on cola: Malaco Colaflaskor",
-   "figmaNode": "17:62"
-  },
-  {
-   "path": "candies/cola/variant-smarke-fizzy-cola.png",
-   "bytes": 88373,
-   "sha256": "18408d1654c9",
-   "size": [
-    253,
-    204
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "happycandy.se retailer image",
-   "usedFor": "similar candy on cola: S-Märke Fizzy Cola",
-   "figmaNode": "17:84"
-  },
-  {
-   "path": "candies/cola/variant-sura-colanappar.png",
-   "bytes": 206816,
-   "sha256": "1bc5d381b557",
-   "size": [
-    407,
-    535
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "joselind.se retailer image",
-   "usedFor": "similar candy on cola: Sura Colanappar (sour)",
-   "figmaNode": "17:80"
-  },
-  {
-   "path": "candies/daim/hero.png",
-   "bytes": 313714,
-   "sha256": "f4ba30cb9015",
-   "size": [
-    800,
-    335
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image",
-   "usedFor": "hero of daim",
-   "figmaNode": "8:434"
-  },
-  {
-   "path": "candies/daim/variant-mini-unwrapped.png",
-   "bytes": 36810,
-   "sha256": "f86bd5ef2b48",
-   "size": [
-    169,
-    183
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Daim chocolate.jpg\", Lou911, public domain (not used in Figma)",
-   "usedFor": "unused"
-  },
-  {
-   "path": "candies/daim/variant-mint.png",
-   "bytes": 78062,
-   "sha256": "5ec280082ffd",
-   "size": [
-    434,
-    118
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "Open Food Facts packshot, CC BY-SA",
-   "usedFor": "similar candy on daim: Daim Mint (wrapped)",
-   "figmaNode": "12:106"
-  },
-  {
-   "path": "candies/daim/variant-orange.png",
-   "bytes": 69629,
-   "sha256": "7d6ed1567aec",
-   "size": [
-    434,
-    118
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "Open Food Facts packshot, CC BY-SA",
-   "usedFor": "similar candy on daim: Daim Orange (wrapped)",
-   "figmaNode": "12:110"
-  },
-  {
-   "path": "candies/djungelvral/hero.png",
-   "bytes": 246231,
-   "sha256": "9a01347d49dd",
-   "size": [
-    507,
-    463
-   ],
-   "mode": "RGBA",
-   "license": "own",
-   "credit": "User's own photo",
-   "usedFor": "hero of djungelvral",
-   "figmaNode": "8:497"
-  },
-  {
-   "path": "candies/djungelvral/variant-elephant.png",
-   "bytes": 429046,
-   "sha256": "5dab929e7110",
-   "size": [
-    549,
-    449
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
-   "usedFor": "similar candy on djungelvral: Elephant",
-   "figmaNode": "12:134"
-  },
-  {
-   "path": "candies/djungelvral/variant-lion.png",
-   "bytes": 377467,
-   "sha256": "c055fbba198e",
-   "size": [
-    542,
-    448
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
-   "usedFor": "similar candy on djungelvral: Lion",
-   "figmaNode": "12:126"
-  },
-  {
-   "path": "candies/djungelvral/variant-monkey.png",
-   "bytes": 408659,
-   "sha256": "b5f263a0e747",
-   "size": [
-    496,
-    598
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
-   "usedFor": "similar candy on djungelvral: Monkey",
-   "figmaNode": "12:122"
-  },
-  {
-   "path": "candies/djungelvral/variant-squirrel.png",
-   "bytes": 427207,
-   "sha256": "0ac80e766be8",
-   "size": [
-    521,
-    507
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
-   "usedFor": "similar candy on djungelvral: Squirrel",
-   "figmaNode": "12:130"
-  },
-  {
-   "path": "candies/gott-blandat/hero.png",
-   "bytes": 361347,
-   "sha256": "10da8141198c",
-   "size": [
-    537,
-    737
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "hero of gott-blandat",
-   "figmaNode": "8:564"
-  },
-  {
-   "path": "candies/gott-blandat/variant-licorice-sailboat.png",
-   "bytes": 234500,
-   "sha256": "4fe373f1459b",
-   "size": [
-    573,
-    745
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on gott-blandat: Licorice sailboat (Original mix)",
-   "figmaNode": "12:142"
-  },
-  {
-   "path": "candies/gott-blandat/variant-orange-fruit-disc.png",
-   "bytes": 214154,
-   "sha256": "28b4c28ad242",
-   "size": [
-    464,
-    457
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on gott-blandat: Orange fruit disc (Original mix)",
-   "figmaNode": "12:150"
-  },
-  {
-   "path": "candies/gott-blandat/variant-red-fruit-fish.png",
-   "bytes": 339128,
-   "sha256": "3906c825d85d",
-   "size": [
-    800,
-    429
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on gott-blandat: Red fruit fish (Original mix)",
-   "figmaNode": "12:146"
-  },
-  {
-   "path": "candies/kexchoklad/hero.png",
-   "bytes": 372999,
-   "sha256": "d6047cfd3747",
-   "size": [
-    800,
-    365
-   ],
-   "mode": "RGBA",
-   "license": "user-supplied",
-   "credit": "User-supplied packet photo (wrapper design by Cloetta)",
-   "usedFor": "hero of kexchoklad",
-   "figmaNode": "8:308"
-  },
-  {
-   "path": "candies/kexchoklad/variant-jatte.png",
-   "bytes": 92596,
-   "sha256": "c80b97c4eb54",
-   "size": [
-    435,
-    169
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "Open Food Facts packshot, CC BY-SA",
-   "usedFor": "similar candy on kexchoklad: Kexchoklad Jätte (wrapped)",
-   "figmaNode": "12:86"
-  },
-  {
-   "path": "candies/kexchoklad/variant-mini.png",
-   "bytes": 62529,
-   "sha256": "f45bda378c43",
-   "size": [
-    133,
-    276
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "Open Food Facts packshot, CC BY-SA",
-   "usedFor": "similar candy on kexchoklad: Kexchoklad Mini (wrapped)",
-   "figmaNode": "12:82"
-  },
-  {
-   "path": "candies/kexchoklad/variant-vegan.png",
-   "bytes": 115182,
-   "sha256": "b2b1c080f0ea",
-   "size": [
-    414,
-    170
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "Open Food Facts packshot, CC BY-SA",
-   "usedFor": "similar candy on kexchoklad: Kexchoklad Vegan (wrapped)",
-   "figmaNode": "12:78"
-  },
-  {
-   "path": "candies/pastellfiskar/hero.png",
-   "bytes": 283583,
-   "sha256": "72d6f33d2f06",
-   "size": [
-    753,
-    313
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "Malaco shop product photo (kalaskungen), copyrighted",
-   "usedFor": "hero of pastellfiskar",
-   "figmaNode": "8:237"
-  },
-  {
-   "path": "candies/pastellfiskar/variant-red-fish-us.png",
-   "bytes": 117479,
-   "sha256": "53496568832c",
-   "size": [
-    459,
-    206
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on pastellfiskar: Red fish (US Swedish Fish)",
-   "figmaNode": "12:62"
-  },
-  {
-   "path": "candies/pastellfiskar/variant-salt-sill.png",
-   "bytes": 266292,
-   "sha256": "62dc37f18139",
-   "size": [
-    800,
-    315
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Salt.sill.jpeg\", Bishonen, public domain (Wikimedia Commons)",
-   "usedFor": "similar candy on pastellfiskar: Salt sill (licorice fish)",
-   "figmaNode": "12:70"
-  },
-  {
-   "path": "candies/pastellfiskar/variant-yellow-fish.png",
-   "bytes": 210807,
-   "sha256": "e1d283aaa095",
-   "size": [
-    616,
-    284
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "Malaco shop product photo (kalaskungen), copyrighted",
-   "usedFor": "similar candy on pastellfiskar: Yellow fish",
-   "figmaNode": "12:58"
-  },
-  {
-   "path": "candies/polkagris/hero-3d.png",
-   "bytes": 310124,
-   "sha256": "216eebceeb72",
-   "size": [
-    619,
-    688
-   ],
-   "mode": "RGBA",
-   "license": "own",
-   "credit": "Own 3D render (polkagris-3d)",
-   "usedFor": "hero of polkagris",
-   "figmaNode": "8:103"
-  },
-  {
-   "path": "candies/polkagris/hero.png",
-   "bytes": 136832,
-   "sha256": "69e6a1b5cdb7",
-   "size": [
-    588,
-    528
-   ],
-   "mode": "RGBA",
-   "license": "reference-only",
-   "credit": "Ingebretsen's shop photo (superseded by hero-3d.png)",
-   "usedFor": "unused"
-  },
-  {
-   "path": "candies/polkagris/variant-pieces.png",
-   "bytes": 64233,
-   "sha256": "f6b515052842",
-   "size": [
-    284,
-    252
-   ],
-   "mode": "RGBA",
-   "license": "open",
-   "credit": "\"Polkagris candy from Ruotsinpyhtää\", JIP, CC BY-SA 4.0 (Wikimedia Commons)",
-   "usedFor": "similar candy on polkagris: Polkagris pieces (bite-size)",
-   "figmaNode": "12:26"
-  },
-  {
-   "path": "3d/polkagris/index.html",
-   "bytes": 22281,
-   "sha256": "2a5e837e6e94",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/polkagris/preview.png",
-   "bytes": 319888,
-   "sha256": "6de590eb57ae",
-   "size": [
-    800,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/djungelvral/index.html",
-   "bytes": 26199,
-   "sha256": "d447bd9f98f4",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/djungelvral/preview.png",
-   "bytes": 338532,
-   "sha256": "e078ca26ffcd",
-   "size": [
-    800,
-    800
-   ],
-   "mode": "RGBA",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/candy-kit/build.py",
-   "bytes": 626,
-   "sha256": "9222da1497a2",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/candy-kit/candy-kit.js",
-   "bytes": 8533,
-   "sha256": "837b57421b43",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/candy-kit/capture.py",
-   "bytes": 3472,
-   "sha256": "3b8a85f58f58",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/candy-kit/pose.py",
-   "bytes": 1194,
-   "sha256": "ff256f721781",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "3d/space-demo/index.html",
-   "bytes": 2396,
-   "sha256": "b3d5053ec3e3",
-   "license": "own",
-   "usedFor": "Three.js candy / shared kit"
-  },
-  {
-   "path": "ornament/corner-ornament-traced.svg",
-   "bytes": 34641,
-   "sha256": "9946a7521150",
-   "license": "own (traced from 1890s plate, public domain source)",
-   "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
-   "figmaNode": "5:2"
-  },
-  {
-   "path": "ornament/corner-ornament.svg",
-   "bytes": 18627,
-   "sha256": "46f283a7b538",
-   "license": "own (traced from 1890s plate, public domain source)",
-   "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
-   "figmaNode": "5:2"
-  },
-  {
-   "path": "ornament/figma-screenshot-v2.png",
-   "bytes": 38392,
-   "sha256": "ee301fc5b648",
-   "size": [
-    600,
-    400
-   ],
-   "mode": "RGBA",
-   "license": "own (traced from 1890s plate, public domain source)",
-   "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
-   "figmaNode": "5:2"
-  }
- ]
+  "files": [
+    {
+      "path": "candies/credits.md",
+      "bytes": 3405,
+      "sha256": "751404c9cf25"
+    },
+    {
+      "path": "candies/ahlgrens-bilar/hero.png",
+      "bytes": 197607,
+      "sha256": "3871922e4163",
+      "size": [
+        599,
+        396
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Ahlgrens bilar.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "hero of ahlgrens-bilar",
+      "figmaNode": "8:367"
+    },
+    {
+      "path": "candies/ahlgrens-bilar/variant-saltlakrits.png",
+      "bytes": 189025,
+      "sha256": "949fb3b9ae56",
+      "size": [
+        447,
+        228
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Cloetta Ahlgrens bilar - Saltlakrits-9009.jpg\", Raimond Spekking, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on ahlgrens-bilar: Saltlakrits (salty licorice)",
+      "figmaNode": "12:98"
+    },
+    {
+      "path": "candies/ahlgrens-bilar/variant-white-car.png",
+      "bytes": 172351,
+      "sha256": "e7a826448a28",
+      "size": [
+        477,
+        352
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Ahlgrens bilar 1.jpg\", Väsk, CC BY-SA 3.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on ahlgrens-bilar: White car",
+      "figmaNode": "12:90"
+    },
+    {
+      "path": "candies/bubs/hero.png",
+      "bytes": 202726,
+      "sha256": "793df72b4688",
+      "size": [
+        352,
+        430
+      ],
+      "mode": "RGBA",
+      "license": "user-supplied",
+      "credit": "User-supplied photo of BUBS Bubblegum Skalle (product design by BUBS)",
+      "usedFor": "hero of bubs",
+      "figmaNode": "8:166"
+    },
+    {
+      "path": "candies/bubs/variant-banana-toffee-ovals.png",
+      "bytes": 373127,
+      "sha256": "d1234d96ddc5",
+      "size": [
+        642,
+        477
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Banana Toffee Ovals",
+      "figmaNode": "12:50"
+    },
+    {
+      "path": "candies/bubs/variant-bubblegum-skalle.png",
+      "bytes": 630404,
+      "sha256": "e4c5185472b2",
+      "size": [
+        656,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image (same candy as current hero)",
+      "usedFor": "unused"
+    },
+    {
+      "path": "candies/bubs/variant-cool-cola-skalle.png",
+      "bytes": 824509,
+      "sha256": "60d19ec697ef",
+      "size": [
+        656,
+        799
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Cool Cola Skalle",
+      "figmaNode": "12:38"
+    },
+    {
+      "path": "candies/bubs/variant-lemon-raspberry-skalle.png",
+      "bytes": 836397,
+      "sha256": "25fb9d556390",
+      "size": [
+        652,
+        792
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Lemon Raspberry Skalle",
+      "figmaNode": "12:34"
+    },
+    {
+      "path": "candies/bubs/variant-raspberry-salty-licorice-skalle.png",
+      "bytes": 629830,
+      "sha256": "ebb6b8333a58",
+      "size": [
+        644,
+        785
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Raspberry Salty Licorice Skalle",
+      "figmaNode": "12:42"
+    },
+    {
+      "path": "candies/bubs/variant-raspberry-salty-licorice-skum.png",
+      "bytes": 547030,
+      "sha256": "0f486e7adf58",
+      "size": [
+        655,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Raspberry Salty Licorice Skalle (foam)",
+      "figmaNode": "12:46"
+    },
+    {
+      "path": "candies/bubs/variant-tutti-frutti-diamond.png",
+      "bytes": 344482,
+      "sha256": "3c25cd9acaf4",
+      "size": [
+        641,
+        462
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "bubs.se product image, copyrighted",
+      "usedFor": "similar candy on bubs: Tutti Frutti Diamond",
+      "figmaNode": "12:54"
+    },
+    {
+      "path": "candies/cola/hero.png",
+      "bytes": 343830,
+      "sha256": "06319f6c7c44",
+      "size": [
+        639,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "user-supplied",
+      "credit": "User-supplied photo",
+      "usedFor": "hero of cola",
+      "figmaNode": "17:79"
+    },
+    {
+      "path": "candies/cola/variant-haribo-happy-cola-bag.png",
+      "bytes": 493494,
+      "sha256": "f06538bd863b",
+      "size": [
+        614,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "Haribo packshot, copyrighted",
+      "usedFor": "similar candy on cola: Haribo Happy-Cola (German brand, bag)",
+      "figmaNode": "17:92"
+    },
+    {
+      "path": "candies/cola/variant-malaco-colaflaskor.png",
+      "bytes": 97004,
+      "sha256": "bef55028ab4a",
+      "size": [
+        195,
+        475
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "matsiktet.se / Cloetta product image, copyrighted",
+      "usedFor": "similar candy on cola: Malaco Colaflaskor",
+      "figmaNode": "17:62"
+    },
+    {
+      "path": "candies/cola/variant-smarke-fizzy-cola.png",
+      "bytes": 88373,
+      "sha256": "18408d1654c9",
+      "size": [
+        253,
+        204
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "happycandy.se retailer image",
+      "usedFor": "similar candy on cola: S-Märke Fizzy Cola",
+      "figmaNode": "17:84"
+    },
+    {
+      "path": "candies/cola/variant-sura-colanappar.png",
+      "bytes": 206816,
+      "sha256": "1bc5d381b557",
+      "size": [
+        407,
+        535
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "joselind.se retailer image",
+      "usedFor": "similar candy on cola: Sura Colanappar (sour)",
+      "figmaNode": "17:80"
+    },
+    {
+      "path": "candies/daim/hero.png",
+      "bytes": 313714,
+      "sha256": "f4ba30cb9015",
+      "size": [
+        800,
+        335
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "Bestway Wholesale product image (EAN 7310511803001), retailer image",
+      "usedFor": "hero of daim",
+      "figmaNode": "8:434"
+    },
+    {
+      "path": "candies/daim/variant-mini-unwrapped.png",
+      "bytes": 36810,
+      "sha256": "f86bd5ef2b48",
+      "size": [
+        169,
+        183
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Daim chocolate.jpg\", Lou911, public domain (not used in Figma)",
+      "usedFor": "unused"
+    },
+    {
+      "path": "candies/daim/variant-mint.png",
+      "bytes": 78062,
+      "sha256": "5ec280082ffd",
+      "size": [
+        434,
+        118
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "Open Food Facts packshot, CC BY-SA",
+      "usedFor": "similar candy on daim: Daim Mint (wrapped)",
+      "figmaNode": "12:106"
+    },
+    {
+      "path": "candies/daim/variant-orange.png",
+      "bytes": 69629,
+      "sha256": "7d6ed1567aec",
+      "size": [
+        434,
+        118
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "Open Food Facts packshot, CC BY-SA",
+      "usedFor": "similar candy on daim: Daim Orange (wrapped)",
+      "figmaNode": "12:110"
+    },
+    {
+      "path": "candies/djungelvral/hero.png",
+      "bytes": 246231,
+      "sha256": "9a01347d49dd",
+      "size": [
+        507,
+        463
+      ],
+      "mode": "RGBA",
+      "license": "own",
+      "credit": "User's own photo",
+      "usedFor": "hero of djungelvral",
+      "figmaNode": "8:497"
+    },
+    {
+      "path": "candies/djungelvral/variant-elephant.png",
+      "bytes": 429046,
+      "sha256": "5dab929e7110",
+      "size": [
+        549,
+        449
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+      "usedFor": "similar candy on djungelvral: Elephant",
+      "figmaNode": "12:134"
+    },
+    {
+      "path": "candies/djungelvral/variant-lion.png",
+      "bytes": 377467,
+      "sha256": "c055fbba198e",
+      "size": [
+        542,
+        448
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+      "usedFor": "similar candy on djungelvral: Lion",
+      "figmaNode": "12:126"
+    },
+    {
+      "path": "candies/djungelvral/variant-monkey.png",
+      "bytes": 408659,
+      "sha256": "b5f263a0e747",
+      "size": [
+        496,
+        598
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+      "usedFor": "similar candy on djungelvral: Monkey",
+      "figmaNode": "12:122"
+    },
+    {
+      "path": "candies/djungelvral/variant-squirrel.png",
+      "bytes": 427207,
+      "sha256": "0ac80e766be8",
+      "size": [
+        521,
+        507
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Malaco-15.jpg\", David Castor, public domain (Wikimedia Commons)",
+      "usedFor": "similar candy on djungelvral: Squirrel",
+      "figmaNode": "12:130"
+    },
+    {
+      "path": "candies/gott-blandat/hero.png",
+      "bytes": 361347,
+      "sha256": "10da8141198c",
+      "size": [
+        537,
+        737
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Gott & blandat, 6.jpg\", Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "hero of gott-blandat",
+      "figmaNode": "8:564"
+    },
+    {
+      "path": "candies/gott-blandat/variant-licorice-sailboat.png",
+      "bytes": 234500,
+      "sha256": "4fe373f1459b",
+      "size": [
+        573,
+        745
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on gott-blandat: Licorice sailboat (Original mix)",
+      "figmaNode": "12:142"
+    },
+    {
+      "path": "candies/gott-blandat/variant-orange-fruit-disc.png",
+      "bytes": 214154,
+      "sha256": "28b4c28ad242",
+      "size": [
+        464,
+        457
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on gott-blandat: Orange fruit disc (Original mix)",
+      "figmaNode": "12:150"
+    },
+    {
+      "path": "candies/gott-blandat/variant-red-fruit-fish.png",
+      "bytes": 339128,
+      "sha256": "3906c825d85d",
+      "size": [
+        800,
+        429
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Gott & blandat\" series, Lokal_Profil, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on gott-blandat: Red fruit fish (Original mix)",
+      "figmaNode": "12:146"
+    },
+    {
+      "path": "candies/kexchoklad/hero.png",
+      "bytes": 372999,
+      "sha256": "d6047cfd3747",
+      "size": [
+        800,
+        365
+      ],
+      "mode": "RGBA",
+      "license": "user-supplied",
+      "credit": "User-supplied packet photo (wrapper design by Cloetta)",
+      "usedFor": "hero of kexchoklad",
+      "figmaNode": "8:308"
+    },
+    {
+      "path": "candies/kexchoklad/variant-jatte.png",
+      "bytes": 92596,
+      "sha256": "c80b97c4eb54",
+      "size": [
+        435,
+        169
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "Open Food Facts packshot, CC BY-SA",
+      "usedFor": "similar candy on kexchoklad: Kexchoklad Jätte (wrapped)",
+      "figmaNode": "12:86"
+    },
+    {
+      "path": "candies/kexchoklad/variant-mini.png",
+      "bytes": 62529,
+      "sha256": "f45bda378c43",
+      "size": [
+        133,
+        276
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "Open Food Facts packshot, CC BY-SA",
+      "usedFor": "similar candy on kexchoklad: Kexchoklad Mini (wrapped)",
+      "figmaNode": "12:82"
+    },
+    {
+      "path": "candies/kexchoklad/variant-vegan.png",
+      "bytes": 115182,
+      "sha256": "b2b1c080f0ea",
+      "size": [
+        414,
+        170
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "Open Food Facts packshot, CC BY-SA",
+      "usedFor": "similar candy on kexchoklad: Kexchoklad Vegan (wrapped)",
+      "figmaNode": "12:78"
+    },
+    {
+      "path": "candies/pastellfiskar/hero.png",
+      "bytes": 283583,
+      "sha256": "72d6f33d2f06",
+      "size": [
+        753,
+        313
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "Malaco shop product photo (kalaskungen), copyrighted",
+      "usedFor": "hero of pastellfiskar",
+      "figmaNode": "8:237"
+    },
+    {
+      "path": "candies/pastellfiskar/variant-red-fish-us.png",
+      "bytes": 117479,
+      "sha256": "53496568832c",
+      "size": [
+        459,
+        206
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Swedishfish.jpg\", Thetorpedodog, CC BY-SA 3.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on pastellfiskar: Red fish (US Swedish Fish)",
+      "figmaNode": "12:62"
+    },
+    {
+      "path": "candies/pastellfiskar/variant-salt-sill.png",
+      "bytes": 266292,
+      "sha256": "62dc37f18139",
+      "size": [
+        800,
+        315
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Salt.sill.jpeg\", Bishonen, public domain (Wikimedia Commons)",
+      "usedFor": "similar candy on pastellfiskar: Salt sill (licorice fish)",
+      "figmaNode": "12:70"
+    },
+    {
+      "path": "candies/pastellfiskar/variant-yellow-fish.png",
+      "bytes": 210807,
+      "sha256": "e1d283aaa095",
+      "size": [
+        616,
+        284
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "Malaco shop product photo (kalaskungen), copyrighted",
+      "usedFor": "similar candy on pastellfiskar: Yellow fish",
+      "figmaNode": "12:58"
+    },
+    {
+      "path": "candies/polkagris/hero-3d.png",
+      "bytes": 310124,
+      "sha256": "216eebceeb72",
+      "size": [
+        619,
+        688
+      ],
+      "mode": "RGBA",
+      "license": "own",
+      "credit": "Own 3D render (polkagris-3d)",
+      "usedFor": "hero of polkagris",
+      "figmaNode": "8:103"
+    },
+    {
+      "path": "candies/polkagris/hero.png",
+      "bytes": 136832,
+      "sha256": "69e6a1b5cdb7",
+      "size": [
+        588,
+        528
+      ],
+      "mode": "RGBA",
+      "license": "reference-only",
+      "credit": "Ingebretsen's shop photo (superseded by hero-3d.png)",
+      "usedFor": "unused"
+    },
+    {
+      "path": "candies/polkagris/variant-pieces.png",
+      "bytes": 64233,
+      "sha256": "f6b515052842",
+      "size": [
+        284,
+        252
+      ],
+      "mode": "RGBA",
+      "license": "open",
+      "credit": "\"Polkagris candy from Ruotsinpyhtää\", JIP, CC BY-SA 4.0 (Wikimedia Commons)",
+      "usedFor": "similar candy on polkagris: Polkagris pieces (bite-size)",
+      "figmaNode": "12:26"
+    },
+    {
+      "path": "3d/polkagris/index.html",
+      "bytes": 22281,
+      "sha256": "2a5e837e6e94",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/polkagris/preview.png",
+      "bytes": 319888,
+      "sha256": "6de590eb57ae",
+      "size": [
+        800,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/djungelvral/index.html",
+      "bytes": 26199,
+      "sha256": "d447bd9f98f4",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/djungelvral/preview.png",
+      "bytes": 338532,
+      "sha256": "e078ca26ffcd",
+      "size": [
+        800,
+        800
+      ],
+      "mode": "RGBA",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/candy-kit/build.py",
+      "bytes": 626,
+      "sha256": "9222da1497a2",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/candy-kit/candy-kit.js",
+      "bytes": 8533,
+      "sha256": "837b57421b43",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/candy-kit/capture.py",
+      "bytes": 3472,
+      "sha256": "3b8a85f58f58",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/candy-kit/pose.py",
+      "bytes": 1194,
+      "sha256": "ff256f721781",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "3d/space-demo/index.html",
+      "bytes": 2396,
+      "sha256": "b3d5053ec3e3",
+      "license": "own",
+      "usedFor": "Three.js candy / shared kit"
+    },
+    {
+      "path": "ornament/corner-ornament-traced.svg",
+      "bytes": 34641,
+      "sha256": "9946a7521150",
+      "license": "own (traced from 1890s plate, public domain source)",
+      "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
+      "figmaNode": "5:2"
+    },
+    {
+      "path": "ornament/corner-ornament.svg",
+      "bytes": 18627,
+      "sha256": "46f283a7b538",
+      "license": "own (traced from 1890s plate, public domain source)",
+      "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
+      "figmaNode": "5:2"
+    },
+    {
+      "path": "ornament/figma-screenshot-v2.png",
+      "bytes": 38392,
+      "sha256": "ee301fc5b648",
+      "size": [
+        600,
+        400
+      ],
+      "mode": "RGBA",
+      "license": "own (traced from 1890s plate, public domain source)",
+      "usedFor": "Corner Ornament 5:2, OPEN: still being refined",
+      "figmaNode": "5:2"
+    },
+    {
+      "path": "landing/3-680.png",
+      "bytes": 130288,
+      "sha256": "308525d7c1e7",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:680"
+    },
+    {
+      "path": "landing/3-683.png",
+      "bytes": 89486,
+      "sha256": "68fe43cf6188",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:683"
+    },
+    {
+      "path": "landing/3-685.png",
+      "bytes": 180926,
+      "sha256": "3167476b207a",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:685"
+    },
+    {
+      "path": "landing/3-687.png",
+      "bytes": 185891,
+      "sha256": "6499587c48b8",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:687"
+    },
+    {
+      "path": "landing/3-691.png",
+      "bytes": 90573,
+      "sha256": "fd753678642c",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:691"
+    },
+    {
+      "path": "landing/3-692.png",
+      "bytes": 325581,
+      "sha256": "3c73b76013b8",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:692"
+    },
+    {
+      "path": "landing/3-695.png",
+      "bytes": 308085,
+      "sha256": "ba1317b1ebb3",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:695"
+    },
+    {
+      "path": "landing/3-696.png",
+      "bytes": 165765,
+      "sha256": "bee9a67fc958",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:696"
+    },
+    {
+      "path": "landing/3-700.png",
+      "bytes": 1274590,
+      "sha256": "db57a4847554",
+      "license": "reference-only",
+      "credit": "Cut from the screenshots placed in Figma 3:679 (product photos, copyrighted)",
+      "usedFor": "landing collage slot",
+      "figmaNode": "3:700"
+    },
+    {
+      "path": "landing/figma/044a7.png",
+      "bytes": 656890,
+      "sha256": "a1e6ffbb1878",
+      "license": "reference-only",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/054cc.svg",
+      "bytes": 57816,
+      "sha256": "ca2071fce065",
+      "license": "own",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/0aaab.svg",
+      "bytes": 57816,
+      "sha256": "ca2071fce065",
+      "license": "own",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/15422.svg",
+      "bytes": 57816,
+      "sha256": "ca2071fce065",
+      "license": "own",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/29bb0.svg",
+      "bytes": 57816,
+      "sha256": "ca2071fce065",
+      "license": "own",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/38db1.png",
+      "bytes": 745884,
+      "sha256": "f9400d6a5c50",
+      "license": "reference-only",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/4ee35.png",
+      "bytes": 1896188,
+      "sha256": "da619f08fccf",
+      "license": "reference-only",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "landing/figma/c16c5.png",
+      "bytes": 163411,
+      "sha256": "3652dd65d381",
+      "license": "reference-only",
+      "credit": "Raw image fill exported read-only from Figma 3:679",
+      "usedFor": "source for scripts/extract-landing-figma.mjs"
+    },
+    {
+      "path": "ornament/corner-ornament-3-781.svg",
+      "bytes": 57816,
+      "sha256": "ca2071fce065",
+      "license": "own",
+      "credit": "Owner's vectorized corner ornament, exported read-only from Figma 3:781",
+      "usedFor": "landing corners (rotated per corner)",
+      "figmaNode": "3:781"
+    },
+    {
+      "path": "3d/bubs/preview.png",
+      "bytes": 444062,
+      "sha256": "91b135b8686c",
+      "license": "own",
+      "credit": "Own 3D render (src/three/candies/bubs.ts)",
+      "usedFor": "bubs model3d poster"
+    }
+  ]
 }
