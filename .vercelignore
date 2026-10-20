@@ -1,0 +1,11 @@
+# Vercel builds from source (npm run build); upload only what the build needs.
+node_modules
+dist
+.astro
+public/img
+review
+reference
+test-results
+playwright-report
+tests
+*.md
