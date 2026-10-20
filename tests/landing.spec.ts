@@ -115,12 +115,13 @@ test.describe('universe mode', () => {
   const u = layout.universe;
   const pose = (page: Page) => page.$$eval('.item', (els) => els.map((e) => (e as HTMLElement).style.transform));
 
-  test('every candy floats in the universe, once as a labelled link (copies are mouse-only)', async ({ page }) => {
+  test('every candy (and its variants) floats in the universe; one labelled tab stop per candy', async ({ page }) => {
     await page.goto('/');
     const items = page.locator('.universe .item');
     const slugs = await items.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.slug!));
     const unique = [...new Set(slugs)];
-    expect(slugs.length).toBe(unique.length * u.copies);
+    expect(slugs.length).toBeGreaterThanOrEqual(unique.length * u.copies);
+    if (u.variants) for (const s of unique) expect(slugs.filter((x) => x === s).length).toBeGreaterThan(u.copies); // hero + variants
     const tabbable = page.locator('.universe .item:not([tabindex="-1"])');
     await expect(tabbable).toHaveCount(unique.length);
     for (const el of await tabbable.all()) await expect(el).toHaveAttribute('aria-label', /\S/);

@@ -4,19 +4,28 @@
 // scrolling (wheel / touch / keys) flies the camera through them and they wrap to the back once passed.
 // Far candies are soft (Figma's depth of field) and fade in; near ones fade out before they fill the screen.
 // The first frame is rendered here (lib/universe.ts), scripts/landing-universe.ts animates it.
-// Each candy appears `copies` times; only the first copy is a tab stop (focus flies it into view), the others
-// are mouse-only duplicates hidden from assistive tech. Reduced motion: no drift, no fly; focus jumps.
+// Pieces: each candy's hero plus its variants (universe.variants), `copies` times over. Only each candy's
+// first hero is a tab stop (focus flies it into view); the rest are mouse-only links hidden from assistive tech.
+// Photos get the "delicious" grade + soft contact shadow from tokens (--candy-photo-*). Reduced motion: no drift, no fly; focus jumps.
 // Children render on top (landing title).
 import Picture from './Picture.astro';
 import { landing, site, candies, candyHref } from '../lib/content';
-import { hasImg } from '../lib/img';
+import { hasImg, img } from '../lib/img';
 import { pose, depthAt, type Item } from '../lib/universe';
 
 const u = landing.universe;
-const pool = candies.filter((c) => hasImg(c.hero.src));
+// Every candy's hero, plus (universe.variants) every variant with an image, all linking to the candy's page.
+// Interleaved round-robin (all heroes, then each candy's 1st variant, ...) so one family never clusters.
+type Piece = { candy: (typeof candies)[number]; src: string; name: string; hero: boolean };
+const families: Piece[][] = candies.map((c) => [
+  ...(hasImg(c.hero.src) ? [{ candy: c, src: c.hero.src, name: c.name, hero: true }] : []),
+  ...(u.variants ? c.variants.filter((v) => hasImg(v.src)).map((v) => ({ candy: c, src: v.src!, name: v.name, hero: false })) : []),
+]);
+const pool: Piece[] = [];
+for (let k = 0; k < Math.max(...families.map((f) => f.length)); k++) for (const f of families) if (f[k]) pool.push(f[k]!);
 const hash = (i: number, k: number) => { const s = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return s - Math.floor(s); };
 const items = Array.from({ length: pool.length * u.copies }, (_, i) => {
-  const candy = pool[i % pool.length]!;
+  const piece = pool[i % pool.length]!;
   const [lx, ly] = u.lanes[i % u.lanes.length]!;
   const it: Item = {
     x: Math.round(lx + (hash(i, 1) - 0.5) * 2 * u.jitterPx),
@@ -24,7 +33,12 @@ const items = Array.from({ length: pool.length * u.copies }, (_, i) => {
     z0: -i * u.stepZ,
     r: Math.round((hash(i, 3) - 0.5) * 60),
   };
-  return { candy, it, copy: Math.floor(i / pool.length) };
+  // one tab stop per candy page: the first hero copy; everything else is a mouse-only duplicate link
+  const tab = piece.hero && i < pool.length;
+  // equal visual mass: every photo covers ~itemPx² x itemArea, whatever its shape (bars vs bottles vs skulls)
+  const { width: iw, height: ih } = img(piece.src, u.itemPx);
+  const w = Math.round(Math.min(u.itemPx * Math.sqrt(u.itemArea * (iw / ih)), u.itemPx * 1.6));
+  return { piece, it, tab, w };
 });
 const cycle = items.length * u.stepZ;
 const cfg = JSON.stringify({ ...u, cycle });
@@ -33,15 +47,16 @@ const cfg = JSON.stringify({ ...u, cycle });
 <div class="universe" data-figma="3:679" data-universe={cfg}
   style={`--u-perspective:${u.perspectivePx}px;--u-item:${u.itemPx}px`}>
   <div class="scene"><div class="world">
-    {items.map(({ candy, it, copy }) => {
+    {items.map(({ piece, it, tab, w }) => {
       const p = pose(it, depthAt(it.z0, 0, cycle), cycle, u);
       return (
-        <a class:list={['item', { gone: p.opacity < 0.05 }]} href={candyHref(candy)} data-slug={candy.slug} data-item={JSON.stringify(it)}
-          aria-label={copy ? undefined : site.landing.candyLinkLabel.replace('{name}', candy.name)}
-          aria-hidden={copy ? 'true' : undefined} tabindex={copy ? -1 : undefined}
-          style={`transform:${p.transform};opacity:${p.opacity};--b:${p.blur}px`}>
-          <Picture src={candy.hero.src} alt="" displayWidth={u.itemPx} />
-          <span class="name" aria-hidden="true">{candy.name}</span>
+        <a class:list={['item', { gone: p.opacity < 0.05 }]} href={candyHref(piece.candy)} data-slug={piece.candy.slug}
+          data-item={JSON.stringify(it)}
+          aria-label={tab ? site.landing.candyLinkLabel.replace('{name}', piece.candy.name) : undefined}
+          aria-hidden={tab ? undefined : 'true'} tabindex={tab ? undefined : -1}
+          style={`transform:${p.transform};opacity:${p.opacity};--b:${p.blur}px;--w:${w}px`}>
+          <Picture src={piece.src} alt="" displayWidth={w} />
+          <span class="name" aria-hidden="true">{piece.name}</span>
         </a>
       );
     })}
@@ -58,13 +73,14 @@ const cfg = JSON.stringify({ ...u, cycle });
   .world { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
   .universe > :global(:not(.scene)) { z-index: 1; }
   .item {
-    position: absolute; inline-size: var(--u-item); translate: -50% -50%;
+    position: absolute; inline-size: var(--w, var(--u-item)); translate: -50% -50%;
     display: grid; justify-items: center;
     filter: blur(var(--b)); color: var(--color-text); text-decoration: none;
     transition: filter var(--duration-fast) var(--ease-out);
   }
   .item.gone { pointer-events: none; } /* faded out: not clickable (still focusable: focus flies it in) */
   .item :global(picture), .item :global(img) { display: block; inline-size: 100%; block-size: auto; }
+  .item :global(img) { filter: var(--candy-photo-grade) var(--candy-photo-shadow); }
   .item:hover, .item:focus-visible { filter: none; }
   .item:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
   .name {

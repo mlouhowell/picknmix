@@ -101,10 +101,12 @@ export const LandingLayoutSchema = z.object({
   }),
   // mode "universe": every candy floats in depth; scrolling flies through them (lib/universe.ts)
   universe: z.object({
+    variants: z.boolean(), // also float every variant with an image (BUBS flavours, Daim Mint...), linking to the candy
     copies: z.number().int().min(1),
     lanes: z.array(z.tuple([z.number(), z.number()])).min(1),
     jitterPx: z.number().min(0),
     itemPx: z.number().positive(),
+    itemArea: z.number().positive(), // each photo's area = itemPx² x itemArea (equal visual mass)
     perspectivePx: z.number().positive(),
     stepZ: z.number().positive(),
     fadeInPx: z.number().positive(),
