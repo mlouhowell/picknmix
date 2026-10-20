@@ -1,0 +1,41 @@
+---
+// Landing grid (mode "grid" in content/landing-layout.json): every candy photo as a tile, grouped by candy in
+// sheet order (hero first, then its variants), minus landing.hidePieces. Each tile links to its candy page.
+// Just the photos (owner: no names, no stroke): square cells, image contained, --candy-photo-* grade.
+// The photo's alt (piece name) is the link's accessible name. Not in Figma yet (owner's direction).
+import Picture from './Picture.astro';
+import { landing, candyHref, pieceFamilies } from '../lib/content';
+
+const pieces = pieceFamilies(landing.grid.variants).flat();
+---
+<!-- landing grid (no Figma frame yet; landing 3:679) -->
+<ul class="grid" data-figma="3:679">
+  {pieces.map((p) => (
+    <li>
+      <a class="tile" href={candyHref(p.candy)} data-slug={p.candy.slug}>
+        <span class="box"><Picture src={p.src} alt={p.name} displayWidth={240} /></span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid {
+    list-style: none; margin: 0 auto; padding: 0 var(--space-landing-gutter) var(--space-landing-grid-bottom);
+    max-inline-size: var(--landing-grid-max-w);
+    display: grid; gap: var(--space-landing-grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(var(--landing-tile-min), 1fr));
+  }
+  .tile { display: block; min-inline-size: 0; }
+  .box { position: relative; display: block; aspect-ratio: 1; }
+  .box :global(picture) { display: contents; }
+  .box :global(img) {
+    position: absolute; inset: var(--space-landing-tile-inset);
+    inline-size: calc(100% - 2 * var(--space-landing-tile-inset)); block-size: calc(100% - 2 * var(--space-landing-tile-inset));
+    object-fit: contain;
+    filter: var(--candy-photo-grade) var(--candy-photo-shadow);
+    transition: scale var(--duration-page) var(--ease-out);
+  }
+  .tile:hover .box :global(img), .tile:focus-visible .box :global(img) { scale: var(--landing-tile-hover-scale); }
+  .tile:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
+</style>

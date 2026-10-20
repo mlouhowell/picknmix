@@ -9,18 +9,14 @@
 // Photos get the "delicious" grade + soft contact shadow from tokens (--candy-photo-*). Reduced motion: no drift, no fly; focus jumps.
 // Children render on top (landing title).
 import Picture from './Picture.astro';
-import { landing, site, candies, candyHref } from '../lib/content';
-import { hasImg, img } from '../lib/img';
+import { landing, site, candyHref, pieceFamilies, type Piece } from '../lib/content';
+import { img } from '../lib/img';
 import { pose, depthAt, type Item } from '../lib/universe';
 
 const u = landing.universe;
 // Every candy's hero, plus (universe.variants) every variant with an image, all linking to the candy's page.
 // Interleaved round-robin (all heroes, then each candy's 1st variant, ...) so one family never clusters.
-type Piece = { candy: (typeof candies)[number]; src: string; name: string; hero: boolean };
-const families: Piece[][] = candies.map((c) => [
-  ...(hasImg(c.hero.src) ? [{ candy: c, src: c.hero.src, name: c.name, hero: true }] : []),
-  ...(u.variants ? c.variants.filter((v) => hasImg(v.src)).map((v) => ({ candy: c, src: v.src!, name: v.name, hero: false })) : []),
-]);
+const families = pieceFamilies(u.variants);
 const pool: Piece[] = [];
 for (let k = 0; k < Math.max(...families.map((f) => f.length)); k++) for (const f of families) if (f[k]) pool.push(f[k]!);
 const hash = (i: number, k: number) => { const s = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return s - Math.floor(s); };

@@ -3,7 +3,10 @@
 // Figma's vector (3:781, exported read-only) is drawn for the bottom-left corner; the other corners ROTATE it
 // (not mirror), exactly as 3:679 does. Inlined so it takes --color-brand via currentColor.
 // Swap the art by replacing assets/ornament/corner-ornament-3-781.svg.
+// contained: frame the nearest positioned ancestor (landing grid intro) instead of the viewport.
 import { readFileSync } from 'node:fs';
+interface Props { contained?: boolean }
+const { contained = false } = Astro.props;
 const svg = readFileSync('assets/ornament/corner-ornament-3-781.svg', 'utf8')
   .replace(/fill="#[0-9a-fA-F]{3,8}"/g, 'fill="currentColor"')
   .replace(/\s(width|height|style|preserveAspectRatio|overflow)="[^"]*"/g, '')
@@ -15,12 +18,13 @@ const corners = [
   { pos: 'br', figma: '3:861' },
 ];
 ---
-<div class="ornaments" aria-hidden="true" data-figma="5:2">
+<div class:list={['ornaments', { contained }]} aria-hidden="true" data-figma="5:2">
   {corners.map((c) => <div class:list={['corner', c.pos]} data-figma={c.figma} set:html={svg} />)}
 </div>
 
 <style>
   .ornaments { position: fixed; inset: 0; z-index: 1; pointer-events: none; color: var(--color-brand); } /* frames the landing candies */
+  .ornaments.contained { position: absolute; z-index: 0; }
   .corner {
     --ow: calc(var(--ornament-w-canvas) * var(--canvas-unit));
     --oh: calc(var(--ornament-h-canvas) * var(--canvas-unit));

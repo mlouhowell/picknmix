@@ -107,6 +107,16 @@
   --candy-photo-grade: saturate(1.18) contrast(1.06) brightness(1.02);
   --candy-photo-shadow: drop-shadow(0 18px 16px rgb(60 30 20 / .18)) drop-shadow(0 3px 3px rgb(60 30 20 / .14));
 
+  /* ---------- Landing grid (mode "grid"; no Figma frame yet, scaled-up Similar Candies tiles 12:58) ---------- */
+  --landing-tile-min: min(200px, 40vw);  /* columns: as many >= this as fit (2 up on phones) */
+  --landing-grid-max-w: 1180px;
+  --landing-grid-intro-h: 62vh;      /* title + ornaments block above the grid */
+  --landing-tile-hover-scale: 1.06;
+  --space-landing-grid-gap: 24px;
+  --space-landing-tile-inset: 20px;
+  --space-landing-gutter: 24px;
+  --space-landing-grid-bottom: 96px;
+
   /* ---------- Focus (Phase 9; brand teal is 4.28:1, fine for a 2px ring) ---------- */
   --focus-ring: 2px solid var(--color-brand);
   --focus-offset: 2px;

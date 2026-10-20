@@ -5,11 +5,25 @@
 import Base from '../layouts/Base.astro';
 import BackgroundCandies from '../components/BackgroundCandies.astro';
 import CandyUniverse from '../components/CandyUniverse.astro';
+import CandyGrid from '../components/CandyGrid.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
 import { site, landing } from '../lib/content';
 ---
 <Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
-  <main class="landing" data-figma="3:679">
+  <main class:list={['landing', landing.mode]} data-figma="3:679">
+    {landing.mode === 'grid' && (
+      <>
+        <header class="intro">
+          <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689) -->
+          <hgroup class="title-group" data-figma={landing.title.figmaNode} style="--cy:50%">
+            <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
+            <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
+          </hgroup>
+          <CornerOrnaments contained />
+        </header>
+        <CandyGrid />
+      </>
+    )}
     {landing.mode === 'universe' ? (
       <CandyUniverse>
         <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
@@ -18,7 +32,7 @@ import { site, landing } from '../lib/content';
           <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
         </hgroup>
       </CandyUniverse>
-    ) : (
+    ) : landing.mode === 'collage' ? (
       <BackgroundCandies fit="contain" includeHero links>
         <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689), vertically centred -->
         <hgroup class="title-group" data-figma={landing.title.figmaNode} style={`--cy:${landing.title.centerYPct}%`}>
@@ -26,8 +40,8 @@ import { site, landing } from '../lib/content';
           <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
         </hgroup>
       </BackgroundCandies>
-    )}
-    <CornerOrnaments />
+    ) : null}
+    {landing.mode !== 'grid' && <CornerOrnaments />}
   </main>
 </Base>
 
@@ -43,6 +57,8 @@ import { site, landing } from '../lib/content';
     min-block-size: 100vh; min-block-size: 100dvh;
     overflow: hidden;
   }
+  .landing.grid { overflow: visible; } /* the grid scrolls like a normal page */
+  .intro { position: relative; block-size: var(--landing-grid-intro-h); }
   .title-group {
     position: absolute; left: 50%; top: var(--cy); translate: -50% -50%;
     display: grid; justify-items: center; gap: calc(var(--space-eyebrow-title) - var(--landing-eyebrow-leading));

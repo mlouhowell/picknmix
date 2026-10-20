@@ -1,6 +1,29 @@
 {
-  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults. linksTo: candy slug the slot opens (null = not clickable). Cherry and raspberry aren't in the candy list, so they open Gott & Blandat (OPEN: confirm the mapping). motion.scroll*: scrolling stirs the candies: up to scrollTravel canvas px (nearest candy) and scrollSpinDeg extra spin, easing back home at scrollReturnPerSecond. mode: \"universe\" (doodle.mary-louise.com-style fly-through: scrolling flies you through a loop of every candy in depth; see universe) or \"collage\" (the Figma 3:679 still composition above, with spin/stir). universe: lanes = [x, y] px at depth 0 the items cycle through (doodle grid, kept out of the centre band: far candies converge on the vanishing point, which is the title); pieces = every candy hero plus (variants: true) every variant with an image, each linking to its candy page, interleaved by family; the set repeats `copies` times, stepZ px apart in depth (loop = items x stepZ); itemPx = size at depth 0 (each photo covers itemPx² x itemArea, so bars, bottles and skulls carry equal visual weight); perspectivePx = camera distance; fadeInPx = far fade-in; fadeOut*Z = where items fade as they pass the camera; farBlurPx from blurStartZ (Figma depth of field); spinDeg = turn while approaching; scrollSpeed = depth px per wheel px; ease = follow speed; driftPxPerSecond = idle float forward (0 = still); focusZ = depth a keyboard-focused candy is brought to.",
-  "mode": "universe",
+  "_readme": "Landing 3:679 composition, from Figma (canvas 1400x1038; % of canvas). Each slot box is Figma's UNROTATED inner box, centred where Figma puts it, then rotated by rotateDeg. src = cut-outs re-rendered from the frame's own image fills (scripts/extract-landing-figma.mjs; reference-only screenshots). Change art direction here, not in code. Ornaments: Figma's vector 3:781, rotated per corner (3:701 TL 90, 3:941 TR 180, 3:781 BL 0, 3:861 BR -90). motion: every candy spins slowly and drifts nearer/farther (scale); per-slot spinSeconds/depthSeconds override the defaults. linksTo: candy slug the slot opens (null = not clickable). Cherry and raspberry aren't in the candy list, so they open Gott & Blandat (OPEN: confirm the mapping). motion.scroll*: scrolling stirs the candies: up to scrollTravel canvas px (nearest candy) and scrollSpinDeg extra spin, easing back home at scrollReturnPerSecond. mode: \"universe\" (doodle.mary-louise.com-style fly-through: scrolling flies you through a loop of every candy in depth; see universe) or \"collage\" (the Figma 3:679 still composition above, with spin/stir). universe: lanes = [x, y] px at depth 0 the items cycle through (doodle grid, kept out of the centre band: far candies converge on the vanishing point, which is the title); pieces = every candy hero plus (variants: true) every variant with an image, each linking to its candy page, interleaved by family; the set repeats `copies` times, stepZ px apart in depth (loop = items x stepZ); itemPx = size at depth 0 (each photo covers itemPx² x itemArea, so bars, bottles and skulls carry equal visual weight); perspectivePx = camera distance; fadeInPx = far fade-in; fadeOut*Z = where items fade as they pass the camera; farBlurPx from blurStartZ (Figma depth of field); spinDeg = turn while approaching; scrollSpeed = depth px per wheel px; ease = follow speed; driftPxPerSecond = idle float forward (0 = still); focusZ = depth a keyboard-focused candy is brought to. grid (mode \"grid\"): every candy hero (+ variants) as tiles grouped by candy, each linking to its page. hidePieces: photo srcs left off the landing (grid + universe) only; candy pages still show them. Owner asked (2026-10-19) to drop Daim, most black liquorice and the weakest photos.",
+  "mode": "grid",
+  "grid": {
+    "variants": true
+  },
+  "hidePieces": [
+    "candies/daim/hero.png",
+    "candies/daim/variant-mint.png",
+    "candies/daim/variant-orange.png",
+    "candies/djungelvral/variant-elephant.png",
+    "candies/djungelvral/variant-lion.png",
+    "candies/djungelvral/variant-monkey.png",
+    "candies/djungelvral/variant-squirrel.png",
+    "candies/pastellfiskar/variant-salt-sill.png",
+    "candies/gott-blandat/hero.png",
+    "candies/gott-blandat/variant-licorice-sailboat.png",
+    "candies/ahlgrens-bilar/variant-saltlakrits.png",
+    "candies/cola/variant-haribo-happy-cola-bag.png",
+    "candies/ahlgrens-bilar/variant-white-car.png",
+    "candies/kexchoklad/variant-mini.png",
+    "candies/kexchoklad/variant-vegan.png",
+    "candies/kexchoklad/variant-jatte.png",
+    "candies/polkagris/variant-pieces.png",
+    "candies/cola/variant-smarke-fizzy-cola.png"
+  ],
   "canvas": {
     "w": 1400,
     "h": 1038

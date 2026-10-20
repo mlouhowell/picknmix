@@ -3,6 +3,7 @@ import layout from '../content/landing-layout.json' with { type: 'json' };
 import site from '../content/site.json' with { type: 'json' };
 
 test('landing 3:679: copy, centred title, flush ornaments', async ({ page }) => {
+  test.skip(layout.mode === 'grid', 'grid mode: title + ornaments sit in the intro block (see grid tests)');
   await page.goto('/');
   await expect(page.locator('[data-figma="3:690"]')).toHaveText(site.landing.eyebrow);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.landing.title);
@@ -22,10 +23,59 @@ test('landing 3:679: copy, centred title, flush ornaments', async ({ page }) => 
 });
 
 test('landing scales with the viewport (min(100vw/1400, 100vh/1038))', async ({ page }) => {
+  test.skip(layout.mode === 'grid', 'grid mode: see grid tests');
   await page.setViewportSize({ width: 700, height: 1038 });
   await page.goto('/');
   const b = (await page.locator('[data-figma="3:701"]').boundingBox())!;
   expect(Math.round(b.width)).toBe(155); // TL ornament: 310 canvas px wide at half scale
+});
+
+test.describe('grid mode', () => {
+  test.skip(layout.mode !== 'grid', 'landing-layout.json mode is not "grid"');
+  const hidden = new Set(layout.hidePieces);
+
+  test('intro: copy and the four ornaments framing the title', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('[data-figma="3:690"]')).toHaveText(site.landing.eyebrow);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.landing.title);
+    const intro = (await page.locator('.intro').boundingBox())!;
+    for (const id of ['3:701', '3:941', '3:781', '3:861']) {
+      const b = (await page.locator(`[data-figma="${id}"]`).boundingBox())!;
+      expect(b.y).toBeGreaterThanOrEqual(intro.y - 1);
+      expect(b.y + b.height).toBeLessThanOrEqual(intro.y + intro.height + 1);
+    }
+    await expect(page.locator('.ornaments')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('every shown candy photo is a named link to its page; hidden pieces stay off; no captions or strokes', async ({ page }) => {
+    await page.goto('/');
+    const tiles = page.locator('.grid a.tile');
+    expect(await tiles.count()).toBeGreaterThan(10);
+    const srcs = await page.locator('.grid img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).currentSrc));
+    for (const h of hidden) {
+      const stem = `/${h.replace(/\.png$/, '')}-`; // public/img/<src minus .png>-<width>.webp
+      expect(srcs.some((s) => s.includes(stem))).toBe(false);
+    }
+    for (const t of await tiles.all()) {
+      await expect(t).toHaveAttribute('href', /^\/candy\/[a-z-]+\/$/);
+      await expect(t.locator('img')).toHaveAttribute('alt', /\S/);
+    }
+    expect(await page.locator('.grid .caption').count()).toBe(0);
+    expect(await page.locator('.grid .box').first().evaluate((e) => getComputedStyle(e).borderTopWidth)).toBe('0px');
+    const t = tiles.nth(3); const href = (await t.getAttribute('href'))!;
+    await t.click();
+    await page.waitForURL(`**${href}`);
+  });
+
+  test('the page scrolls to the grid; two columns on a phone', async ({ page }) => {
+    await page.goto('/');
+    await page.mouse.wheel(0, 600);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(300);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const xs = await page.locator('.grid li').evaluateAll((els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().x))).size);
+    expect(xs).toBe(2);
+  });
 });
 
 test.describe('collage mode', () => {
