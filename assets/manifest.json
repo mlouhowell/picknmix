@@ -9,9 +9,9 @@
     "ornament/": "/workspace/corner-ornament/"
   },
   "counts": {
-    "open": 20,
+    "open": 21,
     "user-supplied": 3,
-    "reference-only": 28,
+    "reference-only": 29,
     "own": 23,
     "own (traced from 1890s plate, public domain source)": 3
   },
@@ -889,6 +889,22 @@
       "license": "own",
       "credit": "Own 3D render (src/three/candies/daim.ts)",
       "usedFor": "daim model3d poster"
+    },
+    {
+      "path": "landing/cherry-upright.png",
+      "bytes": 174648,
+      "sha256": "aa065a9e06c3",
+      "license": "reference-only",
+      "credit": "Figma 3:685 cherry cut-out, rotated upright (product photo, copyrighted)",
+      "usedFor": "landing grid extra piece (Gott & Blandat family)"
+    },
+    {
+      "path": "landing/gummy-fried-egg.png",
+      "bytes": 961306,
+      "sha256": "ef7826b4ba04",
+      "license": "open",
+      "credit": "\"Gummy eggs aug 21.jpg\" by Secretlondon, CC BY-SA 4.0, https://commons.wikimedia.org/wiki/File:Gummy_eggs_aug_21.jpg (front egg cut out; derivative shared CC BY-SA 4.0)",
+      "usedFor": "landing grid extra piece (Gott & Blandat family)"
     }
   ]
 }

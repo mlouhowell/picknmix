@@ -22,6 +22,10 @@ export const candies: Candy[] = parse(CandiesFileSchema, candiesJson, 'content/c
   (a, b) => a.order - b.order,
 );
 
+for (const e of landing.extraPieces)
+  if (!candies.some((c) => c.slug === e.linksTo))
+    throw new Error(`content/landing-layout.json: extraPieces "${e.src}" links to unknown candy "${e.linksTo}"`);
+
 for (const src of landing.hidePieces)
   if (!candies.some((c) => c.hero.src === src || c.variants.some((v) => v.src === src)))
     throw new Error(`content/landing-layout.json: hidePieces "${src}" is not a candy photo`);
@@ -60,5 +64,6 @@ export function pieceFamilies(variants: boolean): Piece[][] {
   return candies.map((c) => [
     ...(hasImg(c.hero.src) ? [{ candy: c, src: c.hero.src, name: c.name, hero: true }] : []),
     ...(variants ? c.variants.filter((v) => hasImg(v.src)).map((v) => ({ candy: c, src: v.src!, name: v.name, hero: false })) : []),
+    ...landing.extraPieces.filter((e) => e.linksTo === c.slug && hasImg(e.src)).map((e) => ({ candy: c, src: e.src, name: e.name, hero: false })),
   ].filter((p) => !hidden.has(p.src))).filter((f) => f.length);
 }

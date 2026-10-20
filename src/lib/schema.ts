@@ -82,8 +82,11 @@ const slot = z.object({
 
 export const LandingLayoutSchema = z.object({
   mode: z.enum(['grid', 'universe', 'collage']), // OPEN: grid of every candy, universe fly-through (doodle-style), or the still 3:679 collage
-  grid: z.object({ variants: z.boolean() }), // mode "grid": also show every variant with an image
+  // mode "grid": also show every variant with an image; intro = title + corner ornaments above the grid
+  grid: z.object({ variants: z.boolean(), intro: z.boolean() }),
   hidePieces: z.array(assetSrc), // photos left off the landing (grid + universe); candy pages keep them
+  // landing-only photos not in the sheet (e.g. the gummy cherry), shown with the linked candy's family
+  extraPieces: z.array(z.object({ src: assetSrc, name: text, linksTo: z.string(), credit: text })),
   canvas: z.object({ w: z.number().positive(), h: z.number().positive() }),
   title: z.object({ figmaNode: figmaId, centerYPct: pct }),
   sharpHero: slot,

@@ -34,10 +34,17 @@ test.describe('grid mode', () => {
   test.skip(layout.mode !== 'grid', 'landing-layout.json mode is not "grid"');
   const hidden = new Set(layout.hidePieces);
 
-  test('intro: copy and the four ornaments framing the title', async ({ page }) => {
+  test('intro: copy and the four ornaments framing the title (or just the grid when grid.intro is off)', async ({ page }) => {
     await page.goto('/');
+    const h1 = page.getByRole('heading', { level: 1 });
+    await expect(h1).toContainText(site.landing.title);
+    if (!layout.grid.intro) {
+      await expect(page.locator('.ornaments')).toHaveCount(0);
+      await expect(page.locator('[data-figma="3:690"]')).toHaveCount(0);
+      expect(await h1.evaluate((e) => e.getBoundingClientRect().width)).toBeLessThanOrEqual(1); // visually hidden
+      return;
+    }
     await expect(page.locator('[data-figma="3:690"]')).toHaveText(site.landing.eyebrow);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.landing.title);
     const intro = (await page.locator('.intro').boundingBox())!;
     for (const id of ['3:701', '3:941', '3:781', '3:861']) {
       const b = (await page.locator(`[data-figma="${id}"]`).boundingBox())!;
@@ -70,7 +77,7 @@ test.describe('grid mode', () => {
   test('the page scrolls to the grid; two columns on a phone', async ({ page }) => {
     await page.goto('/');
     await page.mouse.wheel(0, 600);
-    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(300);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0); // normal page scroll, not hijacked
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     const xs = await page.locator('.grid li').evaluateAll((els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().x))).size);

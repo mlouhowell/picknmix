@@ -116,6 +116,7 @@
   --space-landing-tile-inset: 20px;
   --space-landing-gutter: 24px;
   --space-landing-grid-bottom: 96px;
+  --space-landing-grid-top: 96px;    /* grid without the intro */
 
   /* ---------- Focus (Phase 9; brand teal is 4.28:1, fine for a 2px ring) ---------- */
   --focus-ring: 2px solid var(--color-brand);

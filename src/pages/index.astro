@@ -13,14 +13,18 @@ import { site, landing } from '../lib/content';
   <main class:list={['landing', landing.mode]} data-figma="3:679">
     {landing.mode === 'grid' && (
       <>
-        <header class="intro">
-          <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689) -->
-          <hgroup class="title-group" data-figma={landing.title.figmaNode} style="--cy:50%">
-            <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
-            <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
-          </hgroup>
-          <CornerOrnaments contained />
-        </header>
+        {landing.grid.intro ? (
+          <header class="intro">
+            <!-- figma 3:1021 title group (eyebrow 3:690 + title 3:689) -->
+            <hgroup class="title-group" data-figma={landing.title.figmaNode} style="--cy:50%">
+              <p class="eyebrow" data-figma="3:690">{site.landing.eyebrow}</p>
+              <h1 class="title" data-figma="3:689">{site.landing.title}</h1>
+            </hgroup>
+            <CornerOrnaments contained />
+          </header>
+        ) : (
+          <h1 class="visually-hidden" data-figma="3:689">{site.landing.eyebrow} {site.landing.title}</h1>
+        )}
         <CandyGrid />
       </>
     )}
@@ -57,7 +61,8 @@ import { site, landing } from '../lib/content';
     min-block-size: 100vh; min-block-size: 100dvh;
     overflow: hidden;
   }
-  .landing.grid { overflow: visible; } /* the grid scrolls like a normal page */
+  .landing.grid { overflow: visible; padding-block-start: var(--space-landing-grid-top); } /* scrolls like a normal page */
+  .landing.grid:has(.intro) { padding-block-start: 0; }
   .intro { position: relative; block-size: var(--landing-grid-intro-h); }
   .title-group {
     position: absolute; left: 50%; top: var(--cy); translate: -50% -50%;
