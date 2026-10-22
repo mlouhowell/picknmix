@@ -1,11 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readdirSync } from 'node:fs';
-import data from '../content/candies.json' with { type: 'json' };
+import { siteCandies } from './site-candies';
 
-const with3d = data.candies.filter((c) => c.model3d).map((c) => c.slug);
+const with3d = siteCandies.filter((c) => c.model3d).map((c) => c.slug);
 /** every 3D module, including ones awaiting approval (not yet enabled via model3d) */
 const modules = readdirSync('src/three/candies').filter((f) => f.endsWith('.ts')).map((f) => f.replace(/\.ts$/, ''));
-const without3d = data.candies.filter((c) => !c.model3d).map((c) => c.slug);
+const without3d = siteCandies.filter((c) => !c.model3d).map((c) => c.slug);
 type W = { candy: { ready: boolean; pause(): void; at(t: number): void; loopSeconds: number; staticTime: number } };
 const ready = (page: Page) => page.waitForFunction(() => (window as unknown as W).candy?.ready, null, { timeout: 30000 });
 

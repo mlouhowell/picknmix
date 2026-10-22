@@ -127,6 +127,13 @@ export const LandingLayoutSchema = z.object({
   }),
 });
 
+// content/removed.json: cut from the whole site for now (owner's picking board). Reversible: delete a line.
+export const RemovedSchema = z.object({
+  candies: z.array(z.string()),
+  pieces: z.array(assetSrc), // hero or variant photos; a removed hero only leaves the landing
+  variantsWithoutImage: z.array(z.string().regex(/^[\w-]+\/.+$/, '"slug/Variant name"')),
+});
+
 export type Candy = z.infer<typeof CandySchema>;
 export type Variant = z.infer<typeof VariantSchema>;
 export type Site = z.infer<typeof SiteSchema>;

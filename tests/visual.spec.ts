@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import sharp from 'sharp';
 import { diffPct } from './visual-diff';
-import candiesJson from '../content/candies.json' with { type: 'json' };
+import { siteCandies } from './site-candies';
 
 const REF = 'reference/candy-pastellfiskar_8-192_REFERENCE.png';
 mkdirSync('review/shots', { recursive: true });
@@ -17,7 +17,11 @@ test('Pastellfiskar matches Figma 8:192 (panel + hero, background ignored) withi
   await settle(page);
   const shot = await page.screenshot({ path: 'review/shots/pastellfiskar.png' });
 
-  const panel = await diffPct(shot, REF, [[0, 0, 429, 1038]]);
+  // the Similar Candies tiles are data-driven (content/removed.json can drop some), so compare the panel above and
+  // below them; tile size + stroke are checked per candy page below
+  const g = (await page.locator('[data-figma="8:231"]').boundingBox())!;
+  const top = Math.floor(g.y), bottom = Math.ceil(g.y + g.height);
+  const panel = await diffPct(shot, REF, [[0, 0, 429, top], [0, bottom, 429, 1038 - bottom]]);
   // hero: hide the blurred background so we only compare pixels the hero image covers
   await page.addStyleTag({ content: '[data-figma="3:679"]{display:none!important}' });
   const heroOnly = await page.screenshot();
@@ -30,7 +34,7 @@ test('Pastellfiskar matches Figma 8:192 (panel + hero, background ignored) withi
   expect(hero.pct).toBeLessThanOrEqual(2);
 });
 
-for (const c of candiesJson.candies) {
+for (const c of siteCandies) {
   test(`candy page ${c.slug}: content from JSON, structure from Figma`, async ({ page }) => {
     await page.goto(`/candy/${c.slug}/`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.name);

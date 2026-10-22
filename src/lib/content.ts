@@ -2,7 +2,8 @@
 import candiesJson from '../../content/candies.json';
 import siteJson from '../../content/site.json';
 import landingJson from '../../content/landing-layout.json';
-import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, type Candy } from './schema';
+import removedJson from '../../content/removed.json';
+import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, RemovedSchema, type Candy } from './schema';
 import { hasImg } from './img';
 import type { z } from 'zod';
 
@@ -17,21 +18,39 @@ function parse<T extends z.ZodTypeAny>(schema: T, data: unknown, file: string): 
 
 export const site = parse(SiteSchema, siteJson, 'content/site.json');
 export const landing = parse(LandingLayoutSchema, landingJson, 'content/landing-layout.json');
-/** All candies in sheet order (drives next/prev). */
-export const candies: Candy[] = parse(CandiesFileSchema, candiesJson, 'content/candies.json').candies.sort(
+const removed = parse(RemovedSchema, removedJson, 'content/removed.json');
+/** Every candy in the sheet, including removed ones (only for validating references). */
+const allCandies: Candy[] = parse(CandiesFileSchema, candiesJson, 'content/candies.json').candies.sort(
   (a, b) => a.order - b.order,
 );
+for (const slug of removed.candies)
+  if (!allCandies.some((c) => c.slug === slug)) throw new Error(`content/removed.json: unknown candy "${slug}"`);
+for (const src of removed.pieces)
+  if (!allCandies.some((c) => c.hero.src === src || c.variants.some((v) => v.src === src)))
+    throw new Error(`content/removed.json: "${src}" is not a candy photo`);
+for (const key of removed.variantsWithoutImage)
+  if (!allCandies.some((c) => c.variants.some((v) => `${c.slug}/${v.name}` === key)))
+    throw new Error(`content/removed.json: unknown variant "${key}"`);
+const removedPieces = new Set(removed.pieces);
+const removedVariants = new Set(removed.variantsWithoutImage);
+/** Candies on the site, in sheet order (drives next/prev), minus content/removed.json. */
+export const candies: Candy[] = allCandies
+  .filter((c) => !removed.candies.includes(c.slug))
+  .map((c) => ({
+    ...c,
+    variants: c.variants.filter((v) => !(v.src && removedPieces.has(v.src)) && !removedVariants.has(`${c.slug}/${v.name}`)),
+  }));
 
 for (const e of landing.extraPieces)
-  if (!candies.some((c) => c.slug === e.linksTo))
+  if (!allCandies.some((c) => c.slug === e.linksTo))
     throw new Error(`content/landing-layout.json: extraPieces "${e.src}" links to unknown candy "${e.linksTo}"`);
 
 for (const src of landing.hidePieces)
-  if (!candies.some((c) => c.hero.src === src || c.variants.some((v) => v.src === src)))
+  if (!allCandies.some((c) => c.hero.src === src || c.variants.some((v) => v.src === src)))
     throw new Error(`content/landing-layout.json: hidePieces "${src}" is not a candy photo`);
 
 for (const s of [landing.sharpHero, ...landing.blurredCandies])
-  if (s.linksTo && !candies.some((c) => c.slug === s.linksTo))
+  if (s.linksTo && !allCandies.some((c) => c.slug === s.linksTo))
     throw new Error(`content/landing-layout.json: slot ${s.figmaNode} links to unknown candy "${s.linksTo}"`);
 
 export function getCandy(slug: string): Candy {
@@ -58,9 +77,9 @@ export const candyHref = (c: Pick<Candy, 'slug'>) => `/candy/${c.slug}/`;
 export type Piece = { candy: Candy; src: string; name: string; hero: boolean };
 
 /** Landing pieces grouped by candy (sheet order): hero first, then variants with an image if `variants`,
- *  minus landing.hidePieces. A candy whose photos are all hidden drops off the landing. */
+ *  minus landing.hidePieces and removed pieces. A candy whose photos are all hidden drops off the landing. */
 export function pieceFamilies(variants: boolean): Piece[][] {
-  const hidden = new Set(landing.hidePieces);
+  const hidden = new Set([...landing.hidePieces, ...removedPieces]);
   return candies.map((c) => [
     ...(hasImg(c.hero.src) ? [{ candy: c, src: c.hero.src, name: c.name, hero: true }] : []),
     ...(variants ? c.variants.filter((v) => hasImg(v.src)).map((v) => ({ candy: c, src: v.src!, name: v.name, hero: false })) : []),

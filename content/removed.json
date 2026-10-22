@@ -1,0 +1,28 @@
+{
+  "_readme": "Candies and photos removed from the whole site for now (landing, candy pages, Similar Candies, next/prev). Owner's cuts on the Figma picking board (jHQuCz5VUzOveyLVbn5jV9, page \"3D renders\", 2026-10-21). Nothing is deleted from assets/ or the sheet: delete a line here to bring it back. A removed hero only leaves the landing; its candy page still needs it as the main image (or 3D poster).",
+  "candies": ["kexchoklad", "daim"],
+  "pieces": [
+    "candies/polkagris/hero-3d.png",
+    "candies/polkagris/variant-pieces.png",
+    "candies/bubs/variant-banana-toffee-ovals.png",
+    "candies/pastellfiskar/variant-red-fish-us.png",
+    "candies/ahlgrens-bilar/variant-white-car.png",
+    "candies/ahlgrens-bilar/variant-saltlakrits.png",
+    "candies/djungelvral/variant-monkey.png",
+    "candies/djungelvral/variant-lion.png",
+    "candies/djungelvral/variant-squirrel.png",
+    "candies/djungelvral/variant-elephant.png",
+    "candies/gott-blandat/hero.png",
+    "candies/gott-blandat/variant-licorice-sailboat.png",
+    "candies/cola/hero.png",
+    "candies/cola/variant-smarke-fizzy-cola.png",
+    "candies/cola/variant-haribo-happy-cola-bag.png"
+  ],
+  "variantsWithoutImage": [
+    "polkagris/Flavoured sockerstänger",
+    "ahlgrens-bilar/Pink car",
+    "ahlgrens-bilar/Sursockrade (sour)",
+    "gott-blandat/Gott & Blandat Salt",
+    "gott-blandat/Gott & Blandat Sur"
+  ]
+}

@@ -9,7 +9,7 @@
 // (no blur, full opacity) and holds it still so it's easy to click. Behind candy pages the collage stays decorative.
 // Landing only: scripts/landing-scroll.ts stirs the slots on scroll via --sy / --sr (depth: sharp = near = most).
 import Picture from './Picture.astro';
-import { landing, site, getCandy, candyHref } from '../lib/content';
+import { landing, site, candies, candyHref } from '../lib/content';
 import { hasImg } from '../lib/img';
 interface Props { fit?: 'contain' | 'cover'; includeHero?: boolean; links?: boolean }
 const { fit = 'cover', includeHero = false, links = false } = Astro.props;
@@ -25,8 +25,8 @@ const motionVars = (s: (typeof slots)[number], i: number) =>
   `--depth:${s.depthSeconds ?? +(m.depthSeconds * (0.8 + frac(i, 0.29) * 0.4)).toFixed(2)}s;` +
   `--near:${m.scaleNear};--far:${m.scaleFar}`;
 const link = (slug: string | null) => {
-  if (!links || !slug) return null;
-  const c = getCandy(slug);
+  const c = links && slug ? candies.find((x) => x.slug === slug) : undefined;
+  if (!c) return null; // no link, or the candy is in content/removed.json
   return { href: candyHref(c), label: site.landing.candyLinkLabel.replace('{name}', c.name) };
 };
 const maxBlur = Math.max(...slots.map((s) => s.blurPx), 1);

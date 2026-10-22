@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import data from '../content/candies.json' with { type: 'json' };
+import { siteCandies } from './site-candies';
 
-const order = [...data.candies].sort((a, b) => a.order - b.order);
+const order = siteCandies;
 
-test('next arrow visits all 9 candies in sheet order and wraps', async ({ page }) => {
+test('next arrow visits every candy in sheet order and wraps', async ({ page }) => {
   await page.goto(`/candy/${order[0]!.slug}/`);
   for (let i = 1; i <= order.length; i++) {
     await page.locator('[data-nav="next"]').click();

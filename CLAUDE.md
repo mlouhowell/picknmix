@@ -17,6 +17,8 @@ Read first: `PLAN.md` (phases + acceptance criteria), `3D_CANDY_GUIDELINES.md` (
 | Non-sheet candy fields (slug, type, assets, credits, Figma IDs, model3d) | `content/candies.extra.json` |
 | UI strings ("Similar Candies", labels, aria labels) + layout switches | `content/site.json` |
 | Landing composition | `content/landing-layout.json` |
+| Candies/photos cut from the whole site for now (reversible) | `content/removed.json` |
+| 3D build list + owner's locked references (shape-by-shape) | `reference/3d-targets/README.md` |
 | Original images | `assets/` (+ `assets/manifest.json` with licences) |
 | Generated images | `public/img/` (`npm run images`) |
 | 3D | `src/three/candy-kit.ts`, `src/three/candies/<slug>.ts`, previews in `public/3d/<slug>/` |
