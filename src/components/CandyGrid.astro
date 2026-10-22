@@ -34,8 +34,11 @@ const pieces = pieceFamilies(landing.grid.variants).flat();
     inline-size: calc(100% - 2 * var(--space-landing-tile-inset)); block-size: calc(100% - 2 * var(--space-landing-tile-inset));
     object-fit: contain;
     filter: var(--candy-photo-grade) var(--candy-photo-shadow);
-    transition: scale var(--duration-page) var(--ease-out);
+    transition: scale var(--duration-page) var(--ease-out), filter var(--duration-page) var(--ease-out);
   }
-  .tile:hover .box :global(img), .tile:focus-visible .box :global(img) { scale: var(--landing-tile-hover-scale); }
+  .tile:hover .box :global(img), .tile:focus-visible .box :global(img) {
+    scale: var(--landing-tile-hover-scale);
+    filter: var(--candy-photo-grade) var(--candy-photo-shadow-hover);
+  }
   .tile:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
 </style>

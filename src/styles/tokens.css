@@ -103,9 +103,10 @@
   --hairline: 1px;                   /* utility (visually-hidden clip box) */
 
   /* ---------- Candy photos (landing universe; not in Figma, stand-in until real photography / 3D) ---------- */
-  /* richer colour + gloss so product cut-outs read as fresh candy; contact shadow lifts them off the white */
+  /* richer colour + gloss so product cut-outs read as fresh candy; shadow = tight contact + wide faint ambient (no heavy offset drop) */
   --candy-photo-grade: saturate(1.18) contrast(1.06) brightness(1.02);
-  --candy-photo-shadow: drop-shadow(0 18px 16px rgb(60 30 20 / .18)) drop-shadow(0 3px 3px rgb(60 30 20 / .14));
+  --candy-photo-shadow: drop-shadow(0 1px 1.5px rgb(40 20 15 / .10)) drop-shadow(0 8px 18px rgb(40 20 15 / .07));
+  --candy-photo-shadow-hover: drop-shadow(0 2px 2px rgb(40 20 15 / .08)) drop-shadow(0 16px 28px rgb(40 20 15 / .10));   /* lifted */
 
   /* ---------- Landing grid (mode "grid"; no Figma frame yet, scaled-up Similar Candies tiles 12:58) ---------- */
   --landing-tile-min: min(200px, 40vw);  /* columns: as many >= this as fit (2 up on phones) */
