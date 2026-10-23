@@ -1,50 +1,102 @@
 ---
-// Candy drawer (design in progress in Figma; no node yet). A side <dialog> opened from the landing grid: close +
-// previous/next (wrapping through content/grid/candies.json), then the candy's image, name and any text fields
-// that aren't empty yet. Content is filled in by scripts/landing-grid.ts from the JSON below. No content styling yet.
+// Candy drawer = the earlier candy page (figma 8:192) as an overlay, without 3D: the 429 white panel (8:211) on the
+// left with close + next (8:212 / 8:214), title (8:238), body (8:221) and Details (8:222); the candy cut-out large on
+// the right (hero 8:236, PNG only) over the blurred, tinted page (8:210). One panel + hero per candy in
+// content/grid/candies.json, rendered here; scripts/landing-grid.ts shows the right one. Empty text fields are left out
+// (copy coming). No Similar Candies: the grid candies have no variants yet.
 import IconButton from './IconButton.astro';
-import { site, gridCandies, gridSrc } from '../lib/content';
-import { img } from '../lib/img';
+import DetailsList from './DetailsList.astro';
+import Picture from './Picture.astro';
+import { site, gridCandies, gridSrc, timeline } from '../lib/content';
 
-const imgW = 280; // = --drawer-img
-const sizes = `${imgW}px`;
-const data = gridCandies.map((c) => {
-  const s = img(gridSrc(c), imgW);
-  return { ...c, webp: s.webp, png: s.png, fallback: s.fallback };
-});
+const eraName = (id: string) => {
+  const e = timeline.eras.find((x) => x.id === id);
+  return e ? `${e.dates} · ${e.title}` : '';
+};
+const heroW = 512; // = --hero-size (8:236)
 ---
 <dialog class="drawer" aria-label={site.drawer.label} data-drawer>
-  <div class="bar">
-    <IconButton label={site.drawer.close} icon="close" figma="8:212" nav="close" />
-    <div class="step">
-      <IconButton label={site.drawer.prev} icon="prev" figma="8:214" nav="prev" />
-      <IconButton label={site.drawer.next} icon="next" figma="8:214" nav="next" />
+  <div class="layout">
+    <!-- figma 8:211 panel -->
+    <aside class="panel" data-figma="8:211">
+      <div class="buttons">
+        <IconButton label={site.drawer.close} icon="close" figma="8:212" nav="close" />
+        <IconButton label={site.drawer.next} icon="next" figma="8:214" nav="next" />
+      </div>
+      <!-- figma 8:219 content stack, one per candy -->
+      {gridCandies.map((c, i) => (
+        <article class="content" data-panel={i} hidden data-figma="8:219">
+          <h2 class="title" data-figma="8:238">{c.name}</h2>
+          {c.body && <p class="body" data-figma="8:221">{c.body}</p>}
+          <DetailsList id={`details-${c.slug}`} rows={[
+            { label: site.candyPage.labels.year, value: c.year, figma: '8:224' },
+            { label: site.candyPage.labels.type, value: c.type, figma: '8:227' },
+            { label: site.drawer.fields.era, value: eraName(c.era), figma: '8:224' },
+          ]} />
+        </article>
+      ))}
+    </aside>
+    <!-- figma 8:236 hero (PNG cut-out, no 3D) -->
+    <div class="hero-area" data-hero-area>
+      {gridCandies.map((c, i) => (
+        <figure class="hero" data-hero={i} hidden data-figma="8:236">
+          <Picture src={gridSrc(c)} alt={c.name} displayWidth={heroW} sizes={`(max-width: 48em) 70vw, ${heroW}px`} />
+          {c.caption && <figcaption>{c.caption}</figcaption>}
+        </figure>
+      ))}
     </div>
   </div>
-  <article class="body" data-drawer-body>
-    <picture>
-      <source type="image/webp" sizes={sizes} data-webp />
-      <img alt="" sizes={sizes} data-img />
-    </picture>
-    <h2 data-name></h2>
-    <dl data-fields></dl>
-    <p data-text="body"></p>
-    <p data-text="caption"></p>
-  </article>
 </dialog>
-<script type="application/json" id="grid-candies" set:html={JSON.stringify({ candies: data, fields: site.drawer.fields })} />
 
 <style>
   .drawer {
-    position: fixed; inset: 0 0 0 auto; margin: 0;
-    inline-size: var(--drawer-w); max-inline-size: 100vw; block-size: 100%; max-block-size: 100%;
-    padding: var(--drawer-pad); border: 0; border-inline-start: var(--hairline) solid var(--color-line);
-    background: var(--color-panel); color: var(--color-text); overflow-y: auto;
+    position: fixed; inset: 0; margin: 0; padding: 0; border: 0;
+    inline-size: 100vw; block-size: 100dvh; max-inline-size: none; max-block-size: none;
+    background: transparent; color: var(--color-text); overflow: hidden;
   }
-  .drawer::backdrop { background: transparent; }
-  .bar { display: flex; justify-content: space-between; margin-block-end: var(--drawer-pad); }
-  .step { display: flex; gap: var(--space-stack); }
-  .body { display: grid; gap: var(--space-stack); }
-  .body img { inline-size: var(--drawer-img); max-inline-size: 100%; aspect-ratio: 1; object-fit: contain; }
-  .body p:empty, .body dl:empty { display: none; }
+  /* figma 8:210: white 60% + black 10% over a 21px blur of whatever is behind (grid or timeline) */
+  .drawer::backdrop { background: var(--backdrop-tint); backdrop-filter: blur(var(--backdrop-blur)); -webkit-backdrop-filter: blur(var(--backdrop-blur)); }
+  .layout { display: grid; grid-template-columns: var(--panel-w) 1fr; block-size: 100%; }
+
+  .panel {
+    background: var(--color-surface); padding: var(--space-panel); padding-block-end: var(--space-panel-bottom);
+    overflow-y: auto;
+  }
+  .buttons { display: flex; justify-content: space-between; }
+  .content {
+    inline-size: var(--content-w); max-inline-size: 100%;
+    margin-block-start: calc(var(--space-content-top) - var(--space-panel) - var(--button-size));
+    display: grid; gap: var(--space-stack);
+  }
+  .content[hidden], .hero[hidden] { display: none; }
+  .title {
+    font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
+    font-size: var(--type-candy-title-size); font-weight: var(--type-candy-title-weight);
+    line-height: var(--type-candy-title-leading); color: var(--color-brand); text-align: center;
+  }
+  .body { font-size: var(--type-body-size); line-height: var(--type-body-leading); }
+
+  .hero-area { display: grid; place-items: center; padding: var(--space-panel); cursor: zoom-out; }
+  .hero { margin: 0; inline-size: var(--hero-size); max-inline-size: 100%; display: grid; gap: var(--space-stack); cursor: auto; }
+  .hero :global(picture) { display: block; aspect-ratio: 1; }
+  .hero :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+  .hero figcaption { text-align: center; font-family: var(--font-ui); font-size: var(--type-caption-size); color: var(--color-text-muted); }
+
+  /* the panel slides in from the left (tokens are 0ms under reduced motion) */
+  .drawer[open] .panel { animation: panel-in var(--duration-page) var(--ease-out); }
+  .drawer[open] .hero-area { animation: hero-in var(--duration-page) var(--ease-out); }
+  @keyframes panel-in { from { translate: -100% 0; } }
+  @keyframes hero-in { from { opacity: 0; } }
+
+  /* phones: candy on top, panel underneath, the whole drawer scrolls */
+  @media (max-width: 48em) {
+    .drawer { overflow-y: auto; }
+    .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; block-size: auto; min-block-size: 100%; }
+    .hero-area { order: -1; }
+    .hero { inline-size: min(var(--hero-size), 70vw); }
+    .panel { overflow: visible; }
+    .buttons { position: fixed; inset-block-start: var(--space-panel); inset-inline: var(--space-panel); z-index: 1; }
+    .content { inline-size: auto; margin-block-start: 0; }
+    .drawer[open] .panel { animation-name: hero-in; }
+  }
 </style>

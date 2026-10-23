@@ -82,22 +82,30 @@ test.describe('grid mode', () => {
     await expect.poll(() => page.locator('.candy-grid li').count()).toBeGreaterThan(before);
   });
 
-  test('a candy opens the drawer; next/prev wrap; close and Esc close it', async ({ page }) => {
+  test('a candy opens the drawer (old candy panel, no 3D); next/<-/-> wrap; close, Esc and the backdrop close it', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
     const drawer = page.locator('[data-drawer]');
+    const title = drawer.locator('.content:not([hidden]) .title');
     await page.locator('.candy-grid .tile').first().click();
     await expect(drawer).toBeVisible();
-    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies[0]!.name);
-    await drawer.locator('[data-nav="prev"]').click();
-    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies.at(-1)!.name);
+    await expect(title).toHaveText(grid.candies[0]!.name);
+    await expect(drawer.locator('.hero:not([hidden]) img')).toHaveAttribute('alt', grid.candies[0]!.name);
+    expect(await drawer.locator('canvas').count()).toBe(0); // no 3D
+    // panel 8:211: 429 wide on the left
+    await expect.poll(async () => { const b = (await drawer.locator('.panel').boundingBox())!; return [b.x, b.width].map(Math.round); }).toEqual([0, 429]);
+    await page.keyboard.press('ArrowLeft');
+    await expect(title).toHaveText(grid.candies.at(-1)!.name);
     await drawer.locator('[data-nav="next"]').click();
-    await drawer.locator('[data-nav="next"]').click();
-    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies[1]!.name);
-    await expect(drawer.locator('[data-img]')).toHaveAttribute('alt', grid.candies[1]!.name);
+    await page.keyboard.press('ArrowRight');
+    await expect(title).toHaveText(grid.candies[1]!.name);
     await drawer.locator('[data-nav="close"]').click();
     await expect(drawer).toBeHidden();
     await page.locator('.candy-grid .tile').nth(2).click();
     await page.keyboard.press('Escape');
+    await expect(drawer).toBeHidden();
+    await page.locator('.candy-grid .tile').nth(2).click();
+    await page.mouse.click(1300, 120); // empty area beside the candy
     await expect(drawer).toBeHidden();
   });
 
@@ -172,7 +180,7 @@ test.describe('timeline view (figma 138:397)', () => {
     const candy = page.locator('#boom .tl-candy').first();
     const name = await candy.locator('img').getAttribute('alt');
     await candy.click();
-    await expect(page.locator('[data-drawer] [data-name]')).toHaveText(name!);
+    await expect(page.locator('[data-drawer] .content:not([hidden]) .title')).toHaveText(name!);
   });
 
   test('contents follows the era in view', async ({ page }) => {

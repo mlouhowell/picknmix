@@ -1,18 +1,21 @@
 ---
 // figma 8:222 Details (stacked: label 130 | value 229, rows 27 tall). 'row' variant = BUBS 8:151 (OPEN, site.json switch).
+// The candy drawer passes its own `rows` (empty values are dropped; no rows = no section) and an `id` per candy.
 import type { Candy } from '../lib/schema';
 import { site } from '../lib/content';
-interface Props { candy: Candy }
-const { candy } = Astro.props;
+type Row = { label: string; value: string; figma: string };
+interface Props { candy?: Candy; rows?: Row[]; id?: string }
+const { candy, id = 'details-heading' } = Astro.props;
 const { labels, detailsHeading, layout } = site.candyPage;
-const rows = [
+const rows = (Astro.props.rows ?? (candy ? [
   { label: labels.year, value: candy.year, figma: '8:224' },
   { label: labels.type, value: candy.type, figma: '8:227' },
   ...(layout.showMaker ? [{ label: labels.maker, value: candy.maker, figma: '8:151' }] : []),
-];
+] : [])).filter((r) => r.value);
 ---
-<section class:list={['details', layout.details]} data-figma={layout.details === 'row' ? '8:151' : '8:222'} aria-labelledby="details-heading">
-  <h2 id="details-heading" class:list={['section-heading', { 'visually-hidden': layout.details === 'row' }]} data-figma="8:223">{detailsHeading}</h2>
+{rows.length > 0 && (
+<section class:list={['details', layout.details]} data-figma={layout.details === 'row' ? '8:151' : '8:222'} aria-labelledby={id}>
+  <h2 id={id} class:list={['section-heading', { 'visually-hidden': layout.details === 'row' }]} data-figma="8:223">{detailsHeading}</h2>
   <dl>
     {rows.map((r) => (
       <div class="row" data-figma={r.figma}>
@@ -22,6 +25,7 @@ const rows = [
     ))}
   </dl>
 </section>
+)}
 
 <style>
   .section-heading { font-size: var(--type-section-size); font-weight: var(--type-section-weight); line-height: var(--type-section-leading); }

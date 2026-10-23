@@ -3,12 +3,6 @@
 // Markup: SiteHeader.astro (toggle), CandyGrid.astro (grid + sentinel), CandyDrawer.astro (dialog + JSON).
 export {};
 
-type DrawerCandy = {
-  name: string; year: string; era: string; type: string; body: string; caption: string;
-  webp: string; png: string; fallback: string;
-};
-type DrawerData = { candies: DrawerCandy[]; fields: Record<'year' | 'era' | 'type', string> };
-
 let cleanup: (() => void) | null = null;
 
 function init() {
@@ -38,7 +32,8 @@ function init() {
   show(new URL(location.href).searchParams.get('view') === 'timeline' ? 'timeline' : 'grid');
 
   // ---- Never-ending grid: append another set of the 13 candies before the sentinel comes into view
-  const set = [...grid.children].slice(0, (JSON.parse(document.getElementById('grid-candies')!.textContent!) as DrawerData).candies.length);
+  const count = document.querySelectorAll('[data-drawer] [data-panel]').length;
+  const set = [...grid.children].slice(0, count);
   const sentinel = document.querySelector('[data-endless-sentinel]');
   const io = new IntersectionObserver((entries) => {
     if (!entries.some((e) => e.isIntersecting)) return;
@@ -56,34 +51,15 @@ function init() {
   }, { rootMargin: '0px 0px 1200px 0px' });
   if (sentinel) io.observe(sentinel);
 
-  // ---- Drawer
+  // ---- Drawer (CandyDrawer.astro renders one panel + hero per candy; show the current one)
   const dialog = document.querySelector<HTMLDialogElement>('[data-drawer]');
-  const data = JSON.parse(document.getElementById('grid-candies')!.textContent!) as DrawerData;
   let current = 0;
   const render = (i: number) => {
     if (!dialog) return;
-    const n = data.candies.length;
-    current = ((i % n) + n) % n;
-    const c = data.candies[current]!;
-    const q = <T extends Element>(sel: string) => dialog.querySelector<T>(sel)!;
-    // swap in a fresh <picture> so the browser re-picks the source for the new candy
-    const pic = q<HTMLPictureElement>('picture');
-    const next = pic.cloneNode(true) as HTMLPictureElement;
-    next.querySelector<HTMLSourceElement>('[data-webp]')!.srcset = c.webp;
-    const im = next.querySelector<HTMLImageElement>('[data-img]')!;
-    im.srcset = c.png; im.src = c.fallback; im.alt = c.name;
-    pic.replaceWith(next);
-    q('[data-name]').textContent = c.name;
-    const dl = q('[data-fields]');
-    dl.replaceChildren();
-    for (const k of ['year', 'era', 'type'] as const) {
-      if (!c[k]) continue;
-      const dt = document.createElement('dt'); dt.textContent = data.fields[k];
-      const dd = document.createElement('dd'); dd.textContent = c[k];
-      dl.append(dt, dd);
-    }
-    q('[data-text="body"]').textContent = c.body;
-    q('[data-text="caption"]').textContent = c.caption;
+    current = ((i % count) + count) % count;
+    dialog.querySelectorAll<HTMLElement>('[data-panel]').forEach((el) => (el.hidden = Number(el.dataset.panel) !== current));
+    dialog.querySelectorAll<HTMLElement>('[data-hero]').forEach((el) => (el.hidden = Number(el.dataset.hero) !== current));
+    dialog.querySelector('.panel')?.scrollTo({ top: 0 });
   };
   // grid tiles and timeline candies both carry data-index (position in content/grid/candies.json)
   document.addEventListener('click', (e) => {
@@ -94,10 +70,11 @@ function init() {
   }, { signal });
   dialog?.addEventListener('click', (e) => {
     const nav = (e.target as Element).closest<HTMLElement>('[data-nav]')?.dataset.nav;
-    if (nav === 'close' || e.target === dialog) dialog.close();
+    if (nav === 'close' || e.target === dialog || (e.target as Element).matches('[data-hero-area]')) dialog.close();
     else if (nav === 'next') render(current + 1);
     else if (nav === 'prev') render(current - 1);
   }, { signal });
+  // keyboard like the old candy page: -> next, <- previous, Esc closes (native)
   dialog?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') render(current + 1);
     else if (e.key === 'ArrowLeft') render(current - 1);
