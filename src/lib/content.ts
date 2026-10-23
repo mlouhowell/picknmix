@@ -3,7 +3,8 @@ import candiesJson from '../../content/candies.json';
 import siteJson from '../../content/site.json';
 import landingJson from '../../content/landing-layout.json';
 import removedJson from '../../content/removed.json';
-import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, RemovedSchema, type Candy } from './schema';
+import gridJson from '../../content/grid/candies.json';
+import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, RemovedSchema, GridCandiesFileSchema, type Candy, type GridCandy } from './schema';
 import { hasImg } from './img';
 import type { z } from 'zod';
 
@@ -52,6 +53,12 @@ for (const src of landing.hidePieces)
 for (const s of [landing.sharpHero, ...landing.blurredCandies])
   if (s.linksTo && !allCandies.some((c) => c.slug === s.linksTo))
     throw new Error(`content/landing-layout.json: slot ${s.figmaNode} links to unknown candy "${s.linksTo}"`);
+
+/** Landing grid candies (content/grid/candies.json), in grid order. */
+export const gridCandies: GridCandy[] = parse(GridCandiesFileSchema, gridJson, 'content/grid/candies.json').candies;
+for (const c of gridCandies) if (!hasImg(gridSrc(c))) throw new Error(`content/grid/candies.json: no image for ${c.slug} (${c.image}); run \`npm run images\``);
+/** Logical src for lib/img.ts ("/candies/01-blue-skull.png" -> "candies/01-blue-skull.png"). */
+export function gridSrc(c: Pick<GridCandy, 'image'>) { return c.image.slice(1); }
 
 export function getCandy(slug: string): Candy {
   const c = candies.find((c) => c.slug === slug);

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // assets/candies/**/*.png + assets/landing/*.png (not landing/figma/, the raw Figma exports) -> public/img/<same path>-<w>.{webp,png} at 256/512/1024 (never upscaled)
+// + public/candies/*.png (the landing grid's 13 cut-outs, content/grid/candies.json) -> public/img/candies/<name>-<w>.{webp,png}, logical src "candies/<name>.png".
 // + public/img/index.json (dimensions + widths per logical src) consumed by src/lib/img.ts.
 // Incremental: skips outputs newer than their source. PUBLIC_RELEASE=true skips reference-only files.
 import sharp from 'sharp';
@@ -24,8 +25,10 @@ const mtime = async (p) => (await stat(p).catch(() => null))?.mtimeMs ?? 0;
 
 const index = {};
 let made = 0, skipped = 0;
-for (const file of [...(await walk(`${SRC}/candies`)), ...(await walk(`${SRC}/landing`)).filter((f) => !f.includes('/figma/'))]) {
-  const logical = relative(SRC, file);
+const GRID = 'public/candies';
+const gridFiles = (await readdir(GRID).catch(() => [])).filter((n) => n.endsWith('.png')).map((n) => join(GRID, n));
+for (const file of [...(await walk(`${SRC}/candies`)), ...(await walk(`${SRC}/landing`)).filter((f) => !f.includes('/figma/')), ...gridFiles]) {
+  const logical = relative(file.startsWith(GRID) ? 'public' : SRC, file);
   const license = licenseOf[logical] ?? null;
   if (PUBLIC && license === 'reference-only') { skipped++; continue; }
   const meta = await sharp(file).metadata();

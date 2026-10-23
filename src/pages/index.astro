@@ -1,5 +1,6 @@
 ---
-// Landing, figma 3:679 (chosen; 10:11 / 10:155 / 3:226 are explorations, not built).
+// Landing. Grid mode = figma 109:27 (desktop) / 109:234 (phones): header with Grid | Timeline toggle, never-ending
+// candy grid, candy drawer. Timeline (111:26 / 111:201) is a stub for now. Collage/universe modes = old 3:679.
 // Composition from content/landing-layout.json (mode: "universe" fly-through or the "collage" of 3:679);
 // copy from content/site.json. Each candy links to its page.
 import Base from '../layouts/Base.astro';
@@ -7,10 +8,13 @@ import BackgroundCandies from '../components/BackgroundCandies.astro';
 import CandyUniverse from '../components/CandyUniverse.astro';
 import CandyGrid from '../components/CandyGrid.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import CandyDrawer from '../components/CandyDrawer.astro';
 import { site, landing } from '../lib/content';
 ---
 <Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
-  <main class:list={['landing', landing.mode]} data-figma="3:679">
+  {landing.mode === 'grid' && <SiteHeader />}
+  <main class:list={['landing', landing.mode]} data-figma={landing.mode === 'grid' ? '109:27' : '3:679'}>
     {landing.mode === 'grid' && (
       <>
         {landing.grid.intro ? (
@@ -25,7 +29,14 @@ import { site, landing } from '../lib/content';
         ) : (
           <h1 class="visually-hidden" data-figma="3:689">{site.landing.eyebrow} {site.landing.title}</h1>
         )}
-        <CandyGrid />
+        <section data-view-panel="grid">
+          <CandyGrid />
+        </section>
+        <!-- figma 111:26 / 111:201 timelines: not built yet (stub) -->
+        <section class="timeline-stub" data-view-panel="timeline" hidden>
+          <p>{site.timeline.stub}</p>
+        </section>
+        <CandyDrawer />
       </>
     )}
     {landing.mode === 'universe' ? (
@@ -52,6 +63,7 @@ import { site, landing } from '../lib/content';
 <script>
   import '../scripts/landing-scroll';
   import '../scripts/landing-universe';
+  import '../scripts/landing-grid';
 </script>
 
 <style>
@@ -61,7 +73,8 @@ import { site, landing } from '../lib/content';
     min-block-size: 100vh; min-block-size: 100dvh;
     overflow: hidden;
   }
-  .landing.grid { overflow: visible; padding-block-start: var(--space-landing-grid-top); } /* scrolls like a normal page */
+  .landing.grid { overflow: visible; padding-block-start: 0; } /* scrolls like a normal page; the sticky header sits above */
+  .timeline-stub { padding: var(--grid-pad-bottom) var(--grid-gutter); text-align: center; font-family: var(--font-ui); color: var(--color-text-muted); }
   .landing.grid:has(.intro) { padding-block-start: 0; }
   .intro { position: relative; block-size: var(--landing-grid-intro-h); }
   .title-group {

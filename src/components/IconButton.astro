@@ -1,15 +1,17 @@
 ---
-// figma 8:212 (close) / 8:214 (next): 45px round button, icon 8:213 / 8:215. Rendered as a link (navigation).
-interface Props { href: string; label: string; icon: 'close' | 'next' | 'prev'; figma: string; rel?: string; nav?: string }
+// figma 8:212 (close) / 8:214 (next): 45px round button, icon 8:213 / 8:215. A link (navigation) when `href` is set,
+// otherwise a <button> (the landing drawer wires it up by data-nav).
+interface Props { href?: string; label: string; icon: 'close' | 'next' | 'prev'; figma: string; rel?: string; nav?: string }
 const { href, label, icon, figma, rel, nav } = Astro.props;
+const Tag = href ? 'a' : 'button';
 ---
-<a class="icon-button" href={href} aria-label={label} title={label} data-figma={figma} rel={rel} data-nav={nav}>
+<Tag class="icon-button" href={href} type={href ? undefined : 'button'} aria-label={label} title={label} data-figma={figma} rel={rel} data-nav={nav}>
   {icon === 'close' ? (
     <svg class="close" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" /></svg>
   ) : (
     <svg class:list={['arrow', { flip: icon === 'prev' }]} viewBox="0 0 18 15" aria-hidden="true"><path d="M1 7.5h15.5M10.5 1.5l6 6-6 6" /></svg>
   )}
-</a>
+</Tag>
 
 <style>
   .icon-button {
@@ -17,6 +19,7 @@ const { href, label, icon, figma, rel, nav } = Astro.props;
     border-radius: var(--button-radius);
     background: var(--color-button-bg); color: var(--color-icon);
     display: grid; place-items: center; flex: none;
+    border: 0; padding: 0; cursor: pointer;
     transition: filter var(--duration-fast) var(--ease-out);
   }
   .icon-button:hover { filter: brightness(0.96); }

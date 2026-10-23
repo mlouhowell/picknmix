@@ -6,7 +6,7 @@ body {
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

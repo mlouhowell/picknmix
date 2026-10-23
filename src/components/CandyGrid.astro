@@ -1,44 +1,47 @@
 ---
-// Landing grid (mode "grid" in content/landing-layout.json): every candy photo as a tile, grouped by candy in
-// sheet order (hero first, then its variants), minus landing.hidePieces. Each tile links to its candy page.
-// Just the photos (owner: no names, no stroke): square cells, image contained, --candy-photo-* grade.
-// The photo's alt (piece name) is the link's accessible name. Not in Figma yet (owner's direction).
+// figma 109:44 Grid (landing 109:27; phones 109:234): just the candy cut-outs on the page background, no captions,
+// no tile background. 5 per row on desktop. The 13 candies of content/grid/candies.json repeat in order; the first
+// `copies` sets are rendered here and scripts/landing-grid.ts keeps appending sets as you scroll (never-ending).
+// Each candy is a button that opens the drawer (CandyDrawer.astro). Repeats are hidden from assistive tech.
 import Picture from './Picture.astro';
-import { landing, candyHref, pieceFamilies } from '../lib/content';
+import { gridCandies, gridSrc } from '../lib/content';
 
-const pieces = pieceFamilies(landing.grid.variants).flat();
+const copies = 4;
+const cols = 5;
+const tileW = 230; // CSS px of a tile at 1440 (109:46)
+const items = Array.from({ length: copies }, (_, k) => gridCandies.map((c, i) => ({ c, i, repeat: k > 0 }))).flat();
 ---
-<!-- landing grid (no Figma frame yet; landing 3:679) -->
-<ul class="grid" data-figma="3:679">
-  {pieces.map((p) => (
-    <li>
-      <a class="tile" href={candyHref(p.candy)} data-slug={p.candy.slug}>
-        <span class="box"><Picture src={p.src} alt={p.name} displayWidth={240} /></span>
-      </a>
+<!-- figma 109:44 Grid, tiles 109:46 ff. (frame 109:47 p 12, candy image 109:48) -->
+<ul class="candy-grid" data-figma="109:44" data-endless>
+  {items.map(({ c, i, repeat }, n) => (
+    <li aria-hidden={repeat ? 'true' : undefined}>
+      <button type="button" class="tile" data-index={i} tabindex={repeat ? -1 : undefined} data-figma="109:47">
+        <Picture src={gridSrc(c)} alt={c.name} displayWidth={tileW} sizes={`(max-width: 40em) 45vw, ${tileW}px`} eager={n < cols} figma="109:48" />
+      </button>
     </li>
   ))}
 </ul>
+<div class="sentinel" aria-hidden="true" data-endless-sentinel></div>
 
 <style>
-  .grid {
-    list-style: none; margin: 0 auto; padding: 0 var(--space-landing-gutter) var(--space-landing-grid-bottom);
-    max-inline-size: var(--landing-grid-max-w);
-    display: grid; gap: var(--space-landing-grid-gap);
-    grid-template-columns: repeat(auto-fill, minmax(var(--landing-tile-min), 1fr));
+  .candy-grid {
+    margin: 0 auto; padding: 0 var(--grid-gutter) var(--grid-pad-bottom);
+    max-inline-size: calc(var(--grid-max-w) + 2 * var(--grid-gutter));
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: var(--grid-col-gap); row-gap: var(--grid-row-gap);
   }
-  .tile { display: block; min-inline-size: 0; }
-  .box { position: relative; display: block; aspect-ratio: 1; }
-  .box :global(picture) { display: contents; }
-  .box :global(img) {
-    position: absolute; inset: var(--space-landing-tile-inset);
-    inline-size: calc(100% - 2 * var(--space-landing-tile-inset)); block-size: calc(100% - 2 * var(--space-landing-tile-inset));
-    object-fit: contain;
-    filter: var(--candy-photo-grade) var(--candy-photo-shadow);
-    transition: scale var(--duration-page) var(--ease-out), filter var(--duration-page) var(--ease-out);
+  @media (max-width: 64em) { .candy-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 48em) { .candy-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 40em) { .candy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tile {
+    display: block; inline-size: 100%; padding: var(--grid-tile-pad);
+    border: 0; background: none; cursor: pointer;
   }
-  .tile:hover .box :global(img), .tile:focus-visible .box :global(img) {
-    scale: var(--landing-tile-hover-scale);
-    filter: var(--candy-photo-grade) var(--candy-photo-shadow-hover);
+  .tile :global(picture) { display: block; aspect-ratio: var(--grid-img-ratio); }
+  .tile :global(img) {
+    inline-size: 100%; block-size: 100%; object-fit: contain; object-position: center;
+    transition: scale var(--duration-page) var(--ease-out);
   }
-  .tile:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
+  .tile:hover :global(img), .tile:focus-visible :global(img) { scale: var(--landing-tile-hover-scale); }
+  .sentinel { block-size: var(--hairline); }
 </style>

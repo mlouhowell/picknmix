@@ -1,0 +1,52 @@
+---
+// figma 109:28 Header: logo (109:29) left, Grid | Timeline toggle (109:38) centred. On phones (109:234) the
+// toggle drops below the logo. The toggle is wired in scripts/landing-grid.ts (aria-pressed + ?view=).
+import { site } from '../lib/content';
+---
+<header class="site-header" data-figma="109:28">
+  <!-- figma 109:29 Logo: "Pick N Mix" 109:30 + handwritten tagline 109:31 -->
+  <p class="logo" data-figma="109:29">
+    <span class="name" data-figma="109:30">{site.siteName}</span>
+    <span class="tagline" data-figma="109:31">{site.header.tagline}</span>
+  </p>
+  <!-- figma 109:38 View toggle: Grid 109:35 (active) / Timeline 109:37 -->
+  <div class="toggle" role="group" aria-label={site.header.viewLabel} data-figma="109:38">
+    <button type="button" class="seg" data-view="grid" aria-pressed="true" data-figma="109:35">{site.header.grid}</button>
+    <button type="button" class="seg" data-view="timeline" aria-pressed="false" data-figma="109:37">{site.header.timeline}</button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    min-block-size: var(--header-h); padding: var(--header-pad-block) var(--header-pad-inline);
+    background: var(--color-page);
+  }
+  .logo { display: flex; align-items: baseline; gap: var(--space-logo-gap); white-space: nowrap; line-height: normal; }
+  .name {
+    font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
+    font-size: var(--type-logo-size); font-weight: var(--type-candy-title-weight); color: var(--color-ink);
+  }
+  .tagline { font-family: var(--font-hand); font-size: var(--type-logo-tag-size); color: var(--color-text-muted); }
+  .toggle {
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+    display: flex; gap: var(--toggle-gap); padding: var(--toggle-pad);
+    border-radius: var(--radius-pill); background: var(--color-toggle);
+  }
+  .seg {
+    border: 0; cursor: pointer; border-radius: var(--radius-pill);
+    padding: var(--toggle-seg-pad-block) var(--toggle-seg-pad-inline);
+    font-family: var(--font-ui); font-size: var(--type-toggle-size); font-weight: var(--type-toggle-weight);
+    letter-spacing: var(--type-toggle-tracking); line-height: normal;
+    background: transparent; color: var(--color-text-muted);
+    transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  .seg[aria-pressed='true'] { background: var(--color-ink); color: var(--color-on-ink); }
+
+  /* phones (109:234): logo row, then the toggle centred underneath */
+  @media (max-width: 40em) {
+    .site-header { flex-direction: column; align-items: stretch; gap: var(--header-pad-block); padding-inline: var(--grid-gutter); }
+    .toggle { position: static; translate: none; align-self: center; }
+  }
+</style>

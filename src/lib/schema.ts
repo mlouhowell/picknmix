@@ -47,6 +47,12 @@ export const CandiesFileSchema = z
 
 export const SiteSchema = z.object({
   siteName: text,
+  header: z.object({ tagline: text, viewLabel: text, grid: text, timeline: text }),
+  timeline: z.object({ stub: text }),
+  drawer: z.object({
+    label: text, close: text, prev: text, next: text,
+    fields: z.object({ year: text, era: text, type: text }),
+  }),
   landing: z.object({ eyebrow: text, title: text, candyLinkLabel: text }), // {name} = candy name
   candyPage: z.object({
     detailsHeading: text,
@@ -139,3 +145,18 @@ export type Variant = z.infer<typeof VariantSchema>;
 export type Site = z.infer<typeof SiteSchema>;
 export type LandingLayout = z.infer<typeof LandingLayoutSchema>;
 export type License = z.infer<typeof license>;
+
+/** content/grid/candies.json: the landing grid's candies (Figma 109:27). Text fields stay "" until the copy arrives. */
+export const GridCandySchema = z.object({
+  id: z.number().int().positive(),
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  name: text,
+  image: z.string().regex(/^\/candies\/[\w-]+\.png$/, 'file in public/candies/'),
+  year: z.string(),
+  era: z.string(),
+  type: z.string(),
+  body: z.string(),
+  caption: z.string(),
+});
+export const GridCandiesFileSchema = z.object({ _readme: z.string(), candies: z.array(GridCandySchema).min(1) });
+export type GridCandy = z.infer<typeof GridCandySchema>;

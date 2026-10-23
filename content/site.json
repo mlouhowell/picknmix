@@ -24,5 +24,26 @@
       "showMaker": false,
       "hidePlaceholderTiles": true
     }
+  },
+  "header": {
+    "_note": "Grid landing header 109:28. tagline is the handwritten accent.",
+    "tagline": "lösgodis archive",
+    "viewLabel": "View",
+    "grid": "Grid",
+    "timeline": "Timeline"
+  },
+  "timeline": {
+    "stub": "The timeline is on its way."
+  },
+  "drawer": {
+    "label": "Candy details",
+    "close": "Close",
+    "prev": "Previous candy",
+    "next": "Next candy",
+    "fields": {
+      "year": "Year",
+      "era": "Era",
+      "type": "Type"
+    }
   }
 }

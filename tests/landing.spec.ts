@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import layout from '../content/landing-layout.json' with { type: 'json' };
 import site from '../content/site.json' with { type: 'json' };
+import grid from '../content/grid/candies.json' with { type: 'json' };
 
 test('landing 3:679: copy, centred title, flush ornaments', async ({ page }) => {
   test.skip(layout.mode === 'grid', 'grid mode: title + ornaments sit in the intro block (see grid tests)');
@@ -32,7 +33,6 @@ test('landing scales with the viewport (min(100vw/1400, 100vh/1038))', async ({ 
 
 test.describe('grid mode', () => {
   test.skip(layout.mode !== 'grid', 'landing-layout.json mode is not "grid"');
-  const hidden = new Set(layout.hidePieces);
 
   test('intro: copy and the four ornaments framing the title (or just the grid when grid.intro is off)', async ({ page }) => {
     await page.goto('/');
@@ -54,24 +54,61 @@ test.describe('grid mode', () => {
     await expect(page.locator('.ornaments')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  test('every shown candy photo is a named link to its page; hidden pieces stay off; no captions or strokes', async ({ page }) => {
+  test('grid 109:27: 13 candies repeating, 5 per row at 1440, image only (no caption or tile background)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
-    const tiles = page.locator('.grid a.tile');
-    expect(await tiles.count()).toBeGreaterThan(10);
-    const srcs = await page.locator('.grid img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).currentSrc));
-    for (const h of hidden) {
-      const stem = `/${h.replace(/\.png$/, '')}-`; // public/img/<src minus .png>-<width>.webp
-      expect(srcs.some((s) => s.includes(stem))).toBe(false);
-    }
-    for (const t of await tiles.all()) {
-      await expect(t).toHaveAttribute('href', /^\/candy\/[a-z-]+\/$/);
-      await expect(t.locator('img')).toHaveAttribute('alt', /\S/);
-    }
-    expect(await page.locator('.grid .caption').count()).toBe(0);
-    expect(await page.locator('.grid .box').first().evaluate((e) => getComputedStyle(e).borderTopWidth)).toBe('0px');
-    const t = tiles.nth(3); const href = (await t.getAttribute('href'))!;
-    await t.click();
-    await page.waitForURL(`**${href}`);
+    const tiles = page.locator('.candy-grid .tile');
+    expect(await tiles.count()).toBeGreaterThanOrEqual(grid.candies.length * 2);
+    // first set in content/grid/candies.json order, named; repeats hidden from assistive tech
+    const alts = await page.locator('.candy-grid img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).alt));
+    expect(alts.slice(0, grid.candies.length)).toEqual(grid.candies.map((c) => c.name));
+    expect(alts[grid.candies.length]).toBe(grid.candies[0]!.name);
+    await expect(page.locator('.candy-grid li').nth(grid.candies.length)).toHaveAttribute('aria-hidden', 'true');
+    // Figma 109:48: first candy image box 206x230 at x 108 (row x 96 + tile padding 12)
+    const b = (await page.locator('.candy-grid img').first().boundingBox())!;
+    expect([b.x, b.width, b.height].map(Math.round)).toEqual([108, 206, 230]);
+    const xs = await page.locator('.candy-grid li').evaluateAll((els) => new Set(els.slice(0, 10).map((e) => Math.round(e.getBoundingClientRect().x))).size);
+    expect(xs).toBe(5);
+    expect(await page.locator('.candy-grid .caption').count()).toBe(0);
+    expect(await tiles.first().evaluate((e) => getComputedStyle(e).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+    expect(await page.locator('.candy-grid img').first().getAttribute('src')).toMatch(/^\/img\/candies\/01-blue-skull-\d+\.png$/);
+  });
+
+  test('never-ending: scrolling to the end appends another set', async ({ page }) => {
+    await page.goto('/');
+    const before = await page.locator('.candy-grid li').count();
+    await page.locator('[data-endless-sentinel]').scrollIntoViewIfNeeded();
+    await expect.poll(() => page.locator('.candy-grid li').count()).toBeGreaterThan(before);
+  });
+
+  test('a candy opens the drawer; next/prev wrap; close and Esc close it', async ({ page }) => {
+    await page.goto('/');
+    const drawer = page.locator('[data-drawer]');
+    await page.locator('.candy-grid .tile').first().click();
+    await expect(drawer).toBeVisible();
+    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies[0]!.name);
+    await drawer.locator('[data-nav="prev"]').click();
+    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies.at(-1)!.name);
+    await drawer.locator('[data-nav="next"]').click();
+    await drawer.locator('[data-nav="next"]').click();
+    await expect(drawer.locator('[data-name]')).toHaveText(grid.candies[1]!.name);
+    await expect(drawer.locator('[data-img]')).toHaveAttribute('alt', grid.candies[1]!.name);
+    await drawer.locator('[data-nav="close"]').click();
+    await expect(drawer).toBeHidden();
+    await page.locator('.candy-grid .tile').nth(2).click();
+    await page.keyboard.press('Escape');
+    await expect(drawer).toBeHidden();
+  });
+
+  test('Grid | Timeline toggle switches the view (timeline is a stub)', async ({ page }) => {
+    await page.goto('/');
+    const tl = page.getByRole('button', { name: site.header.timeline });
+    await tl.click();
+    await expect(tl).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText(site.timeline.stub)).toBeVisible();
+    await expect(page.locator('.candy-grid')).toBeHidden();
+    await page.getByRole('button', { name: site.header.grid }).click();
+    await expect(page.locator('.candy-grid')).toBeVisible();
   });
 
   test('the page scrolls to the grid; two columns on a phone', async ({ page }) => {
@@ -80,7 +117,7 @@ test.describe('grid mode', () => {
     await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0); // normal page scroll, not hijacked
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
-    const xs = await page.locator('.grid li').evaluateAll((els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().x))).size);
+    const xs = await page.locator('.candy-grid li').evaluateAll((els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().x))).size);
     expect(xs).toBe(2);
   });
 });

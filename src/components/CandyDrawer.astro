@@ -1,0 +1,50 @@
+---
+// Candy drawer (design in progress in Figma; no node yet). A side <dialog> opened from the landing grid: close +
+// previous/next (wrapping through content/grid/candies.json), then the candy's image, name and any text fields
+// that aren't empty yet. Content is filled in by scripts/landing-grid.ts from the JSON below. No content styling yet.
+import IconButton from './IconButton.astro';
+import { site, gridCandies, gridSrc } from '../lib/content';
+import { img } from '../lib/img';
+
+const imgW = 280; // = --drawer-img
+const sizes = `${imgW}px`;
+const data = gridCandies.map((c) => {
+  const s = img(gridSrc(c), imgW);
+  return { ...c, webp: s.webp, png: s.png, fallback: s.fallback };
+});
+---
+<dialog class="drawer" aria-label={site.drawer.label} data-drawer>
+  <div class="bar">
+    <IconButton label={site.drawer.close} icon="close" figma="8:212" nav="close" />
+    <div class="step">
+      <IconButton label={site.drawer.prev} icon="prev" figma="8:214" nav="prev" />
+      <IconButton label={site.drawer.next} icon="next" figma="8:214" nav="next" />
+    </div>
+  </div>
+  <article class="body" data-drawer-body>
+    <picture>
+      <source type="image/webp" sizes={sizes} data-webp />
+      <img alt="" sizes={sizes} data-img />
+    </picture>
+    <h2 data-name></h2>
+    <dl data-fields></dl>
+    <p data-text="body"></p>
+    <p data-text="caption"></p>
+  </article>
+</dialog>
+<script type="application/json" id="grid-candies" set:html={JSON.stringify({ candies: data, fields: site.drawer.fields })} />
+
+<style>
+  .drawer {
+    position: fixed; inset: 0 0 0 auto; margin: 0;
+    inline-size: var(--drawer-w); max-inline-size: 100vw; block-size: 100%; max-block-size: 100%;
+    padding: var(--drawer-pad); border: 0; border-inline-start: var(--hairline) solid var(--color-line);
+    background: var(--color-panel); color: var(--color-text); overflow-y: auto;
+  }
+  .drawer::backdrop { background: transparent; }
+  .bar { display: flex; justify-content: space-between; margin-block-end: var(--drawer-pad); }
+  .step { display: flex; gap: var(--space-stack); }
+  .body { display: grid; gap: var(--space-stack); }
+  .body img { inline-size: var(--drawer-img); max-inline-size: 100%; aspect-ratio: 1; object-fit: contain; }
+  .body p:empty, .body dl:empty { display: none; }
+</style>
