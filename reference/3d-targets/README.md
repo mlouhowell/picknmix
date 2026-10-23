@@ -3,7 +3,7 @@
 Direction (owner, 2026-10-21): the site becomes all 3D renders, with no mix of photos and 3D. Each shape is modelled
 once to match one locked reference, then its colours. Source: Figma `jHQuCz5VUzOveyLVbn5jV9`, page "3D renders"
 (29:564), board 31:26 plus the owner's comments #1–#8 and dropped-in reference images.
-Cuts from the board are in `content/removed.json` (reversible).
+Cuts from the board are in `content/removed.json` (reversible). Diamond (Tutti Frutti Diamond) removed by the owner on 2026-10-23, "for now".
 
 Reference images here are web screenshots (licence: reference-only). Model from them; never ship them.
 
@@ -20,7 +20,6 @@ Reference images here are web screenshots (licence: reference-only). Model from 
 | Pillow (Polkagris) | `pillow-polkagris.png` (Figma 29:575, placed in the Polkagris 3D card, no comment) | (kept the 3D, dropped the photos) | Polkagris 3D |
 | Djungelvrål | Djungelvrål hero (`assets/candies/djungelvral/hero.png`) | kept 3D + hero | Djungelvrål 3D |
 | Pacifier | Sura Colanappar (`assets/candies/cola/variant-sura-colanappar.png`) | kept only this one | Cola 3D (removed card) as geometry start |
-| Diamond | Tutti Frutti Diamond (`assets/candies/bubs/variant-tutti-frutti-diamond.png`) | kept | new |
 | Disc | Orange fruit disc (`assets/candies/gott-blandat/variant-orange-fruit-disc.png`) | kept | new |
 | Cherry | Gummy cherry (`assets/landing/cherry-upright.png`) | kept | new |
 
