@@ -1,7 +1,7 @@
 ---
 // Candy drawer = the earlier candy page (figma 8:192) as an overlay, without 3D: the 429 white panel (8:211) on the
-// left with close + next (8:212 / 8:214), title (8:238), body (8:221) and Details (8:222); the candy cut-out large on
-// the right (hero 8:236, PNG only) over the blurred, tinted page (8:210). One panel + hero per candy in
+// right (owner, 2026-10-23; 8:192 had it on the left) with close + next (8:212 / 8:214), title (8:238), body (8:221) and Details (8:222); the candy cut-out large on
+// the left (hero 8:236, PNG only) over the blurred, tinted page (8:210). One panel + hero per candy in
 // content/grid/candies.json, rendered here; scripts/landing-grid.ts shows the right one. Empty text fields are left out
 // (copy coming). No Similar Candies: the grid candies have no variants yet.
 import IconButton from './IconButton.astro';
@@ -56,7 +56,8 @@ const heroW = 512; // = --hero-size (8:236)
   }
   /* figma 8:210: white 60% + black 10% over a 21px blur of whatever is behind (grid or timeline) */
   .drawer::backdrop { background: var(--backdrop-tint); backdrop-filter: blur(var(--backdrop-blur)); -webkit-backdrop-filter: blur(var(--backdrop-blur)); }
-  .layout { display: grid; grid-template-columns: var(--panel-w) 1fr; block-size: 100%; }
+  .layout { display: grid; grid-template-columns: 1fr var(--panel-w); block-size: 100%; }
+  .panel { order: 1; }
 
   .panel {
     background: var(--color-surface); padding: var(--space-panel); padding-block-end: var(--space-panel-bottom);
@@ -82,10 +83,10 @@ const heroW = 512; // = --hero-size (8:236)
   .hero :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
   .hero figcaption { text-align: center; font-family: var(--font-ui); font-size: var(--type-caption-size); color: var(--color-text-muted); }
 
-  /* the panel slides in from the left (tokens are 0ms under reduced motion) */
+  /* the panel slides in from the right (tokens are 0ms under reduced motion) */
   .drawer[open] .panel { animation: panel-in var(--duration-page) var(--ease-out); }
   .drawer[open] .hero-area { animation: hero-in var(--duration-page) var(--ease-out); }
-  @keyframes panel-in { from { translate: -100% 0; } }
+  @keyframes panel-in { from { translate: 100% 0; } }
   @keyframes hero-in { from { opacity: 0; } }
 
   /* phones: candy on top, panel underneath, the whole drawer scrolls */

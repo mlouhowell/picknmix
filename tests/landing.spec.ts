@@ -92,8 +92,8 @@ test.describe('grid mode', () => {
     await expect(title).toHaveText(grid.candies[0]!.name);
     await expect(drawer.locator('.hero:not([hidden]) img')).toHaveAttribute('alt', grid.candies[0]!.name);
     expect(await drawer.locator('canvas').count()).toBe(0); // no 3D
-    // panel 8:211: 429 wide on the left
-    await expect.poll(async () => { const b = (await drawer.locator('.panel').boundingBox())!; return [b.x, b.width].map(Math.round); }).toEqual([0, 429]);
+    // panel 8:211: 429 wide, on the right (owner)
+    await expect.poll(async () => { const b = (await drawer.locator('.panel').boundingBox())!; return [b.x, b.width].map(Math.round); }).toEqual([1440 - 429, 429]);
     await page.keyboard.press('ArrowLeft');
     await expect(title).toHaveText(grid.candies.at(-1)!.name);
     await drawer.locator('[data-nav="next"]').click();
@@ -105,7 +105,7 @@ test.describe('grid mode', () => {
     await page.keyboard.press('Escape');
     await expect(drawer).toBeHidden();
     await page.locator('.candy-grid .tile').nth(2).click();
-    await page.mouse.click(1300, 120); // empty area beside the candy
+    await page.mouse.click(140, 120); // empty area beside the candy
     await expect(drawer).toBeHidden();
   });
 
