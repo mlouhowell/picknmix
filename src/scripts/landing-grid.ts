@@ -1,4 +1,5 @@
-// Landing grid (figma 109:27): Grid | Timeline toggle, never-ending grid, candy drawer.
+// Landing grid (figma 109:27): Grid | Timeline toggle (?view=timeline, no reload), never-ending grid, candy drawer
+// (opened from grid tiles and timeline candies).
 // Markup: SiteHeader.astro (toggle), CandyGrid.astro (grid + sentinel), CandyDrawer.astro (dialog + JSON).
 export {};
 
@@ -27,7 +28,9 @@ function init() {
   for (const s of segs)
     s.addEventListener('click', () => {
       const view = s.dataset.view!;
+      if (s.getAttribute('aria-pressed') === 'true') return;
       show(view);
+      scrollTo({ top: 0 });
       const url = new URL(location.href);
       if (view === 'grid') url.searchParams.delete('view'); else url.searchParams.set('view', view);
       history.replaceState(history.state, '', url);
@@ -82,8 +85,9 @@ function init() {
     q('[data-text="body"]').textContent = c.body;
     q('[data-text="caption"]').textContent = c.caption;
   };
-  grid.addEventListener('click', (e) => {
-    const btn = (e.target as Element).closest<HTMLButtonElement>('.tile');
+  // grid tiles and timeline candies both carry data-index (position in content/grid/candies.json)
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>('.tile[data-index], .tl-candy[data-index]');
     if (!btn || !dialog) return;
     render(Number(btn.dataset.index));
     dialog.showModal();

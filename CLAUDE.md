@@ -5,7 +5,7 @@ A static site about Swedish candy (Astro 5 + vanilla TS + plain CSS + three.js).
 Read first: `PLAN.md` (phases + acceptance criteria), `3D_CANDY_GUIDELINES.md` (all 3D work), `reference/*.png` (visual targets).
 
 ## Sources of truth
-- **Design:** Figma `jHQuCz5VUzOveyLVbn5jV9`. Landing = **109:27 Grid view** (desktop) + **109:234** (phones), page "Landing — Grid / Timeline"; timelines 111:26 / 111:201 not built yet (ask first). 3:679 is the old collage landing (modes collage/universe); 10:11, 10:155 and 3:226 are old explorations. Candy page = **8:192 Pastellfiskar** (reference template). Corner Ornament = 5:2. Candy pages: Polkagris 8:58, BUBS 8:121, Pastellfiskar 8:192, Kexchoklad 8:263, Ahlgrens bilar 8:322, Daim 8:389, Djungelvrål 8:452, Gott & Blandat 8:519, Cola 17:22.
+- **Design:** Figma `jHQuCz5VUzOveyLVbn5jV9`. Landing = **109:27 Grid view** (desktop) + **109:234** (phones), page "Landing — Grid / Timeline"; Timeline view = **138:397** (built; 111:26 / 111:201 are older explorations). 3:679 is the old collage landing (modes collage/universe); 10:11, 10:155 and 3:226 are old explorations. Candy page = **8:192 Pastellfiskar** (reference template). Corner Ornament = 5:2. Candy pages: Polkagris 8:58, BUBS 8:121, Pastellfiskar 8:192, Kexchoklad 8:263, Ahlgrens bilar 8:322, Daim 8:389, Djungelvrål 8:452, Gott & Blandat 8:519, Cola 17:22.
 - **Copy:** Google Sheet `1v2O18LwUW7YszRJD7LrXheRAQqyuLvKE3J-PQu7dUKY`, tab `Candy` → `content/source/candy-sheet.csv` → `npm run content` → `content/candies.json`.
 - Treat Figma as read-only. Never write to Figma or the sheet.
 
@@ -14,7 +14,8 @@ Read first: `PLAN.md` (phases + acceptance criteria), `3D_CANDY_GUIDELINES.md` (
 |---|---|
 | Design tokens (colours, type, spacing, sizes) | `src/styles/tokens.css` (only place for raw values) |
 | Candy copy + data | `content/candies.json` (generated, never hand-edit) |
-| Landing grid candies (13 cut-outs in `public/candies/`, drawer text fields) | `content/grid/candies.json` (hand-edited) |
+| Landing grid candies (13 cut-outs in `public/candies/`, drawer text fields, timeline `era`) | `content/grid/candies.json` (hand-edited) |
+| Timeline copy, sidenotes (sources per paragraph) + collage layout | `content/timeline.json` (hand-edited; images in `assets/timeline/<era>/`) |
 | Non-sheet candy fields (slug, type, assets, credits, Figma IDs, model3d) | `content/candies.extra.json` |
 | UI strings ("Similar Candies", labels, aria labels) + layout switches | `content/site.json` |
 | Landing composition | `content/landing-layout.json` |

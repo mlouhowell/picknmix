@@ -154,6 +154,41 @@
   --drawer-pad: 24px;
   --drawer-img: 280px;
 
+  /* ---------- Timeline 138:397 (desktop 1440) ---------- */
+  --color-sidenote: #8c8a84;         /* 141:27 sources */
+  --color-caption-bg: #fae8ec;       /* era caption card 138:653 */
+  --tl-toc-w: 216px;                 /* 138:398 */
+  --tl-text-w: 624px;                /* 138:452 body + era chunk 138:644 (624 square) */
+  --tl-notes-w: 312px;               /* 141:26 sidenote column */
+  --tl-col-gap: 48px;                /* toc -> text (360-312), text -> notes (672-624) */
+  --tl-top: 12px;                    /* Main 138:427 at y 96, header 84 */
+  --tl-pad-bottom: 144px;            /* 9670 - 96 - 9430 */
+  --tl-toc-pad-top: 204px;           /* 138:398 pt 204 */
+  --tl-toc-gap: 12px;  --tl-toc-dot: 5px;  --tl-toc-dot-gap: 8px;
+  --tl-era-gap: 96px;                /* eras 96 apart; intro -> era 1 = 96 */
+  --tl-block-gap: 36px;              /* chunk -> story, story -> story */
+  --tl-note-gap: 12px;               /* stacked sources */
+  --tl-note-under-gap: 8px;          /* < 1024: sidenote under its paragraph */
+  --tl-intro-gap: 12px;              /* kicker -> title 138:428 */
+  --type-kicker-size: 12px;  --type-kicker-tracking: 0.08em;    /* 138:429 Geist, uppercase, 0.96px */
+  --type-toc-label-size: 11px;  --type-toc-label-tracking: 0.08em;  /* 138:399 Geist Medium, 0.88px */
+  --type-toc-size: 12px;             /* 138:402 */
+  --type-tl-title-size: 48px;  --type-tl-title-leading: 84px;   /* 138:430 Homemade Apple */
+  --type-tl-title-size-sm: 32px;  --type-tl-title-leading-sm: 56px;   /* phones (no Figma frame yet) */
+  --type-tl-body-size: 17px;  --type-tl-body-leading: 26px;     /* 138:452 Fraunces Regular */
+  --type-note-size: 12px;  --type-note-leading: 18px;           /* 141:27 Geist */
+  /* collage: unitless Figma px inside the 624 chunk, scaled by the chunk's width (container units) */
+  --tl-chunk-units: 624;
+  --tl-collage-x: 28.8;  --tl-collage-w: 566.4;  --tl-collage-h: 417.6;   /* Collage 138:645 inside the chunk */
+  --tl-photo-shadow: 0 1.2px 3.6px rgb(0 0 0 / .08);          /* 138:647 */
+  --tl-caption-shadow: 0 3.6px 9.6px rgb(0 0 0 / .14);        /* 138:653 */
+  --tl-caption-pad-y: 14.4;  --tl-caption-pad-x: 24;          /* unitless (scaled) */
+  --tl-caption-title: 22.8;  --tl-caption-dates: 13.2;        /* Homemade Apple / Geist, unitless (scaled) */
+  --type-caption-dates-tracking: 0.04em;                       /* 0.528px @ 13.2 */
+  --tl-candy-slot-scale: 1.15;       /* square PNG (with transparent margin) around Figma's tight cut-out box */
+  --tl-reveal-shift: 24px;           /* fade-up distance */
+  --tl-scroll-margin: 108px;         /* header 84 + 24 */
+
   /* ---------- Focus (Phase 9; brand teal is 4.28:1, fine for a 2px ring) ---------- */
   --focus-ring: 2px solid var(--color-brand);
   --focus-offset: 2px;

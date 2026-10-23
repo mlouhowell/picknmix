@@ -1,13 +1,12 @@
 ---
-// figma 109:28 Header: logo (109:29) left, Grid | Timeline toggle (109:38) centred. On phones (109:234) the
+// figma 109:28 (Grid) / 140:27 (Timeline) Header: logo left, Grid | Timeline toggle (109:38 / 140:30) centred. On phones (109:234) the
 // toggle drops below the logo. The toggle is wired in scripts/landing-grid.ts (aria-pressed + ?view=).
 import { site } from '../lib/content';
 ---
 <header class="site-header" data-figma="109:28">
-  <!-- figma 109:29 Logo: "Pick N Mix" 109:30 + handwritten tagline 109:31 -->
-  <p class="logo" data-figma="109:29">
-    <span class="name" data-figma="109:30">{site.siteName}</span>
-    <span class="tagline" data-figma="109:31">{site.header.tagline}</span>
+  <!-- figma 109:29 / 140:28 Logo: "Pick N Mix" (no tagline, owner 2026-10-23) -->
+  <p class="logo" data-figma="140:28">
+    <span class="name" data-figma="140:29">{site.siteName}</span>
   </p>
   <!-- figma 109:38 View toggle: Grid 109:35 (active) / Timeline 109:37 -->
   <div class="toggle" role="group" aria-label={site.header.viewLabel} data-figma="109:38">
@@ -28,7 +27,6 @@ import { site } from '../lib/content';
     font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
     font-size: var(--type-logo-size); font-weight: var(--type-candy-title-weight); color: var(--color-ink);
   }
-  .tagline { font-family: var(--font-hand); font-size: var(--type-logo-tag-size); color: var(--color-text-muted); }
   .toggle {
     position: absolute; left: 50%; top: 50%; translate: -50% -50%;
     display: flex; gap: var(--toggle-gap); padding: var(--toggle-pad);

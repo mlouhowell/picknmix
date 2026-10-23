@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // assets/candies/**/*.png + assets/landing/*.png (not landing/figma/, the raw Figma exports) -> public/img/<same path>-<w>.{webp,png} at 256/512/1024 (never upscaled)
+// + assets/timeline/<era>/*.png (timeline collages, content/timeline.json)
 // + public/candies/*.png (the landing grid's 13 cut-outs, content/grid/candies.json) -> public/img/candies/<name>-<w>.{webp,png}, logical src "candies/<name>.png".
 // + public/img/index.json (dimensions + widths per logical src) consumed by src/lib/img.ts.
 // Incremental: skips outputs newer than their source. PUBLIC_RELEASE=true skips reference-only files.
@@ -27,7 +28,7 @@ const index = {};
 let made = 0, skipped = 0;
 const GRID = 'public/candies';
 const gridFiles = (await readdir(GRID).catch(() => [])).filter((n) => n.endsWith('.png')).map((n) => join(GRID, n));
-for (const file of [...(await walk(`${SRC}/candies`)), ...(await walk(`${SRC}/landing`)).filter((f) => !f.includes('/figma/')), ...gridFiles]) {
+for (const file of [...(await walk(`${SRC}/candies`)), ...(await walk(`${SRC}/landing`)).filter((f) => !f.includes('/figma/')), ...(await walk(`${SRC}/timeline`)), ...gridFiles]) {
   const logical = relative(file.startsWith(GRID) ? 'public' : SRC, file);
   const license = licenseOf[logical] ?? null;
   if (PUBLIC && license === 'reference-only') { skipped++; continue; }

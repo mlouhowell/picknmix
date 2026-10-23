@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import layout from '../content/landing-layout.json' with { type: 'json' };
 import site from '../content/site.json' with { type: 'json' };
 import grid from '../content/grid/candies.json' with { type: 'json' };
+import timeline from '../content/timeline.json' with { type: 'json' };
 
 test('landing 3:679: copy, centred title, flush ornaments', async ({ page }) => {
   test.skip(layout.mode === 'grid', 'grid mode: title + ornaments sit in the intro block (see grid tests)');
@@ -100,15 +101,19 @@ test.describe('grid mode', () => {
     await expect(drawer).toBeHidden();
   });
 
-  test('Grid | Timeline toggle switches the view (timeline is a stub)', async ({ page }) => {
+  test('Grid | Timeline toggle switches the view without reloading; the URL reflects it', async ({ page }) => {
     await page.goto('/');
+    await page.evaluate(() => ((window as unknown as { marker: number }).marker = 1));
     const tl = page.getByRole('button', { name: site.header.timeline });
     await tl.click();
     await expect(tl).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByText(site.timeline.stub)).toBeVisible();
+    await expect(page).toHaveURL(/\?view=timeline$/);
+    await expect(page.locator('.timeline .kicker')).toHaveText(timeline.intro.kicker);
+    expect(await page.evaluate(() => (window as unknown as { marker?: number }).marker)).toBe(1); // no reload
     await expect(page.locator('.candy-grid')).toBeHidden();
     await page.getByRole('button', { name: site.header.grid }).click();
     await expect(page.locator('.candy-grid')).toBeVisible();
+    await expect(page).toHaveURL(/\/$/);
   });
 
   test('the page scrolls to the grid; two columns on a phone', async ({ page }) => {
@@ -119,6 +124,63 @@ test.describe('grid mode', () => {
     await page.goto('/');
     const xs = await page.locator('.candy-grid li').evaluateAll((els) => new Set(els.map((e) => Math.round(e.getBoundingClientRect().x))).size);
     expect(xs).toBe(2);
+  });
+});
+
+test.describe('timeline view (figma 138:397)', () => {
+  test.skip(layout.mode !== 'grid', 'timeline lives in grid mode');
+
+  test('1440: contents | 624 text | 312 sidenotes, top-aligned; eras 96 apart; sources stack 12 apart', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/?view=timeline');
+    const box = async (sel: string) => (await page.locator(sel).first().boundingBox())!;
+    expect(Math.round((await box('.toc')).x)).toBe(96);
+    const body = await box('#beginnings .row >> nth=1 >> .body');
+    const notes = page.locator('#beginnings .row').nth(1).locator('.notes li');
+    const n0 = (await notes.nth(0).boundingBox())!, n1 = (await notes.nth(1).boundingBox())!;
+    expect([body.x, body.width].map(Math.round)).toEqual([360, 624]);
+    expect([n0.x, n0.width].map(Math.round)).toEqual([1032, 312]);
+    expect(Math.round(n0.y)).toBe(Math.round(body.y));
+    expect(Math.round(n1.y - (n0.y + n0.height))).toBe(12);
+    const e1 = await box('#beginnings'), e2 = await box('#factories');
+    expect(Math.round(e2.y - (e1.y + e1.height))).toBe(96);
+    // every paragraph and source comes from content/timeline.json
+    expect(await page.locator('.timeline .body').count()).toBe(timeline.eras.reduce((n, e) => n + e.story.length, 0));
+    expect(await page.locator('.timeline .notes li').count()).toBe(timeline.eras.reduce((n, e) => n + e.story.reduce((m, p) => m + p.sources.length, 0), 0));
+  });
+
+  test('390: no contents column; each sidenote sits under its paragraph; no sideways scroll', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/?view=timeline');
+    await expect(page.locator('.toc')).toBeHidden();
+    const row = page.locator('#beginnings .row').first();
+    const body = (await row.locator('.body').boundingBox())!, note = (await row.locator('.notes').boundingBox())!;
+    expect(note.y).toBeGreaterThan(body.y + body.height - 1);
+    expect(Math.round(note.x)).toBe(Math.round(body.x));
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  });
+
+  test("era candies come from candies.json's era field and open the drawer", async ({ page }) => {
+    await page.goto('/?view=timeline');
+    for (const e of timeline.eras) {
+      const names = grid.candies.filter((c) => c.era === e.id).map((c) => c.name);
+      const alts = await page.locator(`#${e.id} .tl-candy img`).evaluateAll((els) => els.map((i) => (i as HTMLImageElement).alt));
+      if (!names.length || !e.candySlots.length) expect(alts).toEqual([]);
+      else expect(new Set(alts)).toEqual(new Set(names));
+    }
+    const candy = page.locator('#boom .tl-candy').first();
+    const name = await candy.locator('img').getAttribute('alt');
+    await candy.click();
+    await expect(page.locator('[data-drawer] [data-name]')).toHaveText(name!);
+  });
+
+  test('contents follows the era in view', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/?view=timeline');
+    await page.locator('[data-toc="boom"]').click();
+    await expect(page.locator('[data-toc="boom"]')).toHaveAttribute('aria-current', 'true');
+    await expect(page).toHaveURL(/\?view=timeline$/);
   });
 });
 

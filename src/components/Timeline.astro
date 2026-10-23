@@ -1,0 +1,217 @@
+---
+// figma 138:397 Timeline: sticky contents (138:398) | intro (138:428) + 9 era sections (138:432 ff.).
+// Each era: a 624px collage chunk (scrap, framed photos, the era's candies, handwritten caption card), then story
+// paragraphs with their sources as margin sidenotes (141:26 ff.). All copy + geometry from content/timeline.json;
+// candies from content/grid/candies.json by era (buttons open the candy drawer). Script: scripts/timeline.ts.
+import Picture from './Picture.astro';
+import { site, timeline, eraCandies, gridSrc } from '../lib/content';
+
+const n = (v: number) => String(v);
+/** Split a paragraph into plain and italic runs (the paragraph's `em` words, first occurrence each). */
+function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
+  const out: { t: string; em: boolean }[] = [];
+  let rest = text;
+  while (rest) {
+    const hits = em.map((w) => ({ w, i: rest.indexOf(w) })).filter((h) => h.i >= 0).sort((a, b) => a.i - b.i);
+    if (!hits.length) { out.push({ t: rest, em: false }); break; }
+    const { w, i } = hits[0]!;
+    if (i > 0) out.push({ t: rest.slice(0, i), em: false });
+    out.push({ t: w, em: true });
+    rest = rest.slice(i + w.length);
+    em = em.filter((x) => x !== w);
+  }
+  return out;
+}
+---
+<section class="timeline" data-view-panel="timeline" hidden aria-label={site.timeline.label} data-figma="138:397" data-timeline>
+  <!-- figma 138:398 Table of contents (sticky) -->
+  <nav class="toc" aria-label={site.timeline.contentsLabel} data-figma="138:398">
+    <p class="toc-label" data-figma="138:399">{site.timeline.contentsLabel}</p>
+    <ol>
+      {timeline.eras.map((e, i) => (
+        <li>
+          <a href={`#${e.id}`} data-toc={e.id} aria-current={i === 0 ? 'true' : undefined}>
+            <span class="dot" aria-hidden="true"></span>{e.dates} · {e.title}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+
+  <!-- figma 138:427 Main -->
+  <div class="main" data-figma="138:427">
+    <!-- figma 138:428 Intro: kicker 138:429 + handwritten title 138:430 -->
+    <header class="intro" data-figma={timeline.intro.figmaNode}>
+      <p class="kicker">{timeline.intro.kicker}</p>
+      <h2 class="title">{timeline.intro.title.map((line, i) => <>{i > 0 && <br />}{line}</>)}</h2>
+    </header>
+
+    {timeline.eras.map((e) => (
+      <section class="era" id={e.id} aria-labelledby={`${e.id}-title`} data-figma={e.figmaNode} data-reveal>
+        <!-- figma era chunk: collage + caption card -->
+        <div class="chunk">
+          <div class="collage" style={`--top:${n(e.collageTop)}`}>
+            <span class="scrap" style={`--x:${n(e.scrap.x)};--y:${n(e.scrap.y)};--w:${n(e.scrap.w)};--h:${n(e.scrap.h)}`} data-figma={e.scrap.figmaNode} aria-hidden="true">
+              <Picture src={e.scrap.src} alt="" displayWidth={Math.round(e.scrap.w)} />
+            </span>
+            {e.photos.map((p) => (
+              <span class="photo" style={`--x:${n(p.x)};--y:${n(p.y)};--w:${n(p.w)};--h:${n(p.h)};--inset:${n(p.inset)}`} data-figma={p.figmaNode}>
+                <Picture src={p.src} alt={p.alt} displayWidth={Math.round(p.w)} />
+              </span>
+            ))}
+            {eraCandies(e.id, e.candySlots.length).map(({ candy, index }, k) => {
+              const s = e.candySlots[k]!;
+              return (
+                <button type="button" class="tl-candy" data-index={index}
+                  style={`--cx:${n(s.cx)};--cy:${n(s.cy)};--w:${n(s.w)};--h:${n(s.h)};--r:${n(s.rotate)}`}>
+                  <Picture src={gridSrc(candy)} alt={candy.name} displayWidth={Math.round(Math.max(s.w, s.h) * 1.15)} />
+                </button>
+              );
+            })}
+          </div>
+          <div class="caption" style={`--cx:${n(e.caption.cx)};--cy:${n(e.caption.cy)};--r:${n(e.caption.rotate)}`}>
+            <h3 class="cap-title" id={`${e.id}-title`}>{e.title}</h3>
+            <p class="cap-dates">{e.dates}</p>
+          </div>
+        </div>
+
+        <!-- figma Story parts: body (624) + sidenote column (312), 48 apart -->
+        {e.story.map((part) => (
+          <div class="row">
+            <p class="body">{runs(part.text, part.em).map((r) => (r.em ? <em>{r.t}</em> : r.t))}</p>
+            {part.sources.length > 0 && (
+              <ul class="notes">{part.sources.map((src) => <li>{src}</li>)}</ul>
+            )}
+          </div>
+        ))}
+      </section>
+    ))}
+  </div>
+</section>
+
+<style>
+  .timeline {
+    display: grid; justify-content: center; align-items: start;
+    grid-template-columns: var(--tl-toc-w) var(--tl-text-w) var(--tl-notes-w);
+    column-gap: var(--tl-col-gap);
+    padding: var(--tl-top) var(--grid-gutter) var(--tl-pad-bottom);
+  }
+  .timeline[hidden] { display: none; }
+
+  /* contents */
+  .toc {
+    position: sticky; top: var(--header-h);
+    padding-block-start: var(--tl-toc-pad-top);
+    display: grid; gap: var(--tl-toc-gap);
+    font-family: var(--font-ui);
+  }
+  .toc-label {
+    font-size: var(--type-toc-label-size); font-weight: var(--type-label-weight);
+    letter-spacing: var(--type-toc-label-tracking); text-transform: uppercase;
+    line-height: normal; color: var(--color-ink);
+  }
+  .toc ol { display: grid; gap: var(--tl-toc-gap); list-style: none; margin: 0; padding: 0; }
+  .toc a {
+    display: flex; align-items: center; gap: var(--tl-toc-dot-gap);
+    font-size: var(--type-toc-size); line-height: normal;
+    color: var(--color-text-muted); text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .toc a:hover, .toc a[aria-current='true'] { color: var(--color-ink); }
+  .dot { inline-size: var(--tl-toc-dot); block-size: var(--tl-toc-dot); border-radius: 50%; flex: none; }
+  .toc a[aria-current='true'] .dot { background: var(--color-ink); }
+
+  .main { grid-column: 2 / span 2; display: grid; gap: var(--tl-era-gap); }
+
+  /* intro */
+  .intro { inline-size: var(--tl-text-w); max-inline-size: 100%; display: grid; gap: var(--tl-intro-gap); text-align: center; }
+  .kicker {
+    font-family: var(--font-ui); font-size: var(--type-kicker-size); letter-spacing: var(--type-kicker-tracking);
+    text-transform: uppercase; line-height: normal; color: var(--color-text-muted);
+  }
+  .title {
+    font-family: var(--font-hand); font-weight: normal;
+    font-size: var(--type-tl-title-size); line-height: var(--type-tl-title-leading); color: var(--color-ink);
+  }
+
+  /* era */
+  .era { display: grid; gap: var(--tl-block-gap); scroll-margin-top: var(--tl-scroll-margin); }
+  .chunk {
+    position: relative; inline-size: var(--tl-text-w); max-inline-size: 100%; aspect-ratio: 1;
+    container-type: inline-size; overflow: clip;
+  }
+  .collage, .caption { --u: calc(100cqw / var(--tl-chunk-units)); }
+  .collage {
+    position: absolute;
+    left: calc(var(--tl-collage-x) * var(--u)); top: calc(var(--top) * var(--u));
+    inline-size: calc(var(--tl-collage-w) * var(--u)); block-size: calc(var(--tl-collage-h) * var(--u));
+  }
+  .scrap, .photo, .tl-candy { position: absolute; }
+  .scrap, .photo {
+    left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+    inline-size: calc(var(--w) * var(--u)); block-size: calc(var(--h) * var(--u));
+  }
+  .photo {
+    padding: calc(var(--inset) * var(--u));
+    background: var(--color-on-ink); box-shadow: var(--tl-photo-shadow);
+  }
+  .scrap :global(picture), .photo :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
+  .scrap :global(img), .photo :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .tl-candy {
+    --s: calc(max(var(--w), var(--h)) * var(--tl-candy-slot-scale));
+    left: calc((var(--cx) - var(--s) / 2) * var(--u)); top: calc((var(--cy) - var(--s) / 2) * var(--u));
+    inline-size: calc(var(--s) * var(--u)); block-size: calc(var(--s) * var(--u));
+    rotate: calc(var(--r) * 1deg);
+    padding: 0; border: 0; background: none; cursor: pointer;
+    transition: scale var(--duration-page) var(--ease-out);
+  }
+  .tl-candy:hover, .tl-candy:focus-visible { scale: var(--landing-tile-hover-scale); }
+  .tl-candy :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
+  .tl-candy :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+
+  .caption {
+    position: absolute; left: calc(var(--cx) * var(--u)); top: calc(var(--cy) * var(--u));
+    translate: -50% -50%; rotate: calc(var(--r) * 1deg);
+    display: flex; flex-direction: column; align-items: center; white-space: nowrap; line-height: normal;
+    padding: calc(var(--tl-caption-pad-y) * var(--u)) calc(var(--tl-caption-pad-x) * var(--u));
+    background: var(--color-caption-bg); box-shadow: var(--tl-caption-shadow);
+  }
+  .cap-title { font-family: var(--font-hand); font-weight: normal; font-size: calc(var(--tl-caption-title) * var(--u)); color: var(--color-ink); }
+  .cap-dates {
+    font-family: var(--font-ui); font-size: calc(var(--tl-caption-dates) * var(--u));
+    letter-spacing: var(--type-caption-dates-tracking); color: var(--color-text-muted);
+  }
+
+  /* story + sidenotes */
+  .row {
+    display: grid; grid-template-columns: var(--tl-text-w) var(--tl-notes-w);
+    column-gap: var(--tl-col-gap); align-items: start;
+  }
+  .body {
+    font-family: var(--font-display); font-variation-settings: var(--font-display-variation); font-weight: normal;
+    font-size: var(--type-tl-body-size); line-height: var(--type-tl-body-leading); color: var(--color-ink);
+  }
+  .notes {
+    display: grid; gap: var(--tl-note-gap); list-style: none; margin: 0; padding: 0;
+    font-family: var(--font-ui); font-size: var(--type-note-size); line-height: var(--type-note-leading);
+    color: var(--color-sidenote);
+  }
+
+  /* fade-up on scroll (scripts/timeline.ts adds data-reveal-ready + .is-in); none under reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal-ready] .era { transition: opacity var(--duration-page) var(--ease-out), translate var(--duration-page) var(--ease-out); }
+    [data-reveal-ready] .era:not(.is-in) { opacity: 0; translate: 0 var(--tl-reveal-shift); }
+  }
+
+  /* below ~1024: no contents column; one centred text column; sidenotes under their paragraph */
+  @media (max-width: 64em) {
+    .timeline { grid-template-columns: minmax(0, 1fr); }
+    .toc { display: none; }
+    .main { grid-column: 1; inline-size: 100%; max-inline-size: var(--tl-text-w); justify-self: center; }
+    .intro, .chunk { inline-size: 100%; }
+    .row { grid-template-columns: minmax(0, 1fr); row-gap: var(--tl-note-under-gap); }
+  }
+  @media (max-width: 40em) {
+    .title { font-size: var(--type-tl-title-size-sm); line-height: var(--type-tl-title-leading-sm); }
+  }
+</style>

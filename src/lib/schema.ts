@@ -47,8 +47,8 @@ export const CandiesFileSchema = z
 
 export const SiteSchema = z.object({
   siteName: text,
-  header: z.object({ tagline: text, viewLabel: text, grid: text, timeline: text }),
-  timeline: z.object({ stub: text }),
+  header: z.object({ viewLabel: text, grid: text, timeline: text }),
+  timeline: z.object({ label: text, contentsLabel: text }),
   drawer: z.object({
     label: text, close: text, prev: text, next: text,
     fields: z.object({ year: text, era: text, type: text }),
@@ -160,3 +160,25 @@ export const GridCandySchema = z.object({
 });
 export const GridCandiesFileSchema = z.object({ _readme: z.string(), candies: z.array(GridCandySchema).min(1) });
 export type GridCandy = z.infer<typeof GridCandySchema>;
+
+/** content/timeline.json: the Timeline view (Figma 138:397). Geometry in Figma px inside the 624px era chunk. */
+const num = z.number();
+const placed = z.object({ x: num, y: num, w: num.positive(), h: num.positive() });
+export const TimelineSchema = z.object({
+  _readme: z.string(),
+  intro: z.object({ kicker: text, title: z.array(text).min(1), figmaNode: figmaId }),
+  eras: z.array(z.object({
+    id: z.string().regex(/^[a-z0-9-]+$/),
+    dates: text,
+    title: text,
+    figmaNode: figmaId,
+    collageTop: num,
+    scrap: placed.extend({ src: assetSrc, figmaNode: figmaId }),
+    photos: z.array(placed.extend({ src: assetSrc, alt: text, inset: num.min(0), figmaNode: figmaId })),
+    caption: z.object({ cx: num, cy: num, rotate: num }),
+    candySlots: z.array(z.object({ cx: num, cy: num, w: num.positive(), h: num.positive(), rotate: num })),
+    story: z.array(z.object({ text, em: z.array(text).optional(), sources: z.array(text) })
+      .refine((p) => (p.em ?? []).every((w) => p.text.includes(w)), 'every em word must appear in text')).min(1),
+  })).min(1),
+});
+export type Timeline = z.infer<typeof TimelineSchema>;

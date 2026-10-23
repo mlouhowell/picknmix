@@ -26,14 +26,14 @@
     }
   },
   "header": {
-    "_note": "Grid landing header 109:28. tagline is the handwritten accent.",
-    "tagline": "lösgodis archive",
+    "_note": "Shared header 109:28 / 140:27: \"Pick N Mix\" + Grid | Timeline toggle (no tagline, owner 2026-10-23).",
     "viewLabel": "View",
     "grid": "Grid",
     "timeline": "Timeline"
   },
   "timeline": {
-    "stub": "The timeline is on its way."
+    "contentsLabel": "Contents",
+    "label": "Timeline"
   },
   "drawer": {
     "label": "Candy details",

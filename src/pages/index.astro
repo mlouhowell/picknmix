@@ -1,6 +1,6 @@
 ---
 // Landing. Grid mode = figma 109:27 (desktop) / 109:234 (phones): header with Grid | Timeline toggle, never-ending
-// candy grid, candy drawer. Timeline (111:26 / 111:201) is a stub for now. Collage/universe modes = old 3:679.
+// candy grid, candy drawer; Timeline view = figma 138:397. Collage/universe modes = old 3:679.
 // Composition from content/landing-layout.json (mode: "universe" fly-through or the "collage" of 3:679);
 // copy from content/site.json. Each candy links to its page.
 import Base from '../layouts/Base.astro';
@@ -10,6 +10,7 @@ import CandyGrid from '../components/CandyGrid.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import CandyDrawer from '../components/CandyDrawer.astro';
+import Timeline from '../components/Timeline.astro';
 import { site, landing } from '../lib/content';
 ---
 <Base description={`${site.landing.eyebrow} ${site.landing.title}`}>
@@ -32,10 +33,7 @@ import { site, landing } from '../lib/content';
         <section data-view-panel="grid">
           <CandyGrid />
         </section>
-        <!-- figma 111:26 / 111:201 timelines: not built yet (stub) -->
-        <section class="timeline-stub" data-view-panel="timeline" hidden>
-          <p>{site.timeline.stub}</p>
-        </section>
+        <Timeline />
         <CandyDrawer />
       </>
     )}
@@ -64,6 +62,7 @@ import { site, landing } from '../lib/content';
   import '../scripts/landing-scroll';
   import '../scripts/landing-universe';
   import '../scripts/landing-grid';
+  import '../scripts/timeline';
 </script>
 
 <style>
@@ -74,7 +73,6 @@ import { site, landing } from '../lib/content';
     overflow: hidden;
   }
   .landing.grid { overflow: visible; padding-block-start: 0; } /* scrolls like a normal page; the sticky header sits above */
-  .timeline-stub { padding: var(--grid-pad-bottom) var(--grid-gutter); text-align: center; font-family: var(--font-ui); color: var(--color-text-muted); }
   .landing.grid:has(.intro) { padding-block-start: 0; }
   .intro { position: relative; block-size: var(--landing-grid-intro-h); }
   .title-group {

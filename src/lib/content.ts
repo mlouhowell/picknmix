@@ -4,7 +4,8 @@ import siteJson from '../../content/site.json';
 import landingJson from '../../content/landing-layout.json';
 import removedJson from '../../content/removed.json';
 import gridJson from '../../content/grid/candies.json';
-import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, RemovedSchema, GridCandiesFileSchema, type Candy, type GridCandy } from './schema';
+import timelineJson from '../../content/timeline.json';
+import { CandiesFileSchema, SiteSchema, LandingLayoutSchema, RemovedSchema, GridCandiesFileSchema, TimelineSchema, type Candy, type GridCandy } from './schema';
 import { hasImg } from './img';
 import type { z } from 'zod';
 
@@ -59,6 +60,19 @@ export const gridCandies: GridCandy[] = parse(GridCandiesFileSchema, gridJson, '
 for (const c of gridCandies) if (!hasImg(gridSrc(c))) throw new Error(`content/grid/candies.json: no image for ${c.slug} (${c.image}); run \`npm run images\``);
 /** Logical src for lib/img.ts ("/candies/01-blue-skull.png" -> "candies/01-blue-skull.png"). */
 export function gridSrc(c: Pick<GridCandy, 'image'>) { return c.image.slice(1); }
+
+/** Timeline view (content/timeline.json). Each era's candies = grid candies whose era is that era's id. */
+export const timeline = parse(TimelineSchema, timelineJson, 'content/timeline.json');
+const eraIds = new Set(timeline.eras.map((e) => e.id));
+for (const c of gridCandies)
+  if (c.era && !eraIds.has(c.era)) throw new Error(`content/grid/candies.json: ${c.slug} has unknown era "${c.era}" (not in content/timeline.json)`);
+for (const e of timeline.eras) for (const s of [e.scrap, ...e.photos])
+  if (!hasImg(s.src)) throw new Error(`content/timeline.json: no image for ${s.src}; run \`npm run images\``);
+/** Candies for an era's slots: that era's candies (grid order) repeated to fill every slot; none if the era has no candies. */
+export function eraCandies(eraId: string, slots: number): { candy: GridCandy; index: number }[] {
+  const mine = gridCandies.map((candy, index) => ({ candy, index })).filter((c) => c.candy.era === eraId);
+  return mine.length ? Array.from({ length: slots }, (_, i) => mine[i % mine.length]!) : [];
+}
 
 export function getCandy(slug: string): Candy {
   const c = candies.find((c) => c.slug === slug);
