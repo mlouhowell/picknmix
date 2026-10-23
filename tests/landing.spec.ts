@@ -82,7 +82,7 @@ test.describe('grid mode', () => {
     await expect.poll(() => page.locator('.candy-grid li').count()).toBeGreaterThan(before);
   });
 
-  test('a candy opens the drawer (old candy panel, no 3D); next/<-/-> wrap; close, Esc and the backdrop close it', async ({ page }) => {
+  test('a candy opens the side drawer (147:1415, no 3D); next/<-/-> wrap; close, Esc and the backdrop close it', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
     const drawer = page.locator('[data-drawer]');
@@ -92,8 +92,8 @@ test.describe('grid mode', () => {
     await expect(title).toHaveText(grid.candies[0]!.name);
     await expect(drawer.locator('.hero:not([hidden]) img')).toHaveAttribute('alt', grid.candies[0]!.name);
     expect(await drawer.locator('canvas').count()).toBe(0); // no 3D
-    // panel 8:211: 429 wide, on the right (owner)
-    await expect.poll(async () => { const b = (await drawer.locator('.panel').boundingBox())!; return [b.x, b.width].map(Math.round); }).toEqual([1440 - 429, 429]);
+    // side drawer 147:1416: 432 wide, on the right
+    await expect.poll(async () => { const b = (await drawer.locator('.panel').boundingBox())!; return [b.x, b.width].map(Math.round); }).toEqual([1440 - 432, 432]);
     await page.keyboard.press('ArrowLeft');
     await expect(title).toHaveText(grid.candies.at(-1)!.name);
     await drawer.locator('[data-nav="next"]').click();

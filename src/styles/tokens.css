@@ -150,9 +150,22 @@
   --grid-tile-pad: 12px;             /* 109:47 p 12 */
   --grid-img-ratio: 206.4 / 230;     /* 109:48 candy image box */
   --grid-pad-bottom: 96px;
-  --drawer-w: min(429px, 100vw);     /* = --panel-w (8:211); drawer design in progress */
-  --drawer-pad: 24px;
-  --drawer-img: 280px;
+  /* Candy side drawer 147:1415 (drawer 147:1416 on the right, stage 147:1467) */
+  --drawer-w: 432px;                 /* 147:1416 */
+  --drawer-pad: 24px;                /* pt/px 24 */
+  --drawer-pad-bottom: 36px;         /* pb 36 */
+  --drawer-gap: 36px;                /* controls -> content, content blocks */
+  --drawer-button: 40px;             /* 147:1418 round buttons, bg = --color-toggle */
+  --drawer-scrim: rgb(247 247 245 / .6);   /* 147:1477 Scrim 60% (page colour) */
+  --drawer-blur: 17px;               /* 147:1477 backdrop blur */
+  --type-drawer-title-size: 40px;    /* 147:1426 Homemade Apple */
+  --type-drawer-heading-size: 18px;  /* 147:1430 / 147:1440 Funnel Sans SemiBold */
+  --type-drawer-value-size: 16px;    /* 147:1434 */
+  --type-drawer-label-size: 14px;    /* 147:1433 */
+  --drawer-row-pad: 12px;            /* 147:1432 py 12, top hairline */
+  --drawer-tile-w: 84px;  --drawer-tile-pad: 12px;  --drawer-tile-img-h: 63px;  /* 147:1443 */
+  --drawer-tile-gap-x: 12px;  --drawer-tile-gap-y: 24px;  --drawer-tile-caption-gap: 6px;
+  --radius-tile: 4px;
 
   /* ---------- Timeline 138:397 (desktop 1440) ---------- */
   --color-sidenote: #8c8a84;         /* 141:27 sources */

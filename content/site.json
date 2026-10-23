@@ -41,9 +41,11 @@
     "prev": "Previous candy",
     "next": "Next candy",
     "fields": {
-      "year": "Year",
-      "era": "Era",
-      "type": "Type"
-    }
+      "year": "Date of Invention",
+      "type": "Candy Type",
+      "era": "Era"
+    },
+    "detailsHeading": "Details",
+    "similarHeading": "Similar Candies"
   }
 }

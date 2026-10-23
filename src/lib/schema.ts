@@ -50,7 +50,7 @@ export const SiteSchema = z.object({
   header: z.object({ viewLabel: text, grid: text, timeline: text }),
   timeline: z.object({ label: text, contentsLabel: text }),
   drawer: z.object({
-    label: text, close: text, prev: text, next: text,
+    label: text, close: text, prev: text, next: text, detailsHeading: text, similarHeading: text,
     fields: z.object({ year: text, era: text, type: text }),
   }),
   landing: z.object({ eyebrow: text, title: text, candyLinkLabel: text }), // {name} = candy name
