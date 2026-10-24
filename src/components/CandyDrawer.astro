@@ -3,7 +3,7 @@
 // 60% page-colour scrim with a 17px blur (147:1477), the candy cut-out 512 centred (Hero 147:1481). Side drawer
 // 147:1416 on the right: close + next (147:1417), handwritten title + body (147:1424), Details rows (147:1429).
 // One panel + hero per candy in content/grid/candies.json; scripts/landing-grid.ts shows the current one. Empty text
-// fields are left out (copy coming). Similar Candies (147:1438) is not shown yet: the grid candies have no variants.
+// fields are left out; the caption field is not shown (owner, 2026-10-23). Similar Candies (147:1438) is not shown yet: the grid candies have no variants.
 import IconButton from './IconButton.astro';
 import Picture from './Picture.astro';
 import { site, gridCandies, gridSrc, timeline } from '../lib/content';
@@ -22,7 +22,6 @@ const f = site.drawer.fields;
       {gridCandies.map((c, i) => (
         <figure class="hero" data-hero={i} hidden data-figma="147:1481">
           <Picture src={gridSrc(c)} alt={c.name} displayWidth={heroW} sizes={`(max-width: 48em) 70vw, ${heroW}px`} />
-          {c.caption && <figcaption>{c.caption}</figcaption>}
         </figure>
       ))}
     </div>
@@ -82,7 +81,6 @@ const f = site.drawer.fields;
   .hero[hidden], .content[hidden] { display: none; }
   .hero :global(picture) { display: block; aspect-ratio: 1; }
   .hero :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
-  .hero figcaption { text-align: center; font-family: var(--font-ui); font-size: var(--type-caption-size); color: var(--color-text-muted); }
 
   .panel {
     display: flex; flex-direction: column; gap: var(--drawer-gap);
