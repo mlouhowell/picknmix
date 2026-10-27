@@ -107,11 +107,17 @@ const f = site.drawer.fields;
   dt { font-size: var(--type-drawer-label-size); color: var(--color-text-muted); }
   dd { font-size: var(--type-drawer-value-size); text-align: end; }
 
-  /* the drawer slides in from the right, the candy fades in (tokens are 0ms under reduced motion) */
-  .drawer[open] .panel { animation: panel-in var(--duration-page) var(--ease-out); }
-  .drawer[open] .hero-area { animation: fade-in var(--duration-page) var(--ease-out); }
+  /* open: the scrim fades in, the drawer slides in from the right, and the candy grows out of the page into the hero
+     spot (scripts/landing-grid.ts animates the hero picture). Close plays it backwards. Tokens are 0ms under reduced motion. */
+  .hero :global(picture) { transform-origin: center; will-change: transform; }
+  .drawer::backdrop { transition: opacity var(--duration-hero) var(--ease-out); }
+  @starting-style { .drawer[open]::backdrop { opacity: 0; } }
+  .drawer.is-closing::backdrop { opacity: 0; }
+  .drawer[open] .panel { animation: panel-in var(--duration-hero) var(--ease-hero); }
+  .drawer.is-closing .panel { translate: 100% 0; transition: translate calc(var(--duration-hero) * 0.8) var(--ease-hero); }
   @keyframes panel-in { from { translate: 100% 0; } }
   @keyframes fade-in { from { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .drawer[open] .hero-area { animation: fade-in var(--duration-page); } }
 
   /* phones: candy on top, drawer underneath, the whole overlay scrolls; controls stay at the top */
   @media (max-width: 48em) {
@@ -121,5 +127,6 @@ const f = site.drawer.fields;
     .panel { overflow: visible; border-inline-start: 0; border-block-start: var(--hairline) solid var(--color-line); }
     .controls { position: fixed; inset-block-start: var(--drawer-pad); inset-inline: var(--drawer-pad); z-index: 1; }
     .drawer[open] .panel { animation-name: fade-in; }
+    .drawer.is-closing .panel { translate: none; opacity: 0; transition: opacity calc(var(--duration-hero) * 0.8) var(--ease-hero); }
   }
 </style>

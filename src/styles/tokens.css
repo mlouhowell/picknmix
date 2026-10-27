@@ -27,6 +27,7 @@
   --color-placeholder-bg: #f2f1f1;
   /* Grid landing 109:27 (2026-10-23): off-white page, not cream */
   --color-page: #f7f7f5;             /* page background */
+  --color-header-bg: rgb(247 247 245 / 0.4);   /* sticky header 179:291: page colour at 40% (owner 2026-10-26) */
   --color-panel: #efefec;            /* panels (candy drawer) */
   --color-toggle: #e9e9e6;           /* view toggle pill 109:38 */
   --color-line: #e3e3e0;             /* hairlines */
@@ -129,8 +130,8 @@
   --space-landing-grid-top: 96px;    /* grid without the intro */
 
   /* ---------- Grid landing 109:27 (desktop 1440) / 109:234 (mobile) ---------- */
-  --header-pad-block: 24px;          /* 109:28 py 24 */
-  --header-h: 84px;                  /* 109:28 h 84 (grid starts at y 84) */
+  --header-pad-block: 8px;           /* 179:291 was py 24; slimmer header (owner 2026-10-26) */
+  --header-h: 56px;                  /* was 84 (109:28); slimmer header (owner 2026-10-26) */
   --header-pad-inline: 48px;         /* 109:28 px 48 */
   --type-logo-size: 20px;            /* 109:30 Fraunces SemiBold */
   --type-logo-tag-size: 11px;        /* 109:31 Homemade Apple */
@@ -175,7 +176,8 @@
   --tl-toc-pad-top: 204px;           /* 138:398 pt 204 */
   --tl-toc-gap: 12px;  --tl-toc-dot: 5px;  --tl-toc-dot-gap: 8px;
   --tl-era-gap: 48px;                /* 179:60 eras 48 apart; intro -> era 1 = 48 */
-  --tl-block-gap: 36px;              /* chunk -> story, story -> story */
+  --tl-block-gap: 36px;              /* collage chunk -> story */
+  --tl-para-gap: 20px;               /* story part -> part (179:60 had 36; tighter, owner 2026-10-26) */
   --tl-fn-gap: 12px;                 /* 179:154 paragraph -> open footnote */
   --tl-fn-indent: 24px;              /* 179:158 pl 24 */
   --tl-fn-num-gap: 0.4em;            /* "⁵  Vipeholm" two spaces */
@@ -200,7 +202,7 @@
   --type-caption-dates-tracking: 0.04em;                       /* 0.528px @ 13.2 */
   --tl-candy-slot-scale: 1.15;       /* square PNG (with transparent margin) around Figma's tight cut-out box */
   --tl-reveal-shift: 24px;           /* fade-up distance */
-  --tl-scroll-margin: 108px;         /* header 84 + 24 */
+  --tl-scroll-margin: 80px;          /* header 56 + 24 */
 
   /* ---------- Focus (Phase 9; brand teal is 4.28:1, fine for a 2px ring) ---------- */
   --focus-ring: 2px solid var(--color-brand);
@@ -210,8 +212,10 @@
   --motion-loop: 22s;                /* candy-kit seamless loop */
   --ease-out: cubic-bezier(.2,.7,.2,1);
   --duration-fast: 160ms;  --duration-page: 420ms;
+  --duration-hero: 560ms;            /* candy grows from the page into the drawer hero */
+  --ease-hero: cubic-bezier(.22,1,.36,1);   /* quick start, long soft landing */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --duration-fast: 0ms; --duration-page: 0ms; }
+  :root { --duration-fast: 0ms; --duration-page: 0ms; --duration-hero: 0ms; }
 }

@@ -61,23 +61,88 @@ function init() {
     dialog.querySelectorAll<HTMLElement>('[data-hero]').forEach((el) => (el.hidden = Number(el.dataset.hero) !== current));
     dialog.querySelector('.panel')?.scrollTo({ top: 0 });
   };
+  // ---- Open/close: the clicked candy grows out of the page into the hero spot, and shrinks back on close (FLIP).
+  // The page's candy is hidden while the drawer is open so it reads as one object. Skipped under reduced motion.
+  let source: { btn: HTMLElement; index: number } | null = null;
+  let closing = false;
+  const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const heroPicture = () => dialog?.querySelector<HTMLElement>(`[data-hero="${current}"] picture`) ?? null;
+  const motion = () => {
+    const cs = getComputedStyle(document.documentElement);
+    return { duration: parseFloat(cs.getPropertyValue('--duration-hero')) || 0, easing: cs.getPropertyValue('--ease-hero').trim() || 'ease-out' };
+  };
+  /** Transform that puts the hero picture exactly over the page candy (centre, size, tilt). */
+  const fromSource = (btn: HTMLElement, target: HTMLElement) => {
+    const img = btn.querySelector('img')!;
+    const r = img.getBoundingClientRect(), t = target.getBoundingClientRect();
+    const scaleOf = (el: Element) => parseFloat(getComputedStyle(el).scale) || 1;
+    const size = Math.min(img.offsetWidth, img.offsetHeight) * scaleOf(img) * scaleOf(btn);
+    const rot = parseFloat(getComputedStyle(btn).rotate) || 0;
+    const dx = r.left + r.width / 2 - (t.left + t.width / 2), dy = r.top + r.height / 2 - (t.top + t.height / 2);
+    return `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${size / t.width})`;
+  };
+  const inView = (el: Element) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
+  // start loading a candy's hero before the click so the grow has an image to show
+  const warm = (e: Event) => {
+    const btn = (e.target as Element).closest<HTMLElement>('.tile[data-index], .tl-candy[data-index]');
+    const img = btn && dialog?.querySelector<HTMLImageElement>(`[data-hero="${btn.dataset.index}"] img`);
+    if (img) img.loading = 'eager';
+  };
+  document.addEventListener('pointerover', warm, { signal });
+  document.addEventListener('focusin', warm, { signal });
+
+  const openDrawer = async (btn: HTMLElement) => {
+    if (!dialog) return;
+    render(Number(btn.dataset.index));
+    source = { btn, index: current };
+    const pic = heroPicture();
+    const img = pic?.querySelector('img');
+    if (img) { img.loading = 'eager'; await Promise.race([img.decode().catch(() => {}), new Promise((r) => setTimeout(r, 160))]); }
+    dialog.showModal();
+    if (!pic || reduce()) return;
+    const { duration, easing } = motion();
+    btn.style.visibility = 'hidden';
+    pic.animate([{ transform: fromSource(btn, pic) }, { transform: 'none' }], { duration, easing });
+  };
+  const closeDrawer = async () => {
+    if (!dialog?.open || closing) return;
+    const pic = heroPicture();
+    const back = source && source.index === current && pic && !reduce() && inView(source.btn) ? source.btn : null;
+    if (back && pic) {
+      closing = true;
+      const { duration, easing } = motion();
+      dialog.classList.add('is-closing');
+      await pic.animate([{ transform: 'none' }, { transform: fromSource(back, pic) }], { duration: duration * 0.8, easing, fill: 'forwards' }).finished.catch(() => {});
+    }
+    dialog.close();
+  };
+  dialog?.addEventListener('close', () => {
+    dialog.classList.remove('is-closing');
+    heroPicture()?.getAnimations().forEach((a) => a.cancel());
+    if (source) source.btn.style.visibility = '';
+    source = null; closing = false;
+  }, { signal });
+  dialog?.addEventListener('cancel', (e) => { e.preventDefault(); closeDrawer(); }, { signal }); // Esc
+
+  // next/prev: a different candy is shown, so the page candy reappears in its spot
+  const browse = (i: number) => { if (source) source.btn.style.visibility = ''; render(i); };
+
   // grid tiles and timeline candies both carry data-index (position in content/grid/candies.json)
   document.addEventListener('click', (e) => {
     const btn = (e.target as Element).closest<HTMLButtonElement>('.tile[data-index], .tl-candy[data-index]');
     if (!btn || !dialog) return;
-    render(Number(btn.dataset.index));
-    dialog.showModal();
+    openDrawer(btn);
   }, { signal });
   dialog?.addEventListener('click', (e) => {
     const nav = (e.target as Element).closest<HTMLElement>('[data-nav]')?.dataset.nav;
-    if (nav === 'close' || e.target === dialog || (e.target as Element).matches('[data-hero-area]')) dialog.close();
-    else if (nav === 'next') render(current + 1);
-    else if (nav === 'prev') render(current - 1);
+    if (nav === 'close' || e.target === dialog || (e.target as Element).matches('[data-hero-area]')) closeDrawer();
+    else if (nav === 'next') browse(current + 1);
+    else if (nav === 'prev') browse(current - 1);
   }, { signal });
   // keyboard like the old candy page: -> next, <- previous, Esc closes (native)
   dialog?.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') render(current + 1);
-    else if (e.key === 'ArrowLeft') render(current - 1);
+    if (e.key === 'ArrowRight') browse(current + 1);
+    else if (e.key === 'ArrowLeft') browse(current - 1);
   }, { signal });
 
   cleanup = () => { ac.abort(); io.disconnect(); };

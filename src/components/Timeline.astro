@@ -66,6 +66,7 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
         </div>
 
         <!-- figma 179:77 ff. Story parts: paragraph or bullet list (179:212), footnotes open underneath (179:158) -->
+        <div class="story">
         {e.story.map((part) => {
           const texts = 'text' in part ? [part.text] : part.items.map((i) => i.text);
           const refs = texts.flatMap(footnoteRefs);
@@ -83,6 +84,7 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
             </div>
           );
         })}
+        </div>
       </section>
     ))}
   </div>
@@ -183,6 +185,7 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   }
 
   /* story + footnotes */
+  .story { display: grid; gap: var(--tl-para-gap); }
   .part { display: grid; gap: var(--tl-fn-gap); }
   .body {
     font-family: var(--font-ui); font-weight: normal;
