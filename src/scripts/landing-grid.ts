@@ -13,7 +13,7 @@ function init() {
   const { signal } = ac;
 
   // ---- Grid | Timeline toggle (?view=timeline keeps the choice in the URL)
-  const segs = [...document.querySelectorAll<HTMLButtonElement>('.toggle [data-view]')];
+  const segs = [...document.querySelectorAll<HTMLButtonElement>('.view-nav [data-view]')];
   const views = [...document.querySelectorAll<HTMLElement>('[data-view-panel]')];
   const show = (view: string) => {
     for (const s of segs) s.setAttribute('aria-pressed', String(s.dataset.view === view));

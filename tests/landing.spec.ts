@@ -109,7 +109,7 @@ test.describe('grid mode', () => {
     await expect(drawer).toBeHidden();
   });
 
-  test('Grid | Timeline toggle switches the view without reloading; the URL reflects it', async ({ page }) => {
+  test('Grid / Timeline links switch the view without reloading; the URL reflects it', async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => ((window as unknown as { marker: number }).marker = 1));
     const tl = page.getByRole('button', { name: site.header.timeline });
@@ -135,47 +135,53 @@ test.describe('grid mode', () => {
   });
 });
 
-test.describe('timeline view (figma 138:397)', () => {
+test.describe('timeline view (figma 179:27)', () => {
   test.skip(layout.mode !== 'grid', 'timeline lives in grid mode');
+  const parts = timeline.eras.flatMap((e) => e.story.map((p) => ({ era: e.id, texts: 'text' in p ? [p.text] : p.items.map((i) => i.text) })));
 
-  test('1440: contents | 624 text | 312 sidenotes, top-aligned; eras 96 apart; sources stack 12 apart', async ({ page }) => {
+  test('1440: contents | 624 text centred; eras 48 apart; every paragraph from content', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/?view=timeline');
     const box = async (sel: string) => (await page.locator(sel).first().boundingBox())!;
     expect(Math.round((await box('.toc')).x)).toBe(96);
-    const body = await box('#beginnings .row >> nth=1 >> .body');
-    const notes = page.locator('#beginnings .row').nth(1).locator('.notes li');
-    const n0 = (await notes.nth(0).boundingBox())!, n1 = (await notes.nth(1).boundingBox())!;
-    expect([body.x, body.width].map(Math.round)).toEqual([360, 624]);
-    expect([n0.x, n0.width].map(Math.round)).toEqual([1032, 312]);
-    expect(Math.round(n0.y)).toBe(Math.round(body.y));
-    expect(Math.round(n1.y - (n0.y + n0.height))).toBe(12);
+    const body = await box('#beginnings .part >> nth=1 >> .body');
+    expect([body.x, body.width].map(Math.round)).toEqual([408, 624]);
     const e1 = await box('#beginnings'), e2 = await box('#factories');
-    expect(Math.round(e2.y - (e1.y + e1.height))).toBe(96);
-    // every paragraph and source comes from content/timeline.json
-    expect(await page.locator('.timeline .body').count()).toBe(timeline.eras.reduce((n, e) => n + e.story.length, 0));
-    expect(await page.locator('.timeline .notes li').count()).toBe(timeline.eras.reduce((n, e) => n + e.story.reduce((m, p) => m + p.sources.length, 0), 0));
+    expect(Math.round(e2.y - (e1.y + e1.height))).toBe(48);
+    expect(await page.locator('.timeline .body').count()).toBe(parts.length);
+    await expect(page.locator('.toc a')).toHaveCount(timeline.eras.length);
   });
 
-  test('390: no contents column; each sidenote sits under its paragraph; no sideways scroll', async ({ page }) => {
+  test('a footnote marker opens its source under the paragraph', async ({ page }) => {
+    await page.goto('/?view=timeline');
+    const refs = parts.flatMap((p) => p.texts.flatMap((t) => [...(t ?? "").matchAll(/\[(\d+)\]/g)].map((m) => m[1]!)));
+    await expect(page.locator('.timeline [data-fn]')).toHaveCount(refs.length);
+    const part = page.locator('#war-and-rationing .part').nth(1);
+    const fn = part.locator('#fn-5');
+    await expect(fn).toBeHidden();
+    await part.getByRole('button', { name: site.timeline.footnoteLabel.replace('{n}', '5') }).click();
+    await expect(fn).toBeVisible();
+    await expect(fn).toContainText(timeline.footnotes['5']!);
+    const body = (await part.locator('.body').boundingBox())!, note = (await fn.boundingBox())!;
+    expect(note.y).toBeGreaterThan(body.y + body.height - 1);
+    await part.getByRole('button', { name: site.timeline.footnoteLabel.replace('{n}', '5') }).click();
+    await expect(fn).toBeHidden();
+  });
+
+  test('390: no contents column; no sideways scroll', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/?view=timeline');
     await expect(page.locator('.toc')).toBeHidden();
-    const row = page.locator('#beginnings .row').first();
-    const body = (await row.locator('.body').boundingBox())!, note = (await row.locator('.notes').boundingBox())!;
-    expect(note.y).toBeGreaterThan(body.y + body.height - 1);
-    expect(Math.round(note.x)).toBe(Math.round(body.x));
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 
-  test("era candies come from candies.json's era field and open the drawer", async ({ page }) => {
+  test('era candies are the named grid candies and open the drawer', async ({ page }) => {
     await page.goto('/?view=timeline');
     for (const e of timeline.eras) {
-      const names = grid.candies.filter((c) => c.era === e.id).map((c) => c.name);
+      const names = e.candySlots.map((s) => grid.candies.find((c) => c.slug === s.candy)!.name);
       const alts = await page.locator(`#${e.id} .tl-candy img`).evaluateAll((els) => els.map((i) => (i as HTMLImageElement).alt));
-      if (!names.length || !e.candySlots.length) expect(alts).toEqual([]);
-      else expect(new Set(alts)).toEqual(new Set(names));
+      expect(alts).toEqual(names);
     }
     const candy = page.locator('#boom .tl-candy').first();
     const name = await candy.locator('img').getAttribute('alt');

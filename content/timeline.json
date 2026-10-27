@@ -1,19 +1,36 @@
 {
-  "_readme": "Timeline view (Figma 138:397). Intro + 9 eras. Per era: collage (positions in Figma px inside the 624px era chunk: photos/scrap/candySlots relative to the collage box at x 28.8, y collageTop; caption centre relative to the chunk; rotate in CSS degrees) and story paragraphs: { text, em (words set in italic, e.g. Swedish terms), sources (margin sidenotes) }. Candies fill candySlots from content/grid/candies.json by their era field (= era id), in order, repeating to fill the slots. Images: assets/timeline/<era>/ (exported from Figma at 2x; webp/png sizes via npm run images).",
+  "_readme": "Timeline view (Figma 179:27 Timeline v3). Intro + 10 eras. Per era: collage (positions in Figma px inside the 624px era chunk: photos/scrap/candySlots relative to the collage box at x 28.8, y collageTop; caption centre relative to the chunk; rotate in CSS degrees) and story parts: { text } or { items: [{ lead, text }] } (a bullet list). [n] in a text is footnote n: a superscript that opens footnotes[n] under its part. candySlots name a grid candy (content/grid/candies.json slug); clicking it opens the candy drawer. Images: assets/timeline/<era>/ (npm run images).",
   "intro": {
     "kicker": "A short history of Swedish candy",
     "title": [
       "From polkagris",
       "to pick-n-mix"
     ],
-    "figmaNode": "138:428"
+    "figmaNode": "179:61"
+  },
+  "footnotes": {
+    "1": "Polkagris / Amalia Eriksson: SKBL, Tekniska museet",
+    "2": "Cinemas: Film Sound Sweden",
+    "3": "US cinema snacks: Smithsonian; UCL thesis",
+    "4": "Sugar rationing: SvD Årsbok 1940, 1949",
+    "5": "Vipeholm: Lund University",
+    "6": "Lördagsgodis: sv.Wikipedia",
+    "7": "Ahlgrens bilar: Cloetta history",
+    "8": "Pastellfiskar / Swedish Fish: Cloetta, Wikipedia, Mental Floss",
+    "9": "Haribo Nappar: Nappar, Happy-Cola",
+    "10": "Marshmallow Santas: Cloetta history",
+    "11": "Gott & Blandat: Cloetta; sv.Wikipedia",
+    "12": "Pick-and-mix 1985: ICA-historien",
+    "13": "BUBS: BUBS, Grant Thornton",
+    "14": "Sockerbit: Our story, Swedes in the States, LA Weekly",
+    "15": "TikTok craze: CBC, Texas Monthly"
   },
   "eras": [
     {
       "id": "beginnings",
       "dates": "1850s–1890s",
       "title": "Beginnings",
-      "figmaNode": "138:432",
+      "figmaNode": "179:64",
       "collageTop": 68.84,
       "scrap": {
         "src": "timeline/beginnings/scrap.png",
@@ -63,25 +80,21 @@
       "candySlots": [],
       "story": [
         {
-          "text": "Sweden was poor and mostly farmland back then. About 1.3 million Swedes left for America between 1850 and 1930. At home, railways and factories slowly arrived.",
-          "sources": [
-            "Emigration: Wikipedia, Swedish emigration to the US"
-          ]
+          "text": "The first candies were medicinal in nature. Sugar was used to disguise the bad taste of a concoction of herbs prescribed by an apothecary for things like digestion issues and chest pain."
         },
         {
-          "text": "In 1859, in the small town of Gränna, a widow named Amalia Eriksson got permission to open a bakery. She sold polkagris, a red and white peppermint stick. She was the first to sell them, though no one knows who made the first one. Meanwhile, three Swiss brothers named Cloëtta started a chocolate firm in Copenhagen in 1862. In 1873 they opened Sweden's first chocolate factory, in Malmö. That firm became Cloetta, one of Sweden's oldest candy companies.",
-          "sources": [
-            "Polkagris / Amalia Eriksson: SKBL, Tekniska museet",
-            "Cloetta: Cloetta history"
-          ]
+          "text": "In the 1850s in Sweden a widow called Amalia Eriksson invented a famous candy called polkagris. Polkagris is a red and white striped peppermint stick. The candy was first made for her sick daughter to help with a cold. It was made of sugar, peppermint, water, and vinegar. Soon after, she started selling them in her bakery. She died at age 99 a very wealthy woman because of the bestselling candy.[1]"
+        },
+        {
+          "text": "Once candy became less about curing ailments and more for pleasure, it was only the rich that could afford to buy it. A sign of a well-to-do home was to have bonbons in little bowls ready for guests. In the 1850s railways in Sweden and the rest of the world made sugar and other ingredients cheaper. This meant that ordinary people and not just the rich could afford to buy candy."
         }
       ]
     },
     {
       "id": "factories",
-      "dates": "1900s–1930s",
+      "dates": "1900s–1928",
       "title": "Factories",
-      "figmaNode": "138:457",
+      "figmaNode": "179:89",
       "collageTop": 70.76,
       "scrap": {
         "src": "timeline/factories/scrap.png",
@@ -128,32 +141,86 @@
         "cy": 472.79,
         "rotate": -3
       },
+      "candySlots": [],
+      "story": [
+        {
+          "text": "Once factories were able to make candy it became a real industry as one factory could make more in a day than a shop could make in months."
+        },
+        {
+          "text": "Between about 1900 and 1930, electric motors replaced steam engines. Every machine could now run on its own, so factories set them up in a line from the cooking pot to the wrapper, with conveyor belts carrying candy between them and machines doing the wrapping. Cleaner, faster factories made candy even cheaper."
+        },
+        {
+          "text": "Cinemas spread fast in Sweden in the early 1900s and by 1916 there were about 500.[2] In the 1930s, US cinemas found that selling candy and popcorn helped them survive hard times, and candy became a ritual of going to the movies.[3]"
+        }
+      ]
+    },
+    {
+      "id": "great-depression",
+      "dates": "1929",
+      "title": "Great Depression",
+      "figmaNode": "179:115",
+      "collageTop": 70.76,
+      "scrap": {
+        "src": "timeline/factories/scrap.png",
+        "x": -16.8,
+        "y": 95.44,
+        "w": 329.06,
+        "h": 291.45,
+        "figmaNode": "180:364"
+      },
+      "photos": [
+        {
+          "src": "timeline/factories/biograf-piccadilly-1920s.png",
+          "alt": "Biograf Piccadilly, 1920s",
+          "x": 84,
+          "y": 28.8,
+          "w": 180,
+          "h": 235.2,
+          "inset": 3.6,
+          "figmaNode": "180:365"
+        },
+        {
+          "src": "timeline/factories/cloetta-malmo-1901-engraving.png",
+          "alt": "Cloetta, Malmö (1901 engraving)",
+          "x": 278.4,
+          "y": 86.4,
+          "w": 240,
+          "h": 160.8,
+          "inset": 0,
+          "figmaNode": "180:367"
+        },
+        {
+          "src": "timeline/great-depression/lundholms-karamellfabrik-uppsala-1926.png",
+          "alt": "Lundholms karamellfabrik, Uppsala, 1926",
+          "x": 201.6,
+          "y": 235.2,
+          "w": 216,
+          "h": 158.4,
+          "inset": 3.6,
+          "figmaNode": "180:369"
+        }
+      ],
+      "caption": {
+        "cx": 238.66,
+        "cy": 472.79,
+        "rotate": -3
+      },
       "candySlots": [
         {
-          "cx": 406.25,
-          "cy": 314.92,
-          "w": 201.6,
-          "h": 92.4,
-          "rotate": -8
+          "candy": "polkagris",
+          "cx": 474.4,
+          "cy": 302.94,
+          "w": 150,
+          "h": 109,
+          "rotate": -30
         }
       ],
       "story": [
         {
-          "text": "Candy became a real industry. The chocolate maker Marabou started in 1916, and Malaco, a candy company in Malmö, started in 1934. In 1921 Cloetta sold \"Five o'clock kex-choklad,\" thin wafers coated in milk chocolate, meant as an afternoon snack. In 1938 it got the short name Kexchoklad and its checked red and yellow wrapper.",
-          "sources": [
-            "Kexchoklad: Cloetta history, Kexchoklad"
-          ]
+          "text": "When the Great Depression hit in 1929, money got tight around the world, but candy held on. A small sweet was one of the few treats people could still afford. In the US, candy makers sold bigger, more filling bars for a nickel, almost as a cheap meal. Snickers (1930) and 3 Musketeers (1932) both date from those years."
         },
         {
-          "text": "Sweden stayed neutral in the First World War (1914–18). Cinemas spread fast, and by 1916 there were about 500. In the 1930s, US cinemas found that selling candy and popcorn helped them survive hard times, and snacks became part of going to the movies. We found no proof the same thing happened in Sweden. Here, the 1930s also brought the first steps toward folkhemmet, \"the people's home,\" the idea behind the Swedish welfare state.",
-          "em": [
-            "folkhemmet"
-          ],
-          "sources": [
-            "Cinemas: Film Sound Sweden",
-            "US cinema snacks: Smithsonian; UCL thesis",
-            "World events: general reference"
-          ]
+          "text": "Sweden felt the slump later and less sharply, and it recovered faster than the US in the mid-1930s. Swedish candy makers kept going by selling cheap, everyday sweets, like loose candies sold one by one for a coin or two."
         }
       ]
     },
@@ -161,7 +228,7 @@
       "id": "war-and-rationing",
       "dates": "1940s",
       "title": "War and rationing",
-      "figmaNode": "138:481",
+      "figmaNode": "179:137",
       "collageTop": 70.34,
       "scrap": {
         "src": "timeline/war-and-rationing/scrap.png",
@@ -211,20 +278,10 @@
       "candySlots": [],
       "story": [
         {
-          "text": "Sweden stayed neutral in the Second World War too. But sugar was rationed, from April 1940 to September 1949, so sweets were scarce.",
-          "sources": [
-            "Sugar rationing: SvD Årsbok 1940, 1949"
-          ]
+          "text": "Sugar was rationed during the Second World War, from April 1940 to September 1949, which made making candy difficult.[4] With sugar rationed and cocoa nearly impossible to import, chocolate became scarce and factories used substitutes, made fewer products and sometimes paused lines. Sweets were a rare treat for kids growing up in those years. Sugar rationing lasted past the war, ending in the 1940s. The pent-up demand helped set off the candy boom of the 1950s."
         },
         {
-          "text": "From 1945 to 1955, the state ran sugar tests at Vipeholm, a hospital near Lund. The patients there had severe learning disabilities and could not give real consent. The tests showed that sticky sweets, eaten often, cause tooth decay. So health officials told parents to give children sweets on just one day a week. That became lördagsgodis, which means \"Saturday sweets.\" The word first appears in 1957, and Saturday is still the big day for sweets in Sweden.",
-          "em": [
-            "lördagsgodis"
-          ],
-          "sources": [
-            "Vipeholm: Lund University",
-            "Lördagsgodis: sv.Wikipedia"
-          ]
+          "text": "In the 1940s the Swedish government wanted to find out what was causing cavities in the Swedish people. From 1945 to 1955, the government ran studies to find out the cause. The tests showed that sticky sweets, eaten often, cause tooth decay.[5] Health officials ran a campaign to tell parents to give children sweets on just one day a week. That became lördagsgodis, which means \"Saturday sweets.\"[6] Today, Saturday is still the big day for sweets in Sweden for not just children but adults too."
         }
       ]
     },
@@ -232,7 +289,7 @@
       "id": "boom",
       "dates": "1950s",
       "title": "Boom",
-      "figmaNode": "138:504",
+      "figmaNode": "179:160",
       "collageTop": 71.1,
       "scrap": {
         "src": "timeline/boom/scrap.png",
@@ -281,15 +338,17 @@
       },
       "candySlots": [
         {
+          "candy": "pastellfiskar",
           "cx": 170.99,
-          "cy": 323.78,
+          "cy": 323.79,
           "w": 184.59,
           "h": 68.98,
           "rotate": 6
         },
         {
-          "cx": 401.78,
-          "cy": 321.75,
+          "candy": "pink-car",
+          "cx": 401.77,
+          "cy": 321.74,
           "w": 132,
           "h": 132,
           "rotate": 8
@@ -297,22 +356,13 @@
       ],
       "story": [
         {
-          "text": "After the war, times got better. Cola is a good example. Coca-Cola was first made in 1886 by John Pemberton, a pharmacist in Atlanta, USA. It sold for five cents a glass. In 1915 a glass company patented a curved bottle for it, and Coke began using it in 1916. In 1953 cola finally went on sale in Sweden: first Cuba Cola, a Swedish cola, in February, then Coca-Cola in June. Before long, candy makers copied the taste, and even the bottle.",
-          "sources": [
-            "Cola: The Coca-Cola Company, bottle patent, Cuba Cola / Spendrups"
-          ]
+          "text": "After the war, sugar was no longer rationed, wages were rising, and families had a little extra money to spend. Candy factories could turn out sweets faster and cheaper than ever. New methods like pouring candy into shapes pressed into trays of cornstarch made soft, chewy gummies and foam sweets easy to mass-produce."
         },
         {
-          "text": "The same year, Marabou launched Daim, a crisp almond toffee in milk chocolate, first spelled \"Dajm\" after the US \"dime.\" In Gävle, the firm Ahlgrens tried to make marshmallows. The mix didn't rise but tasted good, so they kept it as small foam cars. Malaco was also making pastellfiskar, \"pastel fish,\" a chewy fruit jelly. In North America they became \"Swedish Fish.\" Accounts differ on the year, but many say 1957. Swedish TV started in 1956.",
-          "em": [
-            "pastellfiskar"
-          ],
-          "sources": [
-            "Daim: Mondelez, sv.Wikipedia",
-            "Ahlgrens bilar: Cloetta history",
-            "Pastellfiskar / Swedish Fish: Cloetta, Wikipedia, Mental Floss",
-            "World events: general reference"
-          ]
+          "text": "Cars were the other big symbol of the era. Many Swedish families bought their first car in the 1950s. In 1953, Ahlgren's in Gävle launched Ahlgrens bilar, which means \"Ahlgren's cars\": little foam candies shaped like cars, in pink, green and white. Cloetta, which makes them today, still calls them \"the world's best-selling car.\"[7]"
+        },
+        {
+          "text": "Around the late 1950s, the Swedish candy maker Malaco created a small, chewy red fish to sell in North America. The fish shape was a nod to Sweden's fishing industry. In the US and Canada they became famous as Swedish Fish, and back home Swedes came to know them as pastellfiskar, or \"pastel fish.\" Today they're probably the best-known Swedish candy in the world.[8]"
         }
       ]
     },
@@ -320,7 +370,7 @@
       "id": "colour-and-pop",
       "dates": "1960s–1970s",
       "title": "Colour and pop",
-      "figmaNode": "138:528",
+      "figmaNode": "179:187",
       "collageTop": 76.88,
       "scrap": {
         "src": "timeline/colour-and-pop/scrap.png",
@@ -369,6 +419,7 @@
       },
       "candySlots": [
         {
+          "candy": "cola-bottle",
           "cx": 73.13,
           "cy": 295.79,
           "w": 55.2,
@@ -376,6 +427,7 @@
           "rotate": 18
         },
         {
+          "candy": "cola-bottle",
           "cx": 118.6,
           "cy": 373.5,
           "w": 45.6,
@@ -383,6 +435,7 @@
           "rotate": -14
         },
         {
+          "candy": "cola-bottle",
           "cx": 168.4,
           "cy": 317.88,
           "w": 36,
@@ -392,23 +445,26 @@
       ],
       "story": [
         {
-          "text": "Candy got brighter and more playful. In 1961 Haribo, a German candy maker, sold its first sweets in Sweden: Nappar, gummies shaped like pacifiers (napp means pacifier). Cola became one of the favorite flavors, and today there is a sour cola version, Sura Colanappar. In 1965 Haribo also made cola-bottle gummies, later called Happy-Cola. Marshmallow sweets arrived too: Cloetta made its first marshmallow Santas in the 1960s.",
-          "em": [
-            "napp",
-            "Sura Colanappar"
-          ],
-          "sources": [
-            "Haribo Nappar and Happy-Cola: Nappar, Happy-Cola",
-            "Marshmallow Santas: Cloetta history"
+          "text": "The 1960s were when Swedish candy got playful. With money and sugar plentiful, makers stopped focusing on cheap basics and started competing on fun shapes, bright colours and new textures."
+        },
+        {
+          "items": [
+            {
+              "lead": "Sour and cola flavors:",
+              "text": "Haribo launched its Nappar in 1961, and sour cola versions came later.[9]"
+            },
+            {
+              "lead": "Marshmallow and foam:",
+              "text": "Cloetta made its first marshmallow Santas in the 1960s[10], and foam sweets in all kinds of shapes became shop staples."
+            },
+            {
+              "lead": "Kids with pocket money:",
+              "text": "postwar children had their own spending money, and makers designed candy straight for them with animals, cars and cartoons."
+            }
           ]
         },
         {
-          "text": "In 1970 the foam cars got their name, Ahlgrens bilar (\"Ahlgren's cars\"). In 1979 Malaco launched Gott & Blandat, \"good and mixed,\" a bag of fruit gums and licorice. At first the mix changed with whatever the factory had just made. Out in the world, people walked on the Moon in 1969, and the 1970s brought an oil crisis.",
-          "sources": [
-            "Ahlgrens bilar: Cloetta history",
-            "Gott & Blandat: Cloetta; sv.Wikipedia; \"Candy\" sheet",
-            "World events: general reference"
-          ]
+          "text": "In 1979 Malaco invented the concept of Gott & Blandat, which means \"good and mixed.\" It was a way of selling leftover candies they had by creating mixed bags of fruit gums and licorice.[11]"
         }
       ]
     },
@@ -416,7 +472,7 @@
       "id": "pick-your-own",
       "dates": "1980s",
       "title": "Pick your own",
-      "figmaNode": "138:554",
+      "figmaNode": "179:217",
       "collageTop": 69.56,
       "scrap": {
         "src": "timeline/pick-your-own/scrap.png",
@@ -424,38 +480,18 @@
         "y": 180,
         "w": 335.38,
         "h": 271.3,
-        "figmaNode": "139:85"
+        "figmaNode": "180:378"
       },
       "photos": [
         {
-          "src": "timeline/pick-your-own/fall-of-the-berlin-wall-1989.png",
-          "alt": "Fall of the Berlin Wall, 1989",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "139:86"
-        },
-        {
           "src": "timeline/pick-your-own/loose-sweets-in-bins.png",
           "alt": "Loose sweets in bins",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "139:88"
-        },
-        {
-          "src": "timeline/pick-your-own/korvkiosk-stockholm-1985.png",
-          "alt": "Korvkiosk, Stockholm 1985",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
+          "x": 130,
+          "y": 40,
+          "w": 300,
+          "h": 200,
           "inset": 3.6,
-          "figmaNode": "139:90"
+          "figmaNode": "180:379"
         }
       ],
       "caption": {
@@ -465,37 +501,60 @@
       },
       "candySlots": [
         {
-          "cx": 490.4,
-          "cy": 323.41,
-          "w": 144,
-          "h": 144,
+          "candy": "fried-egg",
+          "cx": 372.29,
+          "cy": 331.4,
+          "w": 150,
+          "h": 98,
+          "rotate": 8
+        },
+        {
+          "candy": "strawberry",
+          "cx": 492.52,
+          "cy": 65.07,
+          "w": 84,
+          "h": 110,
+          "rotate": -12
+        },
+        {
+          "candy": "gummy-cherry",
+          "cx": 75.93,
+          "cy": 211.17,
+          "w": 92,
+          "h": 108,
           "rotate": 10
+        },
+        {
+          "candy": "orange-disc",
+          "cx": 504.85,
+          "cy": 273.51,
+          "w": 100,
+          "h": 98,
+          "rotate": -6
+        },
+        {
+          "candy": "rambo",
+          "cx": 218.9,
+          "cy": 291.28,
+          "w": 150,
+          "h": 96,
+          "rotate": -5
         }
       ],
       "story": [
         {
-          "text": "Until now, loose sweets were sold from behind a counter. In 1985 the state food agency said shops could let people pick their own from bins. That is lösgodis, Swedish for loose sweets, better known as pick-and-mix. It fit the times, as self-service shops and big supermarkets spread.",
-          "em": [
-            "lösgodis"
-          ],
-          "sources": [
-            "Pick-and-mix 1985: ICA-historien"
-          ]
+          "text": "Until now, loose sweets were sold from behind a counter. In 1985 the state food agency said shops could let people pick their own from bins.[12] That is lösgodis, Swedish for loose sweets, better known as pick-and-mix. It fit the times, as self-service shops and big supermarkets spread."
         },
         {
-          "text": "The bins filled with staples that are still there today: a candy fried egg, strawberries, cherries, orange discs, and Rambo. In 1982 Malaco added Djungelvrål (the name means \"jungle roar\"). Out in the world, Chernobyl happened in 1986, and the Berlin Wall fell in 1989.",
-          "sources": [
-            "Djungelvrål: Cloetta; sv.Wikipedia; \"Candy\" sheet",
-            "World events: general reference"
-          ]
+          "text": "The bins filled with staples that are still there today: a candy fried egg, strawberries, cherries, orange discs, and Rambo."
         }
       ]
     },
     {
       "id": "sweden-opens-up",
       "dates": "1990s–2000s",
-      "title": "Sweden opens up",
-      "figmaNode": "138:568",
+      "title": "BUBS",
+      "figmaNode": "179:239",
       "collageTop": 68.36,
       "scrap": {
         "src": "timeline/sweden-opens-up/scrap.png",
@@ -538,24 +597,14 @@
         }
       ],
       "caption": {
-        "cx": 433.44,
-        "cy": 472.82,
+        "cx": 375.0,
+        "cy": 469.76,
         "rotate": -3
       },
       "candySlots": [],
       "story": [
         {
-          "text": "In 1990 \"Dajm\" became \"Daim.\" In 1992 the Lindström family in Huskvarna, near Jönköping, put their house up as security for a bank loan. They used it to buy their first candy machine and started BUBS, a family candy maker. The name comes from four of them: Bernt, Ulrik, Birgitta and Stefan. They chose bold shapes such as skulls, ovals and diamonds.",
-          "sources": [
-            "Daim: Mondelez, sv.Wikipedia",
-            "BUBS: BUBS, Grant Thornton"
-          ]
-        },
-        {
-          "text": "Sweden was opening up to the world. In 1995 it joined the EU, the European Union. The internet and mobile phones became part of everyday life.",
-          "sources": [
-            "World events: general reference"
-          ]
+          "text": "In 1992 the Lindström family in Huskvarna, near Jönköping, put their house up as security for a bank loan. They used it to buy their first candy machine and started BUBS, a family candy maker. The name comes from four of them: Bernt, Ulrik, Birgitta and Stefan. They chose bold shapes such as skulls, ovals and diamonds.[13]"
         }
       ]
     },
@@ -563,7 +612,7 @@
       "id": "candy-abroad",
       "dates": "2010s",
       "title": "Swedish candy abroad",
-      "figmaNode": "138:582",
+      "figmaNode": "179:256",
       "collageTop": 63.56,
       "scrap": {
         "src": "timeline/candy-abroad/scrap.png",
@@ -613,16 +662,7 @@
       "candySlots": [],
       "story": [
         {
-          "text": "Swedish candy began to travel. In 2010 Stefan Ernberg and Florence Baras opened Sockerbit, a Swedish candy shop in New York, on Christopher Street in the West Village. In 2014 Sockerbit opened a second shop, in Los Angeles.",
-          "sources": [
-            "Sockerbit: Our story, Swedes in the States, LA Weekly"
-          ]
-        },
-        {
-          "text": "Back home, Cloetta kept growing. In 2017 it bought Candyking and became the biggest name in Swedish pick-and-mix. Meanwhile, smartphones went everywhere, and Instagram, a photo-sharing app, launched in 2010.",
-          "sources": [
-            "Candyking: Cloetta history"
-          ]
+          "text": "In 2010 Stefan Ernberg and Florence Baras opened Sockerbit, a Swedish candy shop in New York, on Christopher Street in the West Village. In 2014 Sockerbit opened a second shop, in Los Angeles.[14]"
         }
       ]
     },
@@ -630,7 +670,7 @@
       "id": "tiktok-moment",
       "dates": "2020s",
       "title": "The TikTok moment",
-      "figmaNode": "138:596",
+      "figmaNode": "179:273",
       "collageTop": 63.56,
       "scrap": {
         "src": "timeline/tiktok-moment/scrap.png",
@@ -679,6 +719,7 @@
       },
       "candySlots": [
         {
+          "candy": "blue-skull",
           "cx": 117.01,
           "cy": 286.4,
           "w": 144,
@@ -688,17 +729,7 @@
       ],
       "story": [
         {
-          "text": "The pandemic began in 2020, and TikTok became a main way people found new things to buy. In January 2024 a TikTok video set off a craze for Swedish candy in the US. Chewy skull-shaped sweets led the way, many of them made by BUBS. Shops ran short, and some sweets were hard to find.",
-          "sources": [
-            "TikTok craze: CBC, Texas Monthly"
-          ]
-        },
-        {
-          "text": "BUBS had been sold to Orkla, a larger company, in 2023. In 2025 Sockerbit launched in Target, a big US chain of stores. A bag of Swedish pick-and-mix had gone from a Swedish Saturday treat to a hit in America.",
-          "sources": [
-            "BUBS: BUBS, Grant Thornton",
-            "Sockerbit in Target: Our story"
-          ]
+          "text": "The pandemic began in 2020, and TikTok became a main way people found new things to buy. In January 2024 a TikTok video set off a craze for Swedish candy in the US. Chewy skull-shaped sweets led the way, many of them made by BUBS. Shops ran short, and some sweets were hard to find.[15]"
         }
       ]
     }

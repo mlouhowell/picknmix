@@ -1,5 +1,5 @@
 // Timeline view (figma 138:397): contents highlight follows the era in view, contents links scroll without
-// changing the URL's view, and eras fade up as they enter (CSS skips the motion under prefers-reduced-motion).
+// changing the URL's view, footnote markers open/close their source under the paragraph, and eras fade up as they enter (CSS skips the motion under prefers-reduced-motion).
 // Markup: components/Timeline.astro.
 export {};
 
@@ -36,6 +36,16 @@ function init() {
       if (!target) return;
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }, { signal: ac.signal });
+
+  // footnotes: a marker toggles its source line (179:158)
+  for (const b of root.querySelectorAll<HTMLButtonElement>('[data-fn]'))
+    b.addEventListener('click', () => {
+      const note = document.getElementById(b.getAttribute('aria-controls')!);
+      if (!note) return;
+      const open = b.getAttribute('aria-expanded') !== 'true';
+      b.setAttribute('aria-expanded', String(open));
+      note.hidden = !open;
     }, { signal: ac.signal });
 
   cleanup = () => { ac.abort(); spy.disconnect(); reveal.disconnect(); };

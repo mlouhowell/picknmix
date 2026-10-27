@@ -26,14 +26,15 @@
     }
   },
   "header": {
-    "_note": "Shared header 109:28 / 140:27: \"Pick N Mix\" + Grid | Timeline toggle (no tagline, owner 2026-10-23).",
+    "_note": "Shared header 179:291: \"Pick N Mix\" left, Grid / Timeline text links right (no tagline, owner 2026-10-23).",
     "viewLabel": "View",
     "grid": "Grid",
     "timeline": "Timeline"
   },
   "timeline": {
     "contentsLabel": "Contents",
-    "label": "Timeline"
+    "label": "Timeline",
+    "footnoteLabel": "Source {n}"
   },
   "drawer": {
     "label": "Candy details",

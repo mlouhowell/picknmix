@@ -1,17 +1,17 @@
 ---
-// figma 109:28 (Grid) / 140:27 (Timeline) Header: logo left, Grid | Timeline toggle (109:38 / 140:30) centred. On phones (109:234) the
-// toggle drops below the logo. The toggle is wired in scripts/landing-grid.ts (aria-pressed + ?view=).
+// figma 179:291 Header: logo left, Grid / Timeline text links right (179:294); the current view is ink + underlined.
+// Same row on phones. The links switch views in scripts/landing-grid.ts (aria-pressed + ?view=).
 import { site } from '../lib/content';
 ---
-<header class="site-header" data-figma="109:28">
-  <!-- figma 109:29 / 140:28 Logo: "Pick N Mix" (no tagline, owner 2026-10-23) -->
-  <p class="logo" data-figma="140:28">
-    <span class="name" data-figma="140:29">{site.siteName}</span>
+<header class="site-header" data-figma="179:291">
+  <!-- figma 179:292 Logo: "Pick N Mix" (no tagline, owner 2026-10-23) -->
+  <p class="logo" data-figma="179:292">
+    <span class="name" data-figma="180:360">{site.siteName}</span>
   </p>
-  <!-- figma 109:38 View toggle: Grid 109:35 (active) / Timeline 109:37 -->
-  <div class="toggle" role="group" aria-label={site.header.viewLabel} data-figma="109:38">
-    <button type="button" class="seg" data-view="grid" aria-pressed="true" data-figma="109:35">{site.header.grid}</button>
-    <button type="button" class="seg" data-view="timeline" aria-pressed="false" data-figma="109:37">{site.header.timeline}</button>
+  <!-- figma 179:294 Nav links: Grid 179:295 / Timeline 179:296 -->
+  <div class="view-nav" role="group" aria-label={site.header.viewLabel} data-figma="179:294">
+    <button type="button" class="link" data-view="grid" aria-pressed="true" data-figma="179:295">{site.header.grid}</button>
+    <button type="button" class="link" data-view="timeline" aria-pressed="false" data-figma="179:296">{site.header.timeline}</button>
   </div>
 </header>
 
@@ -27,24 +27,20 @@ import { site } from '../lib/content';
     font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
     font-size: var(--type-logo-size); font-weight: var(--type-candy-title-weight); color: var(--color-ink);
   }
-  .toggle {
-    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
-    display: flex; gap: var(--toggle-gap); padding: var(--toggle-pad);
-    border-radius: var(--radius-pill); background: var(--color-toggle);
+  .view-nav { display: flex; gap: var(--nav-gap); padding: var(--nav-pad-block) var(--nav-pad-inline); }
+  .link {
+    border: 0; padding: 0; background: none; cursor: pointer;
+    font-family: var(--font-ui); font-size: var(--type-nav-size); font-weight: var(--type-nav-weight);
+    line-height: var(--type-nav-leading); white-space: nowrap;
+    color: var(--color-text-muted);
+    text-underline-offset: var(--nav-underline-offset);
+    transition: color var(--duration-fast) var(--ease-out);
   }
-  .seg {
-    border: 0; cursor: pointer; border-radius: var(--radius-pill);
-    padding: var(--toggle-seg-pad-block) var(--toggle-seg-pad-inline);
-    font-family: var(--font-ui); font-size: var(--type-toggle-size); font-weight: var(--type-toggle-weight);
-    letter-spacing: var(--type-toggle-tracking); line-height: normal;
-    background: transparent; color: var(--color-text-muted);
-    transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
-  }
-  .seg[aria-pressed='true'] { background: var(--color-ink); color: var(--color-on-ink); }
+  .link:hover { color: var(--color-ink); }
+  .link[aria-pressed='true'] { color: var(--color-ink); text-decoration: underline; }
 
-  /* phones (109:234): logo row, then the toggle centred underneath */
   @media (max-width: 40em) {
-    .site-header { flex-direction: column; align-items: stretch; gap: var(--header-pad-block); padding-inline: var(--grid-gutter); }
-    .toggle { position: static; translate: none; align-self: center; }
+    .site-header { padding-inline: var(--grid-gutter); }
+    .view-nav { padding-inline: 0; }
   }
 </style>

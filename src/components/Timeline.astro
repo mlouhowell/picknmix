@@ -1,32 +1,22 @@
 ---
-// figma 138:397 Timeline: sticky contents (138:398) | intro (138:428) + 9 era sections (138:432 ff.).
-// Each era: a 624px collage chunk (scrap, framed photos, the era's candies, handwritten caption card), then story
-// paragraphs with their sources as margin sidenotes (141:26 ff.). All copy + geometry from content/timeline.json;
-// candies from content/grid/candies.json by era (buttons open the candy drawer). Script: scripts/timeline.ts.
+// figma 179:27 Timeline v3: sticky contents (179:28) | intro (179:61) + 10 era sections (179:64 ff.), main column centred.
+// Each era: a 624px collage chunk (scrap, framed photos, named grid candies, handwritten caption card), then story
+// parts (a paragraph or a bullet list). "[n]" in the copy is a superscript footnote that opens its source under the
+// part (179:158). All copy + geometry from content/timeline.json; candy buttons open the candy drawer.
+// Script: scripts/timeline.ts.
 import Picture from './Picture.astro';
-import { site, timeline, eraCandies, gridSrc } from '../lib/content';
+import { site, timeline, slotCandy, gridSrc } from '../lib/content';
+import { footnoteRefs } from '../lib/schema';
 
 const n = (v: number) => String(v);
-/** Split a paragraph into plain and italic runs (the paragraph's `em` words, first occurrence each). */
-function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
-  const out: { t: string; em: boolean }[] = [];
-  let rest = text;
-  while (rest) {
-    const hits = em.map((w) => ({ w, i: rest.indexOf(w) })).filter((h) => h.i >= 0).sort((a, b) => a.i - b.i);
-    if (!hits.length) { out.push({ t: rest, em: false }); break; }
-    const { w, i } = hits[0]!;
-    if (i > 0) out.push({ t: rest.slice(0, i), em: false });
-    out.push({ t: w, em: true });
-    rest = rest.slice(i + w.length);
-    em = em.filter((x) => x !== w);
-  }
-  return out;
-}
+/** Split copy into plain runs and footnote numbers ("[5]"). */
+const runs = (t: string) => t.split(/\[(\d+)\]/).map((x, i) => (i % 2 ? { ref: x } : { t: x }));
+const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num);
 ---
-<section class="timeline" data-view-panel="timeline" hidden aria-label={site.timeline.label} data-figma="138:397" data-timeline>
-  <!-- figma 138:398 Table of contents (sticky) -->
-  <nav class="toc" aria-label={site.timeline.contentsLabel} data-figma="138:398">
-    <p class="toc-label" data-figma="138:399">{site.timeline.contentsLabel}</p>
+<section class="timeline" data-view-panel="timeline" hidden aria-label={site.timeline.label} data-figma="179:27" data-timeline>
+  <!-- figma 179:28 Table of contents (sticky) -->
+  <nav class="toc" aria-label={site.timeline.contentsLabel} data-figma="179:28">
+    <p class="toc-label" data-figma="179:29">{site.timeline.contentsLabel}</p>
     <ol>
       {timeline.eras.map((e, i) => (
         <li>
@@ -38,9 +28,9 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
     </ol>
   </nav>
 
-  <!-- figma 138:427 Main -->
-  <div class="main" data-figma="138:427">
-    <!-- figma 138:428 Intro: kicker 138:429 + handwritten title 138:430 -->
+  <!-- figma 179:60 Main -->
+  <div class="main" data-figma="179:60">
+    <!-- figma 179:61 Intro: kicker 179:62 + handwritten title 179:63 -->
     <header class="intro" data-figma={timeline.intro.figmaNode}>
       <p class="kicker">{timeline.intro.kicker}</p>
       <h2 class="title">{timeline.intro.title.map((line, i) => <>{i > 0 && <br />}{line}</>)}</h2>
@@ -59,8 +49,8 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
                 <Picture src={p.src} alt={p.alt} displayWidth={Math.round(p.w)} />
               </span>
             ))}
-            {eraCandies(e.id, e.candySlots.length).map(({ candy, index }, k) => {
-              const s = e.candySlots[k]!;
+            {e.candySlots.map((s) => {
+              const { candy, index } = slotCandy(s.candy);
               return (
                 <button type="button" class="tl-candy" data-index={index}
                   style={`--cx:${n(s.cx)};--cy:${n(s.cy)};--w:${n(s.w)};--h:${n(s.h)};--r:${n(s.rotate)}`}>
@@ -75,24 +65,34 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
           </div>
         </div>
 
-        <!-- figma Story parts: body (624) + sidenote column (312), 48 apart -->
-        {e.story.map((part) => (
-          <div class="row">
-            <p class="body">{runs(part.text, part.em).map((r) => (r.em ? <em>{r.t}</em> : r.t))}</p>
-            {part.sources.length > 0 && (
-              <ul class="notes">{part.sources.map((src) => <li>{src}</li>)}</ul>
-            )}
-          </div>
-        ))}
+        <!-- figma 179:77 ff. Story parts: paragraph or bullet list (179:212), footnotes open underneath (179:158) -->
+        {e.story.map((part) => {
+          const texts = 'text' in part ? [part.text] : part.items.map((i) => i.text);
+          const refs = texts.flatMap(footnoteRefs);
+          const copy = (t: string) => runs(t).map((r) => ('ref' in r
+            ? <sup class="ref"><button type="button" aria-expanded="false" aria-controls={`fn-${r.ref}`} aria-label={refLabel(r.ref!)} data-fn>{r.ref}</button></sup>
+            : r.t));
+          return (
+            <div class="part">
+              {'text' in part
+                ? <p class="body">{copy(part.text)}</p>
+                : <ul class="body bullets">{part.items.map((i) => <li><strong>{i.lead}</strong> {copy(i.text)}</li>)}</ul>}
+              {refs.map((r) => (
+                <p class="fn" id={`fn-${r}`} hidden><sup>{r}</sup>{timeline.footnotes[r]}</p>
+              ))}
+            </div>
+          );
+        })}
       </section>
     ))}
   </div>
 </section>
 
 <style>
+  /* contents | text | empty column as wide as the contents, so the text column sits centred (179:60 at x 408 of 1440) */
   .timeline {
     display: grid; justify-content: center; align-items: start;
-    grid-template-columns: var(--tl-toc-w) var(--tl-text-w) var(--tl-notes-w);
+    grid-template-columns: var(--tl-toc-w) var(--tl-text-w) var(--tl-toc-w);
     column-gap: var(--tl-col-gap);
     padding: var(--tl-top) var(--grid-gutter) var(--tl-pad-bottom);
   }
@@ -121,7 +121,7 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
   .dot { inline-size: var(--tl-toc-dot); block-size: var(--tl-toc-dot); border-radius: 50%; flex: none; }
   .toc a[aria-current='true'] .dot { background: var(--color-ink); }
 
-  .main { grid-column: 2 / span 2; display: grid; gap: var(--tl-era-gap); }
+  .main { grid-column: 2; display: grid; gap: var(--tl-era-gap); }
 
   /* intro */
   .intro { inline-size: var(--tl-text-w); max-inline-size: 100%; display: grid; gap: var(--tl-intro-gap); text-align: center; }
@@ -182,20 +182,27 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
     letter-spacing: var(--type-caption-dates-tracking); color: var(--color-text-muted);
   }
 
-  /* story + sidenotes */
-  .row {
-    display: grid; grid-template-columns: var(--tl-text-w) var(--tl-notes-w);
-    column-gap: var(--tl-col-gap); align-items: start;
-  }
+  /* story + footnotes */
+  .part { display: grid; gap: var(--tl-fn-gap); }
   .body {
-    font-family: var(--font-display); font-variation-settings: var(--font-display-variation); font-weight: normal;
+    font-family: var(--font-ui); font-weight: normal;
     font-size: var(--type-tl-body-size); line-height: var(--type-tl-body-leading); color: var(--color-ink);
   }
-  .notes {
-    display: grid; gap: var(--tl-note-gap); list-style: none; margin: 0; padding: 0;
-    font-family: var(--font-ui); font-size: var(--type-note-size); line-height: var(--type-note-leading);
+  .bullets { list-style: none; margin: 0; padding: 0; }
+  .bullets li::before { content: '• '; }
+  .bullets strong { font-weight: var(--type-tl-lead-weight); }
+  .ref { line-height: 0; }
+  .ref button {
+    padding: 0 var(--tl-ref-pad); border: 0; background: none; cursor: pointer;
+    font: inherit; font-size: var(--type-tl-ref-size); line-height: 1; color: inherit;
+  }
+  .ref button:hover, .ref button[aria-expanded='true'] { text-decoration: underline; }
+  .fn {
+    padding-inline-start: var(--tl-fn-indent);
+    font-family: var(--font-ui); font-size: var(--type-fn-size); line-height: var(--type-fn-leading);
     color: var(--color-sidenote);
   }
+  .fn sup { margin-inline-end: var(--tl-fn-num-gap); }
 
   /* fade-up on scroll (scripts/timeline.ts adds data-reveal-ready + .is-in); none under reduced motion */
   @media (prefers-reduced-motion: no-preference) {
@@ -203,13 +210,12 @@ function runs(text: string, em: string[] = []): { t: string; em: boolean }[] {
     [data-reveal-ready] .era:not(.is-in) { opacity: 0; translate: 0 var(--tl-reveal-shift); }
   }
 
-  /* below ~1024: no contents column; one centred text column; sidenotes under their paragraph */
+  /* below ~1024: no contents column; one centred text column */
   @media (max-width: 64em) {
     .timeline { grid-template-columns: minmax(0, 1fr); }
     .toc { display: none; }
     .main { grid-column: 1; inline-size: 100%; max-inline-size: var(--tl-text-w); justify-self: center; }
     .intro, .chunk { inline-size: 100%; }
-    .row { grid-template-columns: minmax(0, 1fr); row-gap: var(--tl-note-under-gap); }
   }
   @media (max-width: 40em) {
     .title { font-size: var(--type-tl-title-size-sm); line-height: var(--type-tl-title-leading-sm); }

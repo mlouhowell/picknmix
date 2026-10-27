@@ -135,13 +135,10 @@
   --type-logo-size: 20px;            /* 109:30 Fraunces SemiBold */
   --type-logo-tag-size: 11px;        /* 109:31 Homemade Apple */
   --space-logo-gap: 8px;             /* 109:29 */
-  --type-toggle-size: 12px;          /* 109:34 */
-  --type-toggle-weight: 600;
-  --type-toggle-tracking: 0.02em;    /* 0.24px @ 12px */
-  --toggle-pad: 4px;                 /* 109:38 */
-  --toggle-gap: 4px;
-  --toggle-seg-pad-block: 8px;       /* 109:35 */
-  --toggle-seg-pad-inline: 20px;
+  --type-nav-size: 14px;  --type-nav-weight: 500;  --type-nav-leading: 24px;   /* 179:295 Geist Medium */
+  --nav-gap: 24px;                   /* 179:294 Grid -> Timeline (81 - 57) */
+  --nav-pad-block: 7.5px;  --nav-pad-inline: 29px;   /* 179:294 (166 x 39) */
+  --nav-underline-offset: auto;
   --radius-pill: 999px;
   --grid-max-w: 1248px;              /* 109:45 row width */
   --grid-gutter: clamp(16px, 6.667vw, 96px);   /* 96 at 1440 (109:45 x=96) */
@@ -168,28 +165,31 @@
   --radius-tile: 4px;
 
   /* ---------- Timeline 138:397 (desktop 1440) ---------- */
-  --color-sidenote: #8c8a84;         /* 141:27 sources */
+  --color-sidenote: #8c8a84;         /* 179:159 footnote source */
   --color-caption-bg: #fae8ec;       /* era caption card 138:653 */
   --tl-toc-w: 216px;                 /* 138:398 */
   --tl-text-w: 624px;                /* 138:452 body + era chunk 138:644 (624 square) */
-  --tl-notes-w: 312px;               /* 141:26 sidenote column */
-  --tl-col-gap: 48px;                /* toc -> text (360-312), text -> notes (672-624) */
+  --tl-col-gap: 96px;                /* 179:27 toc -> text (408-312); same gap after the text column */
   --tl-top: 12px;                    /* Main 138:427 at y 96, header 84 */
   --tl-pad-bottom: 144px;            /* 9670 - 96 - 9430 */
   --tl-toc-pad-top: 204px;           /* 138:398 pt 204 */
   --tl-toc-gap: 12px;  --tl-toc-dot: 5px;  --tl-toc-dot-gap: 8px;
-  --tl-era-gap: 96px;                /* eras 96 apart; intro -> era 1 = 96 */
+  --tl-era-gap: 48px;                /* 179:60 eras 48 apart; intro -> era 1 = 48 */
   --tl-block-gap: 36px;              /* chunk -> story, story -> story */
-  --tl-note-gap: 12px;               /* stacked sources */
-  --tl-note-under-gap: 8px;          /* < 1024: sidenote under its paragraph */
+  --tl-fn-gap: 12px;                 /* 179:154 paragraph -> open footnote */
+  --tl-fn-indent: 24px;              /* 179:158 pl 24 */
+  --tl-fn-num-gap: 0.4em;            /* "⁵  Vipeholm" two spaces */
+  --tl-ref-pad: 0.1em;               /* footnote marker hit area */
   --tl-intro-gap: 12px;              /* kicker -> title 138:428 */
   --type-kicker-size: 12px;  --type-kicker-tracking: 0.08em;    /* 138:429 Geist, uppercase, 0.96px */
   --type-toc-label-size: 11px;  --type-toc-label-tracking: 0.08em;  /* 138:399 Geist Medium, 0.88px */
   --type-toc-size: 12px;             /* 138:402 */
   --type-tl-title-size: 48px;  --type-tl-title-leading: 84px;   /* 138:430 Homemade Apple */
   --type-tl-title-size-sm: 32px;  --type-tl-title-leading-sm: 56px;   /* phones (no Figma frame yet) */
-  --type-tl-body-size: 17px;  --type-tl-body-leading: 26px;     /* 138:452 Fraunces Regular */
-  --type-note-size: 12px;  --type-note-leading: 18px;           /* 141:27 Geist */
+  --type-tl-body-size: 17px;  --type-tl-body-leading: 26px;     /* 179:80 Geist Regular */
+  --type-tl-lead-weight: 600;        /* 179:212 bullet lead, Geist SemiBold */
+  --type-tl-ref-size: 0.65em;        /* superscript footnote marker */
+  --type-fn-size: 14px;  --type-fn-leading: 22px;               /* 179:159 Geist */
   /* collage: unitless Figma px inside the 624 chunk, scaled by the chunk's width (container units) */
   --tl-chunk-units: 624;
   --tl-collage-x: 28.8;  --tl-collage-w: 566.4;  --tl-collage-h: 417.6;   /* Collage 138:645 inside the chunk */

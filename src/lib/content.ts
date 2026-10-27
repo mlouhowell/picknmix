@@ -61,17 +61,19 @@ for (const c of gridCandies) if (!hasImg(gridSrc(c))) throw new Error(`content/g
 /** Logical src for lib/img.ts ("/candies/01-blue-skull.png" -> "candies/01-blue-skull.png"). */
 export function gridSrc(c: Pick<GridCandy, 'image'>) { return c.image.slice(1); }
 
-/** Timeline view (content/timeline.json). Each era's candies = grid candies whose era is that era's id. */
+/** Timeline view (content/timeline.json). */
 export const timeline = parse(TimelineSchema, timelineJson, 'content/timeline.json');
 const eraIds = new Set(timeline.eras.map((e) => e.id));
 for (const c of gridCandies)
   if (c.era && !eraIds.has(c.era)) throw new Error(`content/grid/candies.json: ${c.slug} has unknown era "${c.era}" (not in content/timeline.json)`);
 for (const e of timeline.eras) for (const s of [e.scrap, ...e.photos])
   if (!hasImg(s.src)) throw new Error(`content/timeline.json: no image for ${s.src}; run \`npm run images\``);
-/** Candies for an era's slots: that era's candies (grid order) repeated to fill every slot; none if the era has no candies. */
-export function eraCandies(eraId: string, slots: number): { candy: GridCandy; index: number }[] {
-  const mine = gridCandies.map((candy, index) => ({ candy, index })).filter((c) => c.candy.era === eraId);
-  return mine.length ? Array.from({ length: slots }, (_, i) => mine[i % mine.length]!) : [];
+for (const e of timeline.eras) for (const s of e.candySlots)
+  if (!gridCandies.some((c) => c.slug === s.candy)) throw new Error(`content/timeline.json: ${e.id} candy slot "${s.candy}" is not in content/grid/candies.json`);
+/** Grid candy + its index (the drawer opens by index) for a timeline candy slot. */
+export function slotCandy(slug: string): { candy: GridCandy; index: number } {
+  const index = gridCandies.findIndex((c) => c.slug === slug);
+  return { candy: gridCandies[index]!, index };
 }
 
 export function getCandy(slug: string): Candy {

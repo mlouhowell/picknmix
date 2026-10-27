@@ -48,7 +48,7 @@ export const CandiesFileSchema = z
 export const SiteSchema = z.object({
   siteName: text,
   header: z.object({ viewLabel: text, grid: text, timeline: text }),
-  timeline: z.object({ label: text, contentsLabel: text }),
+  timeline: z.object({ label: text, contentsLabel: text, footnoteLabel: text.includes('{n}') }),
   drawer: z.object({
     label: text, close: text, prev: text, next: text, detailsHeading: text, similarHeading: text,
     fields: z.object({ year: text, era: text, type: text }),
@@ -161,12 +161,19 @@ export const GridCandySchema = z.object({
 export const GridCandiesFileSchema = z.object({ _readme: z.string(), candies: z.array(GridCandySchema).min(1) });
 export type GridCandy = z.infer<typeof GridCandySchema>;
 
-/** content/timeline.json: the Timeline view (Figma 138:397). Geometry in Figma px inside the 624px era chunk. */
+/** content/timeline.json: the Timeline view (Figma 179:27). Geometry in Figma px inside the 624px era chunk. */
 const num = z.number();
 const placed = z.object({ x: num, y: num, w: num.positive(), h: num.positive() });
+/** "[n]" in a story text = footnote n */
+export const footnoteRefs = (t: string) => [...t.matchAll(/\[(\d+)\]/g)].map((m) => m[1]!);
+const storyPart = z.union([
+  z.object({ text }),
+  z.object({ items: z.array(z.object({ lead: text, text })).min(1) }),
+]);
 export const TimelineSchema = z.object({
   _readme: z.string(),
   intro: z.object({ kicker: text, title: z.array(text).min(1), figmaNode: figmaId }),
+  footnotes: z.record(z.string().regex(/^\d+$/), text),
   eras: z.array(z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),
     dates: text,
@@ -176,9 +183,13 @@ export const TimelineSchema = z.object({
     scrap: placed.extend({ src: assetSrc, figmaNode: figmaId }),
     photos: z.array(placed.extend({ src: assetSrc, alt: text, inset: num.min(0), figmaNode: figmaId })),
     caption: z.object({ cx: num, cy: num, rotate: num }),
-    candySlots: z.array(z.object({ cx: num, cy: num, w: num.positive(), h: num.positive(), rotate: num })),
-    story: z.array(z.object({ text, em: z.array(text).optional(), sources: z.array(text) })
-      .refine((p) => (p.em ?? []).every((w) => p.text.includes(w)), 'every em word must appear in text')).min(1),
+    candySlots: z.array(z.object({ candy: z.string(), cx: num, cy: num, w: num.positive(), h: num.positive(), rotate: num })),
+    story: z.array(storyPart).min(1),
   })).min(1),
+}).superRefine((t, ctx) => {
+  for (const e of t.eras) for (const p of e.story)
+    for (const s of 'text' in p ? [p.text] : p.items.map((i) => i.text))
+      for (const n of footnoteRefs(s))
+        if (!(n in t.footnotes)) ctx.addIssue({ code: 'custom', path: ['eras', e.id], message: `footnote [${n}] has no entry in footnotes` });
 });
 export type Timeline = z.infer<typeof TimelineSchema>;
