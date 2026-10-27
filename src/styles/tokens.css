@@ -157,6 +157,8 @@
   --drawer-scrim: rgb(247 247 245 / .6);   /* 147:1477 Scrim 60% (page colour) */
   --drawer-blur: 17px;               /* 147:1477 backdrop blur */
   --type-drawer-title-size: 40px;    /* 147:1426 Homemade Apple */
+  --type-drawer-title-leading: 1.2;  /* "normal" in Homemade Apple is ~2x, too loose when a name wraps (owner, 2026-10-27) */
+  --drawer-title-descent: 0.4em;     /* room under the title for Homemade Apple's long g / y tails */
   --type-drawer-heading-size: 18px;  /* 147:1430 / 147:1440 Funnel Sans SemiBold */
   --type-drawer-value-size: 16px;    /* 147:1434 */
   --type-drawer-label-size: 16px;    /* 147:1433 was 14; matches the value (owner, 2026-10-27) */
