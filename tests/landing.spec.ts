@@ -144,7 +144,7 @@ test.describe('timeline view (figma 179:27)', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/?view=timeline');
     const box = async (sel: string) => (await page.locator(sel).first().boundingBox())!;
-    expect(Math.round((await box('.toc')).x)).toBe(96);
+    expect(Math.round((await box('.toc')).x)).toBe(48); // pinned under the logo
     const body = await box('#beginnings .part >> nth=1 >> .body');
     expect([body.x, body.width].map(Math.round)).toEqual([408, 624]);
     const e1 = await box('#beginnings'), e2 = await box('#factories');
@@ -192,6 +192,8 @@ test.describe('timeline view (figma 179:27)', () => {
   test('contents follows the era in view', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/?view=timeline');
+    await page.mouse.wheel(0, 400); // contents fade in once the page scrolls
+    await expect(page.locator('.toc')).toHaveClass(/is-shown/);
     await page.locator('[data-toc="boom"]').click();
     await expect(page.locator('[data-toc="boom"]')).toHaveAttribute('aria-current', 'true');
     await expect(page).toHaveURL(/\?view=timeline$/);

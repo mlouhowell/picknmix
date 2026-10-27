@@ -30,7 +30,8 @@ test('Pastellfiskar matches Figma 8:192 (panel + hero, background ignored) withi
   const hero = await diffPct(shot, REF, [[658, 263, 512, 512]], { shot: heroOnly, bg: [data[0]!, data[1]!, data[2]!] });
 
   console.log(`panel ${panel.pct.toFixed(2)}% @${panel.offset}  hero ${hero.pct.toFixed(2)}% @${hero.offset} (${hero.compared} px)`);
-  expect(panel.pct).toBeLessThanOrEqual(2);
+  // the reference is set in Funnel Sans; the site now uses Geist for all text (~4% of panel pixels)
+  expect(panel.pct).toBeLessThanOrEqual(5);
   // the hero is the film-grain render (assets/grid-grain), the Figma reference is the clean one: the grain alone is ~13%
   expect(hero.pct).toBeLessThanOrEqual(15);
 });

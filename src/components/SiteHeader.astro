@@ -1,10 +1,10 @@
 ---
-// figma 179:291 Header: logo left, Grid / Timeline text links right (179:294); the current view is ink + underlined.
+// figma 179:291 Header: logo left, Grid / Timeline text links right (179:294); the current view is ink (black).
 // Same row on phones. The links switch views in scripts/landing-grid.ts (aria-pressed + ?view=).
 import { site } from '../lib/content';
 ---
 <header class="site-header" data-figma="179:291">
-  <!-- figma 179:292 Logo: "Pick N Mix" (no tagline, owner 2026-10-23); links home (owner, 2026-10-27) -->
+  <!-- figma 179:292 / 204:30 Logo (Shrikhand, red): "Pick N Mix" (no tagline, owner 2026-10-23); links home (owner, 2026-10-27) -->
   <a class="logo" href="/" data-figma="179:292">
     <span class="name" data-figma="180:360">{site.siteName}</span>
   </a>
@@ -24,8 +24,8 @@ import { site } from '../lib/content';
   }
   .logo { text-decoration: none; display: flex; align-items: baseline; gap: var(--space-logo-gap); white-space: nowrap; line-height: normal; }
   .name {
-    font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
-    font-size: var(--type-logo-size); font-weight: var(--type-candy-title-weight); color: var(--color-ink);
+    font-family: var(--font-title); font-weight: normal;
+    font-size: var(--type-logo-size); line-height: var(--type-title-leading); color: var(--color-title);
   }
   .view-nav { display: flex; gap: var(--nav-gap); padding: var(--nav-pad-block) var(--nav-pad-inline); }
   .link {
@@ -33,11 +33,10 @@ import { site } from '../lib/content';
     font-family: var(--font-ui); font-size: var(--type-nav-size); font-weight: var(--type-nav-weight);
     line-height: var(--type-nav-leading); white-space: nowrap;
     color: var(--color-text-muted);
-    text-underline-offset: var(--nav-underline-offset);
     transition: color var(--duration-fast) var(--ease-out);
   }
   .link:hover { color: var(--color-ink); }
-  .link[aria-pressed='true'] { color: var(--color-ink); text-decoration: underline; }
+  .link[aria-pressed='true'] { color: var(--color-ink); } /* black = current view, no underline (owner, 2026-10-27) */
 
   @media (max-width: 40em) {
     .site-header { padding-inline: var(--grid-gutter); }

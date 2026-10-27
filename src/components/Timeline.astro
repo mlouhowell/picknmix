@@ -1,6 +1,7 @@
 ---
 // figma 179:27 Timeline v3: sticky contents (179:28) | intro (179:61) + 10 era sections (179:64 ff.), main column centred.
-// Each era: a 624px collage chunk (scrap, framed photos, named grid candies, handwritten caption card), then story
+// Each era: a 624px collage chunk (scrap, framed photos, named grid candies), its title centred under it (204:26,
+// 207:26 ff.), then story
 // parts (a paragraph or a bullet list). "[n]" in the copy is a superscript footnote that opens its source under the
 // part (179:158). All copy + geometry from content/timeline.json; candy buttons open the candy drawer.
 // Script: scripts/timeline.ts.
@@ -9,6 +10,17 @@ import { site, timeline, slotCandy, gridSrc } from '../lib/content';
 import { footnoteRefs } from '../lib/schema';
 
 const n = (v: number) => String(v);
+/** 204:26: the era title sits 12 under the lowest thing in the collage (scrap, photo or candy), never above the
+ *  collage frame's own bottom. Returns the chunk height in collage units (--tl-chunk-units wide). */
+const chunkBottom = (e: (typeof timeline.eras)[number]) => {
+  const lows = [
+    e.scrap.y + e.scrap.h,
+    ...e.photos.map((p) => p.y + p.h),
+    ...e.candySlots.map((s) => s.cy + s.h / 2),
+  ];
+  return e.collageTop + Math.max(TL_COLLAGE_H, ...lows) + TL_TITLE_GAP;
+};
+const TL_COLLAGE_H = 417.6, TL_TITLE_GAP = 12; // = --tl-collage-h / 204:26 collage -> title
 /** Split copy into plain runs and footnote numbers ("[5]"). */
 const runs = (t: string) => t.split(/\[(\d+)\]/).map((x, i) => (i % 2 ? { ref: x } : { t: x }));
 const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num);
@@ -16,7 +28,6 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
 <section class="timeline" data-view-panel="timeline" hidden aria-label={site.timeline.label} data-figma="179:27" data-timeline>
   <!-- figma 179:28 Table of contents (sticky) -->
   <nav class="toc" aria-label={site.timeline.contentsLabel} data-figma="179:28">
-    <p class="toc-label" data-figma="179:29">{site.timeline.contentsLabel}</p>
     <ol>
       {timeline.eras.map((e, i) => (
         <li>
@@ -38,8 +49,9 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
 
     {timeline.eras.map((e) => (
       <section class="era" id={e.id} aria-labelledby={`${e.id}-title`} data-figma={e.figmaNode} data-reveal>
-        <!-- figma era chunk: collage + caption card -->
-        <div class="chunk">
+        <!-- figma era chunk: collage, then the era title under it (204:26) -->
+        <div class="figure">
+        <div class="chunk" style={`--bottom:${n(chunkBottom(e))}`}>
           <div class="collage" style={`--top:${n(e.collageTop)}`}>
             <span class="scrap" style={`--x:${n(e.scrap.x)};--y:${n(e.scrap.y)};--w:${n(e.scrap.w)};--h:${n(e.scrap.h)}`} data-figma={e.scrap.figmaNode} aria-hidden="true">
               <Picture src={e.scrap.src} alt="" displayWidth={Math.round(e.scrap.w)} />
@@ -59,10 +71,8 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
               );
             })}
           </div>
-          <div class="caption" style={`--cx:${n(e.caption.cx)};--cy:${n(e.caption.cy)};--r:${n(e.caption.rotate)}`}>
-            <h3 class="cap-title" id={`${e.id}-title`}>{e.title}</h3>
-            <p class="cap-dates">{e.dates}</p>
-          </div>
+        </div>
+        <h3 class="era-title" id={`${e.id}-title`}>{e.title}</h3>
         </div>
 
         <!-- figma 179:77 ff. Story parts: paragraph or bullet list (179:212), footnotes open underneath (179:158) -->
@@ -100,18 +110,17 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   }
   .timeline[hidden] { display: none; }
 
-  /* contents */
+  /* contents: pinned under the logo (left of the header) once the page scrolls; fades in on the first scroll
+     (scripts/timeline.ts sets .is-shown), and shows for keyboard focus too. Its grid column stays as a spacer. */
   .toc {
-    position: sticky; top: var(--header-h);
-    padding-block-start: var(--tl-toc-pad-top);
+    position: fixed; top: calc(var(--header-h) + var(--tl-toc-top-gap)); left: var(--header-pad-inline);
+    inline-size: var(--tl-toc-w); z-index: 1;
     display: grid; gap: var(--tl-toc-gap);
     font-family: var(--font-ui);
+    opacity: 0; pointer-events: none;
+    transition: opacity var(--duration-page) var(--ease-out);
   }
-  .toc-label {
-    font-size: var(--type-toc-label-size); font-weight: var(--type-label-weight);
-    letter-spacing: var(--type-toc-label-tracking); text-transform: uppercase;
-    line-height: normal; color: var(--color-ink);
-  }
+  .toc.is-shown, .toc:focus-within { opacity: 1; pointer-events: auto; }
   .toc ol { display: grid; gap: var(--tl-toc-gap); list-style: none; margin: 0; padding: 0; }
   .toc a {
     display: flex; align-items: center; gap: var(--tl-toc-dot-gap);
@@ -132,17 +141,18 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
     text-transform: uppercase; line-height: normal; color: var(--color-text-muted);
   }
   .title {
-    font-family: var(--font-hand); font-weight: normal;
-    font-size: var(--type-tl-title-size); line-height: var(--type-tl-title-leading); color: var(--color-ink);
+    font-family: var(--font-title); font-weight: normal; /* 204:170 */
+    font-size: var(--type-tl-title-size); line-height: var(--type-title-leading); color: var(--color-title);
   }
 
   /* era */
   .era { display: grid; gap: var(--tl-block-gap); scroll-margin-top: var(--tl-scroll-margin); }
   .chunk {
-    position: relative; inline-size: var(--tl-text-w); max-inline-size: 100%; aspect-ratio: 1;
-    container-type: inline-size; overflow: clip;
+    position: relative; inline-size: var(--tl-text-w); max-inline-size: 100%;
+    aspect-ratio: var(--tl-chunk-units) / var(--bottom);
+    container-type: inline-size; overflow-x: clip;
   }
-  .collage, .caption { --u: calc(100cqw / var(--tl-chunk-units)); }
+  .collage { --u: calc(100cqw / var(--tl-chunk-units)); }
   .collage {
     position: absolute;
     left: calc(var(--tl-collage-x) * var(--u)); top: calc(var(--top) * var(--u));
@@ -171,17 +181,11 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   .tl-candy :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
   .tl-candy :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
 
-  .caption {
-    position: absolute; left: calc(var(--cx) * var(--u)); top: calc(var(--cy) * var(--u));
-    translate: -50% -50%; rotate: calc(var(--r) * 1deg);
-    display: flex; flex-direction: column; align-items: center; white-space: nowrap; line-height: normal;
-    padding: calc(var(--tl-caption-pad-y) * var(--u)) calc(var(--tl-caption-pad-x) * var(--u));
-    background: var(--color-caption-bg); box-shadow: var(--tl-caption-shadow);
-  }
-  .cap-title { font-family: var(--font-hand); font-weight: normal; font-size: calc(var(--tl-caption-title) * var(--u)); color: var(--color-ink); }
-  .cap-dates {
-    font-family: var(--font-ui); font-size: calc(var(--tl-caption-dates) * var(--u));
-    letter-spacing: var(--type-caption-dates-tracking); color: var(--color-text-muted);
+  /* 207:26 ff. era title: Shrikhand, red, uppercase, centred under the collage */
+  .figure { display: grid; justify-items: center; }
+  .era-title {
+    font-family: var(--font-title); font-weight: normal; font-size: var(--type-era-title-size);
+    line-height: var(--type-title-leading); text-transform: uppercase; text-align: center; color: var(--color-title);
   }
 
   /* story + footnotes */
@@ -213,14 +217,16 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
     [data-reveal-ready] .era:not(.is-in) { opacity: 0; translate: 0 var(--tl-reveal-shift); }
   }
 
+  /* the pinned contents would run into the text column below ~1150 */
+  @media (max-width: 72em) { .toc { display: none; } }
+
   /* below ~1024: no contents column; one centred text column */
   @media (max-width: 64em) {
     .timeline { grid-template-columns: minmax(0, 1fr); }
-    .toc { display: none; }
     .main { grid-column: 1; inline-size: 100%; max-inline-size: var(--tl-text-w); justify-self: center; }
     .intro, .chunk { inline-size: 100%; }
   }
   @media (max-width: 40em) {
-    .title { font-size: var(--type-tl-title-size-sm); line-height: var(--type-tl-title-leading-sm); }
+    .title { font-size: var(--type-tl-title-size-sm); }
   }
 </style>

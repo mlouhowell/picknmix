@@ -29,6 +29,12 @@ function init() {
 
   for (const era of eras) { spy.observe(era); reveal.observe(era); }
 
+  // contents fade in once the page has been scrolled (CSS .is-shown), and out again back at the top
+  const toc = root.querySelector<HTMLElement>('.toc');
+  const showToc = () => toc?.classList.toggle('is-shown', scrollY > 0);
+  addEventListener('scroll', showToc, { passive: true, signal: ac.signal });
+  showToc();
+
   for (const [id, a] of links)
     a.addEventListener('click', (ev) => {
       ev.preventDefault();

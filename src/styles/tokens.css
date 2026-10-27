@@ -10,7 +10,7 @@
    OPEN = decision still pending in Figma; keep it a token, never inline it.
    ===================================================================== */
 
-/* Fonts: Funnel Sans + Fraunces from Google Fonts (self-host via @fontsource in the app).
+/* Fonts (self-hosted via @fontsource): Geist for all text, Shrikhand for titles (204:26), Fraunces on the old candy pages.
    OPEN: display font. Intended = Begum (commercial, Indian Type Foundry; needs a webfont
    licence + files in /public/fonts). Figma uses Fraunces SemiBold (SOFT 0, WONK 1) as stand-in
    on candy pages; landing title 3:689 is set to "Begum Medium" (renders with a fallback in Figma). Swap by editing --font-display only. */
@@ -19,6 +19,7 @@
   /* ---------- Color ---------- */
   --color-brand: #318593;            /* titles, corner ornament (5:2), landing title 3:689 */
   --color-text: #000000;             /* body, values, section headings */
+  --color-title: #aa0c0f;            /* 204:26 Shrikhand titles + era dates */
   --color-text-muted: #77746e;       /* detail labels 8:225, similar-candy captions 12:61 */
   --color-surface: #ffffff;          /* page + info panel 8:211 */
   --color-button-bg: #f2f1f1;        /* close / next buttons 8:212, 8:214 */
@@ -40,9 +41,10 @@
   /* ---------- Type families ---------- */
   --font-display: "Fraunces Variable", "Fraunces", "Begum", Georgia, serif;    /* OPEN: becomes "Begum", ... ("Fraunces Variable" = self-hosted @fontsource-variable/fraunces) */
   --font-display-variation: "SOFT" 0, "WONK" 1;            /* Fraunces only; drop with Begum */
-  --font-body: "Funnel Sans", system-ui, sans-serif;
+  --font-body: "Geist", system-ui, sans-serif;                /* one text family: body copy matches the timeline + UI (was Funnel Sans; owner, 2026-10-27) */
   --font-ui: "Geist", system-ui, sans-serif;                 /* all small UI / label text (toggle, buttons, drawer labels) */
   --font-hand: "Homemade Apple", cursive;                    /* handwritten accents ("lösgodis archive" 109:31) */
+  --font-title: "Shrikhand", Georgia, serif;                 /* 204:26 chosen titles: logo, timeline + era titles, drawer title (upright cut is already slanted, no synthetic italic) */
 
   /* ---------- Type scale ---------- */
   --type-hero-title-size: 50px;      /* landing "Swedish Candy" 3:689 (Begum Medium), h 48 */
@@ -133,13 +135,13 @@
   --header-pad-block: 8px;           /* 179:291 was py 24; slimmer header (owner 2026-10-26) */
   --header-h: 56px;                  /* was 84 (109:28); slimmer header (owner 2026-10-26) */
   --header-pad-inline: 48px;         /* 109:28 px 48 */
-  --type-logo-size: 20px;            /* 109:30 Fraunces SemiBold */
+  --type-logo-size: 18px;            /* 204:30 Shrikhand */
+  --type-title-leading: 1.2;         /* 204:26 all Shrikhand titles */
   --type-logo-tag-size: 11px;        /* 109:31 Homemade Apple */
   --space-logo-gap: 8px;             /* 109:29 */
   --type-nav-size: 14px;  --type-nav-weight: 500;  --type-nav-leading: 24px;   /* 179:295 Geist Medium */
   --nav-gap: 24px;                   /* 179:294 Grid -> Timeline (81 - 57) */
   --nav-pad-block: 7.5px;  --nav-pad-inline: 29px;   /* 179:294 (166 x 39) */
-  --nav-underline-offset: auto;
   --radius-pill: 999px;
   --grid-max-w: 1248px;              /* 109:45 row width */
   --grid-gutter: clamp(16px, 6.667vw, 96px);   /* 96 at 1440 (109:45 x=96) */
@@ -156,12 +158,10 @@
   --drawer-button: 40px;             /* 147:1418 round buttons, bg = --color-toggle */
   --drawer-scrim: rgb(247 247 245 / .6);   /* 147:1477 Scrim 60% (page colour) */
   --drawer-blur: 17px;               /* 147:1477 backdrop blur */
-  --type-drawer-title-size: 40px;    /* 147:1426 Homemade Apple */
-  --type-drawer-title-leading: 1.2;  /* "normal" in Homemade Apple is ~2x, too loose when a name wraps (owner, 2026-10-27) */
-  --drawer-title-descent: 0.4em;     /* room under the title for Homemade Apple's long g / y tails */
-  --type-drawer-heading-size: 18px;  /* 147:1430 / 147:1440 Funnel Sans SemiBold */
-  --type-drawer-value-size: 16px;    /* 147:1434 */
-  --type-drawer-label-size: 16px;    /* 147:1433 was 14; matches the value (owner, 2026-10-27) */
+  --type-drawer-title-size: 40px;    /* 204:427 Shrikhand, uppercase */
+  --type-drawer-heading-size: 16px;  /* "Details", SemiBold (owner, 2026-10-27; Figma 18) */
+  --type-drawer-value-size: 14px;    /* detail rows: label and value the same size (owner, 2026-10-27) */
+  --type-drawer-label-size: 14px;
   --drawer-row-pad: 12px;            /* 147:1432 py 12, top hairline */
   --drawer-tile-w: 84px;  --drawer-tile-pad: 12px;  --drawer-tile-img-h: 63px;  /* 147:1443 */
   --drawer-tile-gap-x: 12px;  --drawer-tile-gap-y: 24px;  --drawer-tile-caption-gap: 6px;
@@ -169,13 +169,12 @@
 
   /* ---------- Timeline 138:397 (desktop 1440) ---------- */
   --color-sidenote: #8c8a84;         /* 179:159 footnote source */
-  --color-caption-bg: #fae8ec;       /* era caption card 138:653 */
   --tl-toc-w: 216px;                 /* 138:398 */
   --tl-text-w: 624px;                /* 138:452 body + era chunk 138:644 (624 square) */
   --tl-col-gap: 96px;                /* 179:27 toc -> text (408-312); same gap after the text column */
   --tl-top: 12px;                    /* Main 138:427 at y 96, header 84 */
   --tl-pad-bottom: 144px;            /* 9670 - 96 - 9430 */
-  --tl-toc-pad-top: 204px;           /* 138:398 pt 204 */
+  --tl-toc-top-gap: 24px;            /* pinned contents: gap under the header (owner, 2026-10-27) */
   --tl-toc-gap: 12px;  --tl-toc-dot: 5px;  --tl-toc-dot-gap: 8px;
   --tl-era-gap: 48px;                /* 179:60 eras 48 apart; intro -> era 1 = 48 */
   --tl-block-gap: 36px;              /* collage chunk -> story */
@@ -186,10 +185,9 @@
   --tl-ref-pad: 0.1em;               /* footnote marker hit area */
   --tl-intro-gap: 12px;              /* kicker -> title 138:428 */
   --type-kicker-size: 12px;  --type-kicker-tracking: 0.08em;    /* 138:429 Geist, uppercase, 0.96px */
-  --type-toc-label-size: 11px;  --type-toc-label-tracking: 0.08em;  /* 138:399 Geist Medium, 0.88px */
   --type-toc-size: 12px;             /* 138:402 */
-  --type-tl-title-size: 48px;  --type-tl-title-leading: 84px;   /* 138:430 Homemade Apple */
-  --type-tl-title-size-sm: 32px;  --type-tl-title-leading-sm: 56px;   /* phones (no Figma frame yet) */
+  --type-tl-title-size: 67px;        /* 204:170 Shrikhand */
+  --type-tl-title-size-sm: 40px;     /* phones (no Figma frame yet) */
   --type-tl-body-size: 17px;  --type-tl-body-leading: 26px;     /* 179:80 Geist Regular */
   --type-tl-lead-weight: 600;        /* 179:212 bullet lead, Geist SemiBold */
   --type-tl-ref-size: 0.65em;        /* superscript footnote marker */
@@ -198,10 +196,7 @@
   --tl-chunk-units: 624;
   --tl-collage-x: 28.8;  --tl-collage-w: 566.4;  --tl-collage-h: 417.6;   /* Collage 138:645 inside the chunk */
   --tl-photo-shadow: 0 1.2px 3.6px rgb(0 0 0 / .08);          /* 138:647 */
-  --tl-caption-shadow: 0 3.6px 9.6px rgb(0 0 0 / .14);        /* 138:653 */
-  --tl-caption-pad-y: 14.4;  --tl-caption-pad-x: 24;          /* unitless (scaled) */
-  --tl-caption-title: 22.8;  --tl-caption-dates: 13.2;        /* Homemade Apple / Geist, unitless (scaled) */
-  --type-caption-dates-tracking: 0.04em;                       /* 0.528px @ 13.2 */
+  --type-era-title-size: 22.4px;     /* 207:26 ff. era title under the collage, Shrikhand uppercase */
   --tl-candy-slot-scale: 1.15;       /* square PNG (with transparent margin) around Figma's tight cut-out box */
   --tl-reveal-shift: 24px;           /* fade-up distance */
   --tl-scroll-margin: 80px;          /* header 56 + 24 */
