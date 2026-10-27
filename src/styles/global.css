@@ -1,6 +1,8 @@
 /* Base styles. Raw values live in tokens.css only. */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; }
+/* the page behind the candy drawer stays put; the gutter keeps the scrollbar's space so nothing shifts */
+html:has(dialog[open]) { overflow: hidden; scrollbar-gutter: stable; }
 body {
   font-family: var(--font-body);
   font-size: var(--type-body-size);

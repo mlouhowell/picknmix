@@ -4,10 +4,10 @@
 import { site } from '../lib/content';
 ---
 <header class="site-header" data-figma="179:291">
-  <!-- figma 179:292 Logo: "Pick N Mix" (no tagline, owner 2026-10-23) -->
-  <p class="logo" data-figma="179:292">
+  <!-- figma 179:292 Logo: "Pick N Mix" (no tagline, owner 2026-10-23); links home (owner, 2026-10-27) -->
+  <a class="logo" href="/" data-figma="179:292">
     <span class="name" data-figma="180:360">{site.siteName}</span>
-  </p>
+  </a>
   <!-- figma 179:294 Nav links: Grid 179:295 / Timeline 179:296 -->
   <div class="view-nav" role="group" aria-label={site.header.viewLabel} data-figma="179:294">
     <button type="button" class="link" data-view="grid" aria-pressed="true" data-figma="179:295">{site.header.grid}</button>
@@ -22,7 +22,7 @@ import { site } from '../lib/content';
     min-block-size: var(--header-h); padding: var(--header-pad-block) var(--header-pad-inline);
     background: var(--color-header-bg);
   }
-  .logo { display: flex; align-items: baseline; gap: var(--space-logo-gap); white-space: nowrap; line-height: normal; }
+  .logo { text-decoration: none; display: flex; align-items: baseline; gap: var(--space-logo-gap); white-space: nowrap; line-height: normal; }
   .name {
     font-family: var(--font-display); font-variation-settings: var(--font-display-variation);
     font-size: var(--type-logo-size); font-weight: var(--type-candy-title-weight); color: var(--color-ink);

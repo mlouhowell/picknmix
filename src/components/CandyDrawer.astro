@@ -28,10 +28,9 @@ const f = site.drawer.fields;
 
     <!-- figma 147:1416 side drawer -->
     <aside class="panel" data-figma="147:1416">
-      <!-- figma 147:1417 drawer controls -->
+      <!-- figma 147:1417 drawer controls: close top right, next after the content (owner, 2026-10-27) -->
       <div class="controls" data-figma="147:1417">
         <IconButton label={site.drawer.close} icon="close" figma="147:1418" nav="close" />
-        <IconButton label={site.drawer.next} icon="next" figma="147:1421" nav="next" />
       </div>
       <!-- figma 147:1423 content, one per candy -->
       {gridCandies.map((c, i) => {
@@ -59,6 +58,9 @@ const f = site.drawer.fields;
           </article>
         );
       })}
+      <div class="controls controls-end">
+        <IconButton label={site.drawer.next} icon="next" figma="147:1421" nav="next" />
+      </div>
     </aside>
   </div>
 </dialog>
@@ -88,7 +90,7 @@ const f = site.drawer.fields;
     background: var(--color-panel); border-inline-start: var(--hairline) solid var(--color-line);
     overflow-y: auto;
   }
-  .controls { display: flex; align-items: center; justify-content: space-between; }
+  .controls { display: flex; align-items: center; justify-content: flex-end; }
   .controls :global(.icon-button) {
     inline-size: var(--drawer-button); block-size: var(--drawer-button);
     background: var(--color-toggle); color: var(--color-ink);
@@ -107,15 +109,15 @@ const f = site.drawer.fields;
   dt { font-size: var(--type-drawer-label-size); color: var(--color-text-muted); }
   dd { font-size: var(--type-drawer-value-size); text-align: end; }
 
-  /* open: the scrim fades in, the drawer slides in from the right, and the candy grows out of the page into the hero
-     spot (scripts/landing-grid.ts animates the hero picture). Close plays it backwards. Tokens are 0ms under reduced motion. */
-  .hero :global(picture) { transform-origin: center; will-change: transform; }
-  .drawer::backdrop { transition: opacity var(--duration-hero) var(--ease-out); }
-  @starting-style { .drawer[open]::backdrop { opacity: 0; } }
-  .drawer.is-closing::backdrop { opacity: 0; }
-  .drawer[open] .panel { animation: panel-in var(--duration-hero) var(--ease-hero); }
-  .drawer.is-closing .panel { translate: 100% 0; transition: translate calc(var(--duration-hero) * 0.8) var(--ease-hero); }
-  @keyframes panel-in { from { translate: 100% 0; } }
+  /* open: the scrim fades in, the drawer slides in from the right (fades on phones), and the candy grows out of the
+     page into the hero spot. scripts/landing-grid.ts animates candy + drawer (WAAPI); the scrim is an opacity transition
+     on the same timing. Close plays it backwards. Tokens are 0ms under reduced motion. */
+  .hero :global(picture) { transform-origin: center; }
+  .drawer::backdrop { transition: opacity var(--duration-hero) var(--ease-hero); }
+  .drawer.is-closing::backdrop { transition-duration: calc(var(--duration-hero) * 0.8); }
+  /* the one frame before the motion starts: candy at its page pose, scrim and drawer not shown yet */
+  .drawer.is-opening::backdrop, .drawer.is-closing::backdrop { opacity: 0; }
+  .drawer.is-opening .panel { opacity: 0; }
   @keyframes fade-in { from { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .drawer[open] .hero-area { animation: fade-in var(--duration-page); } }
 
@@ -125,8 +127,6 @@ const f = site.drawer.fields;
     .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; block-size: auto; min-block-size: 100%; }
     .hero { inline-size: min(var(--hero-size), 70vw); }
     .panel { overflow: visible; border-inline-start: 0; border-block-start: var(--hairline) solid var(--color-line); }
-    .controls { position: fixed; inset-block-start: var(--drawer-pad); inset-inline: var(--drawer-pad); z-index: 1; }
-    .drawer[open] .panel { animation-name: fade-in; }
-    .drawer.is-closing .panel { translate: none; opacity: 0; transition: opacity calc(var(--duration-hero) * 0.8) var(--ease-hero); }
+    .controls:not(.controls-end) { position: fixed; inset-block-start: var(--drawer-pad); inset-inline: var(--drawer-pad); z-index: 1; }
   }
 </style>

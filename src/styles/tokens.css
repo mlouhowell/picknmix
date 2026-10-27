@@ -159,7 +159,7 @@
   --type-drawer-title-size: 40px;    /* 147:1426 Homemade Apple */
   --type-drawer-heading-size: 18px;  /* 147:1430 / 147:1440 Funnel Sans SemiBold */
   --type-drawer-value-size: 16px;    /* 147:1434 */
-  --type-drawer-label-size: 14px;    /* 147:1433 */
+  --type-drawer-label-size: 16px;    /* 147:1433 was 14; matches the value (owner, 2026-10-27) */
   --drawer-row-pad: 12px;            /* 147:1432 py 12, top hairline */
   --drawer-tile-w: 84px;  --drawer-tile-pad: 12px;  --drawer-tile-img-h: 63px;  /* 147:1443 */
   --drawer-tile-gap-x: 12px;  --drawer-tile-gap-y: 24px;  --drawer-tile-caption-gap: 6px;
@@ -212,8 +212,8 @@
   --motion-loop: 22s;                /* candy-kit seamless loop */
   --ease-out: cubic-bezier(.2,.7,.2,1);
   --duration-fast: 160ms;  --duration-page: 420ms;
-  --duration-hero: 560ms;            /* candy grows from the page into the drawer hero */
-  --ease-hero: cubic-bezier(.22,1,.36,1);   /* quick start, long soft landing */
+  --duration-hero: 620ms;            /* candy grows from the page into the drawer hero */
+  --ease-hero: cubic-bezier(.45,0,.15,1);   /* eases off the page, long soft landing (no jump on the first frame) */
 }
 
 @media (prefers-reduced-motion: reduce) {

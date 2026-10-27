@@ -82,43 +82,78 @@ function init() {
     return `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${size / t.width})`;
   };
   const inView = (el: Element) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
-  // start loading a candy's hero before the click so the grow has an image to show
+  // load + decode a candy's hero before the click so the grow never waits on (or stutters over) the image.
+  // Hover/focus warms that candy right away; all heroes warm in idle time after load.
+  const decoded = new Map<HTMLImageElement, Promise<void>>();
+  const warmImg = (img: HTMLImageElement | null | undefined) => {
+    if (!img) return Promise.resolve();
+    if (!decoded.has(img)) { img.loading = 'eager'; decoded.set(img, img.decode().catch(() => {})); }
+    return decoded.get(img)!;
+  };
+  const heroImg = (i: number | string) => dialog?.querySelector<HTMLImageElement>(`[data-hero="${i}"] img`);
   const warm = (e: Event) => {
     const btn = (e.target as Element).closest<HTMLElement>('.tile[data-index], .tl-candy[data-index]');
-    const img = btn && dialog?.querySelector<HTMLImageElement>(`[data-hero="${btn.dataset.index}"] img`);
-    if (img) img.loading = 'eager';
+    if (btn) warmImg(heroImg(btn.dataset.index!));
   };
   document.addEventListener('pointerover', warm, { signal });
   document.addEventListener('focusin', warm, { signal });
+  const idle = (fn: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 1500));
+  const warmAll = () => idle(() => { for (let i = 0; i < count; i++) warmImg(heroImg(i)); });
+  if (document.readyState === 'complete') warmAll(); else addEventListener('load', warmAll, { once: true, signal });
+  const nextFrame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
+  // panel and candy run as one WAAPI group so they stay in step; the scrim is a CSS opacity transition started the same frame
+  const panel = () => dialog?.querySelector<HTMLElement>('.panel') ?? null;
+  const phone = () => matchMedia('(max-width: 48em)').matches;
+  const panelFrames = () => (phone() ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateX(100%)' }, { transform: 'none' }]);
+
+  let opening = 0; // bumped per open, so a close during the waits below cancels the pending motion
   const openDrawer = async (btn: HTMLElement) => {
-    if (!dialog) return;
+    if (!dialog || dialog.open) return;
     render(Number(btn.dataset.index));
     source = { btn, index: current };
     const pic = heroPicture();
-    const img = pic?.querySelector('img');
-    if (img) { img.loading = 'eager'; await Promise.race([img.decode().catch(() => {}), new Promise((r) => setTimeout(r, 160))]); }
+    if (!pic || reduce()) { dialog.showModal(); return; }
+    // open straight away (so Esc / close work at once) but hold everything at its start pose: candy over the page
+    // candy, scrim and drawer not shown. Then wait for the image (a short wait beats an image that pops in
+    // mid-flight) and one painted frame (layout, blur, image upload), and only then start the motion.
+    const id = ++opening;
+    dialog.classList.add('is-opening');
     dialog.showModal();
-    if (!pic || reduce()) return;
-    const { duration, easing } = motion();
+    const from = fromSource(btn, pic); // measured once the dialog has a layout
+    pic.style.transform = from;
     btn.style.visibility = 'hidden';
-    pic.animate([{ transform: fromSource(btn, pic) }, { transform: 'none' }], { duration, easing });
+    await Promise.race([warmImg(pic.querySelector('img')), new Promise((r) => setTimeout(r, 400))]);
+    await nextFrame();
+    if (id !== opening || !dialog.open) return;
+    const { duration, easing } = motion();
+    const opts = { duration, easing };
+    pic.style.transform = '';
+    dialog.classList.remove('is-opening');
+    pic.animate([{ transform: from }, { transform: 'none' }], opts);
+    panel()?.animate(panelFrames(), opts);
   };
   const closeDrawer = async () => {
     if (!dialog?.open || closing) return;
+    closing = true;
     const pic = heroPicture();
-    const back = source && source.index === current && pic && !reduce() && inView(source.btn) ? source.btn : null;
+    // still in its start pose (closed before the motion began): nothing to play back
+    const back = source && source.index === current && pic && !reduce() && inView(source.btn) && !dialog.classList.contains('is-opening') ? source.btn : null;
     if (back && pic) {
-      closing = true;
       const { duration, easing } = motion();
-      dialog.classList.add('is-closing');
-      await pic.animate([{ transform: 'none' }, { transform: fromSource(back, pic) }], { duration: duration * 0.8, easing, fill: 'forwards' }).finished.catch(() => {});
+      const opts = { duration: duration * 0.8, easing, fill: 'forwards' as const };
+      const done = pic.animate([{ transform: 'none' }, { transform: fromSource(back, pic) }], opts).finished;
+      panel()?.animate([...panelFrames()].reverse(), opts);
+      dialog.classList.add('is-closing'); // scrim fades out (CSS transition)
+      await done.catch(() => {});
     }
     dialog.close();
   };
   dialog?.addEventListener('close', () => {
-    dialog.classList.remove('is-closing');
-    heroPicture()?.getAnimations().forEach((a) => a.cancel());
+    opening++;
+    dialog.classList.remove('is-closing', 'is-opening');
+    const pic = heroPicture(); if (pic) pic.style.transform = '';
+    for (const el of [heroPicture(), panel()]) el?.getAnimations().forEach((a) => a.cancel());
     if (source) source.btn.style.visibility = '';
     source = null; closing = false;
   }, { signal });
