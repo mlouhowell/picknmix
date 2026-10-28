@@ -190,7 +190,8 @@
   --type-toc-size: 12px;             /* 138:402 */
   --type-tl-title-size: 67px;        /* 204:170 Shrikhand */
   --type-tl-title-size-sm: 40px;     /* phones (no Figma frame yet) */
-  --type-tl-body-size: 17px;  --type-tl-body-leading: 26px;     /* 179:80 Geist Regular */
+  --type-tl-body-size: 17px;  --type-tl-body-leading: 29.8px;   /* 179:80 Geist Regular; leading 26 -> 29.8 (owner, 2026-10-27) */
+  --color-tl-body: #3a3936;          /* timeline body copy: a touch greyer than ink (owner, 2026-10-27) */
   --type-tl-lead-weight: 600;        /* 179:212 bullet lead, Geist SemiBold */
   --type-tl-ref-size: 0.65em;        /* superscript footnote marker */
   --type-fn-size: 14px;  --type-fn-leading: 22px;               /* 179:159 Geist */
