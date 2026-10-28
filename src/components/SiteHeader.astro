@@ -20,7 +20,12 @@ import { site } from '../lib/content';
     position: sticky; top: 0; z-index: 2;
     display: flex; align-items: center; justify-content: space-between;
     min-block-size: var(--header-h); padding: var(--header-pad-block) var(--header-pad-inline);
-    background: var(--color-header-bg);
+    isolation: isolate;
+  }
+  /* soft fade instead of a solid bar: starts behind the logo + links, fades out just below the header */
+  .site-header::before {
+    content: ''; position: absolute; inset: 0 0 calc(var(--header-fade-extra) * -1); z-index: -1;
+    background: var(--header-fade); pointer-events: none;
   }
   .logo { text-decoration: none; display: flex; align-items: baseline; gap: var(--space-logo-gap); white-space: nowrap; line-height: normal; }
   .name {

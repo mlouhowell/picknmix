@@ -1,7 +1,6 @@
 ---
 // figma 179:27 Timeline v3: sticky contents (179:28) | intro (179:61) + 10 era sections (179:64 ff.), main column centred.
-// Each era: a 624px collage chunk (scrap, framed photos, named grid candies), its title centred under it (204:26,
-// 207:26 ff.), then story
+// Each era: a 624px collage chunk, its title centred under it (204:26, 207:26 ff.), then story
 // parts (a paragraph or a bullet list). "[n]" in the copy is a superscript footnote that opens its source under the
 // part (179:158). All copy + geometry from content/timeline.json; candy buttons open the candy drawer.
 // Script: scripts/timeline.ts.
@@ -10,17 +9,82 @@ import { site, timeline, slotCandy, gridSrc } from '../lib/content';
 import { footnoteRefs } from '../lib/schema';
 
 const n = (v: number) => String(v);
-/** 204:26: the era title sits 12 under the lowest thing in the collage (scrap, photo or candy), never above the
- *  collage frame's own bottom. Returns the chunk height in collage units (--tl-chunk-units wide). */
-const chunkBottom = (e: (typeof timeline.eras)[number]) => {
-  const lows = [
-    e.scrap.y + e.scrap.h,
-    ...e.photos.map((p) => p.y + p.h),
-    ...e.candySlots.map((s) => s.cy + s.h / 2),
-  ];
-  return e.collageTop + Math.max(TL_COLLAGE_H, ...lows) + TL_TITLE_GAP;
+type Era = (typeof timeline.eras)[number];
+const TL_SCALE = 1.5; // = --tl-collage-scale: images render at 1.5x their Figma size, so ask for that resolution
+/** Vertical span [top, bottom] of a box centred at cy, w x h, rotated by deg. */
+const span = (cy: number, w: number, h: number, deg = 0) => {
+  const r = (deg * Math.PI) / 180, half = (Math.abs(w * Math.sin(r)) + Math.abs(h * Math.cos(r))) / 2;
+  return [cy - half, cy + half];
 };
-const TL_COLLAGE_H = 417.6, TL_TITLE_GAP = 12; // = --tl-collage-h / 204:26 collage -> title
+/** The chunk is trimmed to the collage's pieces (layers + candies, as rotated): no empty band above or below, so the
+ *  era title sits right on its pictures. Returns { top, height } in chunk units (--tl-chunk-units wide). */
+const extent = (e: Era) => {
+  const boxes = [
+    ...e.collage.layers.map((l) => span(l.y + l.h / 2, l.w, l.h, l.kind === 'image' ? l.rotate : 0)),
+    ...e.candySlots.map((c) => span(c.cy, c.w, c.h, c.rotate)),
+  ];
+  const top = Math.min(...boxes.map((b) => b[0]!)), bottom = Math.max(...boxes.map((b) => b[1]!));
+  return { top, height: bottom - top };
+};
+// = --tl-chunk-units / --tl-bp-x: the line-up spans the whole chunk; collage coords start 52 in
+const TL_CHUNK_W = 624, TL_BP_X = 52;
+// line-up on hover (owner, 2026-10-27): two rows; gap between pieces and rows, tallest row, credit gap under a piece
+const TL_LINE_GAP = 14, TL_LINE_ROW_GAP = 16, TL_LINE_MAX_H = 210, TL_CREDIT_GAP = 6;
+// credit text size in chunk units (= --type-tl-credit-size 11px x --type-tl-credit-leading 1.35, over TL_SCALE) and a
+// typical character width, to estimate how many lines each credit wraps to so the rows leave room for it
+const TL_CREDIT_LINE = (11 * 1.35) / TL_SCALE, TL_CREDIT_CHAR = 5.8 / TL_SCALE;
+type Slot = { dx: number; dy: number; s: number; tx: number; ty: number; tw: number; th: number };
+const creditOf = (e: Era, key: string) => {
+  const i = Number(key.slice(1));
+  return key[0] === 'l'
+    ? e.collage.layers[i]!.credit ?? site.timeline.creditPending
+    : e.candySlots[i]!.credit ?? slotCandy(e.candySlots[i]!.candy).candy.name;
+};
+const creditH = (text: string, w: number) => {
+  const perLine = Math.max(1, Math.floor(w / TL_CREDIT_CHAR));
+  return text.split('\n').reduce((t, p) => t + Math.max(1, Math.ceil(p.length / perLine)), 0) * TL_CREDIT_LINE + TL_CREDIT_GAP;
+};
+/** Hover state: every piece (layers + candies) straight, in two rows (left-to-right order kept, split so both rows are
+ *  about as wide), all the same height, centred in the chunk; each row leaves room for its longest credit. Per piece:
+ *  the move from its cluster centre (dx, dy), its scale, and the row box for its credit. */
+const lineUp = (e: Era) => {
+  const ex = extent(e);
+  const items = [
+    ...e.collage.layers.map((l, i) => ({ key: `l${i}`, cx: l.x + l.w / 2, cy: l.y + l.h / 2, a: l.w / l.h, h: l.h })),
+    ...e.candySlots.map((c, i) => ({ key: `c${i}`, cx: c.cx, cy: c.cy, a: c.w / c.h, h: c.h })),
+  ].sort((p, q) => p.cx - q.cx);
+  const sum = (r: typeof items) => r.reduce((t, i) => t + i.a, 0);
+  let cut = 1;
+  for (let k = 1; k < items.length; k++)
+    if (Math.abs(sum(items.slice(0, k)) - sum(items.slice(k))) < Math.abs(sum(items.slice(0, cut)) - sum(items.slice(cut)))) cut = k;
+  const rows = items.length > 1 ? [items.slice(0, cut), items.slice(cut)] : [items];
+  const fitW = Math.min(...rows.map((r) => (TL_CHUNK_W - TL_LINE_GAP * (r.length - 1)) / sum(r)));
+  const rowCredit = (th: number) => rows.map((r) => Math.max(...r.map((i) => creditH(creditOf(e, i.key), i.a * th))));
+  const rowGaps = (rows.length - 1) * TL_LINE_ROW_GAP;
+  // credit heights depend on the row height (narrower pieces wrap more), so settle the two together
+  let th = Math.min(TL_LINE_MAX_H, fitW);
+  for (let k = 0; k < 4; k++) th = Math.min(TL_LINE_MAX_H, fitW, (ex.height - rowGaps - rowCredit(th).reduce((t, c) => t + c, 0)) / rows.length);
+  const credits = rowCredit(th);
+  const blockH = rows.length * th + credits.reduce((t, c) => t + c, 0) + rowGaps;
+  const out: Record<string, Slot> = {};
+  let top = ex.top + (ex.height - blockH) / 2;
+  rows.forEach((r, ri) => {
+    let x = (TL_CHUNK_W - (th * sum(r) + TL_LINE_GAP * (r.length - 1))) / 2 - TL_BP_X;
+    const ty = top + th / 2;
+    for (const i of r) {
+      const tw = i.a * th, tx = x + tw / 2;
+      out[i.key] = { dx: tx - i.cx, dy: ty - i.cy, s: th / i.h, tx, ty, tw, th };
+      x += tw + TL_LINE_GAP;
+    }
+    top += th + credits[ri]! + TL_LINE_ROW_GAP;
+  });
+  return out;
+};
+const lineVars = (t: Slot) => `--lx:${n(t.dx)};--ly:${n(t.dy)};--ls:${n(t.s)}`;
+// credit starts at its piece's left edge and never runs wider than the piece (owner, 2026-10-27), so neighbours never touch
+const creditVars = (t: Slot) => `--tl:${n(t.tx - t.tw / 2)};--ty:${n(t.ty + t.th / 2 + TL_CREDIT_GAP)};--tw:${n(t.tw)}`;
+const box = (b: { x: number; y: number; w: number; h: number }, p = '') =>
+  `--${p}x:${n(b.x)};--${p}y:${n(b.y)};--${p}w:${n(b.w)};--${p}h:${n(b.h)}`;
 /** Split copy into plain runs and footnote numbers ("[5]"). */
 const runs = (t: string) => t.split(/\[(\d+)\]/).map((x, i) => (i % 2 ? { ref: x } : { t: x }));
 const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num);
@@ -47,32 +111,44 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
       <h2 class="title">{timeline.intro.title.map((line, i) => <>{i > 0 && <br />}{line}</>)}</h2>
     </header>
 
-    {timeline.eras.map((e) => (
+    {timeline.eras.map((e) => { const line = lineUp(e); return (
       <section class="era" id={e.id} aria-labelledby={`${e.id}-title`} data-figma={e.figmaNode} data-reveal>
-        <!-- figma era chunk: collage, then the era title under it (204:26) -->
         <div class="figure">
-        <div class="chunk" style={`--bottom:${n(chunkBottom(e))}`}>
-          <div class="collage" style={`--top:${n(e.collageTop)}`}>
-            <span class="scrap" style={`--x:${n(e.scrap.x)};--y:${n(e.scrap.y)};--w:${n(e.scrap.w)};--h:${n(e.scrap.h)}`} data-figma={e.scrap.figmaNode} aria-hidden="true">
-              <Picture src={e.scrap.src} alt="" displayWidth={Math.round(e.scrap.w)} />
-            </span>
-            {e.photos.map((p) => (
-              <span class="photo" style={`--x:${n(p.x)};--y:${n(p.y)};--w:${n(p.w)};--h:${n(p.h)};--inset:${n(p.inset)}`} data-figma={p.figmaNode}>
-                <Picture src={p.src} alt={p.alt} displayWidth={Math.round(p.w)} />
+        <!-- era title first, then its collage, then the story (owner, 2026-10-27) -->
+        <h3 class="era-title" id={`${e.id}-title`}>{e.title}</h3>
+        <div class="chunk" style={`--bottom:${n(extent(e).height)};--trim:${n(extent(e).top)}`}>
+          <!-- figma 238:26 blueprint collage: photos + colour tiles (solid sheet, 8px hairline grid, AI line art) -->
+          <div class="collage" data-figma={e.collage.figmaNode}>
+            {e.collage.layers.map((l, i) => l.kind === 'tile' ? (
+              <span class="tile" aria-hidden="true"
+                style={`${box(l)};${lineVars(line[`l${i}`]!)};--b:${n(l.border)};--o:${n(l.opacity ?? 1)};--sheet:${l.color}${l.artBox ? `;${box(l.artBox, 'a')}` : ''}`}>
+                <span class="sheet"></span><span class="hairlines"></span>
+                <span class={l.artBox ? 'art boxed' : 'art'}><Picture src={l.art} alt="" displayWidth={Math.round((l.artBox?.w ?? l.w) * TL_SCALE)} /></span>
+              </span>
+            ) : (
+              <span class={l.fit === 'contain' ? 'layer contain' : 'layer'}
+                style={`${box(l)};${lineVars(line[`l${i}`]!)};--b:${n(l.border)};--o:${n(l.opacity)};--r:${n(l.rotate ?? 0)};--pos:${l.pos ?? 'center'}`}>
+                <Picture src={l.src} alt={l.alt} displayWidth={Math.round(l.w * TL_SCALE)} />
               </span>
             ))}
-            {e.candySlots.map((s) => {
+            {e.candySlots.map((s, i) => {
               const { candy, index } = slotCandy(s.candy);
               return (
                 <button type="button" class="tl-candy" data-index={index}
-                  style={`--cx:${n(s.cx)};--cy:${n(s.cy)};--w:${n(s.w)};--h:${n(s.h)};--r:${n(s.rotate)}`}>
-                  <Picture src={gridSrc(candy)} alt={candy.name} displayWidth={Math.round(Math.max(s.w, s.h) * 1.15)} />
+                  style={`--cx:${n(s.cx)};--cy:${n(s.cy)};--w:${n(s.w)};--h:${n(s.h)};--r:${n(s.rotate)};${lineVars(line[`c${i}`]!)}`}>
+                  <Picture src={gridSrc(candy)} alt={candy.name} displayWidth={Math.round(Math.max(s.w, s.h) * 1.15 * TL_SCALE)} />
                 </button>
               );
             })}
+            <!-- credits under each piece, shown when the collage lines up (hover) -->
+            {e.collage.layers.map((_, i) => (
+              <span class="credit" style={creditVars(line[`l${i}`]!)}>{creditOf(e, `l${i}`)}</span>
+            ))}
+            {e.candySlots.map((_, i) => (
+              <span class="credit" style={creditVars(line[`c${i}`]!)}>{creditOf(e, `c${i}`)}</span>
+            ))}
           </div>
         </div>
-        <h3 class="era-title" id={`${e.id}-title`}>{e.title}</h3>
         </div>
 
         <!-- figma 179:77 ff. Story parts: paragraph or bullet list (179:212), footnotes open underneath (179:158) -->
@@ -96,7 +172,7 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
         })}
         </div>
       </section>
-    ))}
+    ); })}
   </div>
 </section>
 
@@ -137,8 +213,8 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   /* intro */
   .intro { inline-size: var(--tl-text-w); max-inline-size: 100%; display: grid; gap: var(--tl-intro-gap); text-align: center; }
   .kicker {
-    font-family: var(--font-ui); font-size: var(--type-kicker-size); letter-spacing: var(--type-kicker-tracking);
-    text-transform: uppercase; line-height: normal; color: var(--color-text-muted);
+    font-family: var(--font-mono); font-size: var(--type-kicker-size); letter-spacing: var(--type-kicker-tracking);
+    text-transform: uppercase; line-height: normal; color: var(--color-ink);
   }
   .title {
     font-family: var(--font-title); font-weight: normal; /* 204:170 */
@@ -148,41 +224,85 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   /* era */
   .era { display: grid; gap: var(--tl-block-gap); scroll-margin-top: var(--tl-scroll-margin); }
   .chunk {
-    position: relative; inline-size: var(--tl-text-w); max-inline-size: 100%;
+    /* the image area is 1.5x the text column (owner, 2026-10-27), centred over it; never wider than the screen */
+    position: relative; inline-size: calc(var(--tl-text-w) * var(--tl-collage-scale));
+    max-inline-size: calc(100vw - 2 * var(--grid-gutter));
+    justify-self: unsafe center; /* overflow the text column equally on both sides */
     aspect-ratio: var(--tl-chunk-units) / var(--bottom);
     container-type: inline-size; overflow-x: clip;
   }
   .collage { --u: calc(100cqw / var(--tl-chunk-units)); }
   .collage {
-    position: absolute;
-    left: calc(var(--tl-collage-x) * var(--u)); top: calc(var(--top) * var(--u));
-    inline-size: calc(var(--tl-collage-w) * var(--u)); block-size: calc(var(--tl-collage-h) * var(--u));
+    position: absolute; left: calc(var(--tl-bp-x) * var(--u)); top: calc(var(--trim) * var(--u) * -1);
+    inline-size: calc(var(--tl-bp-w) * var(--u)); block-size: calc(var(--tl-bp-h) * var(--u));
   }
-  .scrap, .photo, .tl-candy { position: absolute; }
-  .scrap, .photo {
+  .tl-candy, .layer, .tile { position: absolute; }
+  /* 238:26 layers: white border, own opacity; tiles = colour sheet + hairline grid + line art, clipped inside the border */
+  .layer, .tile {
     left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
     inline-size: calc(var(--w) * var(--u)); block-size: calc(var(--h) * var(--u));
+    border: calc(var(--b) * var(--u)) solid var(--color-on-ink); opacity: var(--o);
   }
-  .photo {
-    padding: calc(var(--inset) * var(--u));
-    background: var(--color-on-ink); box-shadow: var(--tl-photo-shadow);
+  .layer { rotate: calc(var(--r) * 1deg); }
+  /* slight film grain on photos and tiles (not on cut-outs: their transparent edges would show it) */
+  .layer:not(.contain)::after, .tile::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: var(--tl-grain); background-size: var(--tl-grain-size);
+    opacity: var(--tl-grain-opacity); mix-blend-mode: var(--tl-grain-blend);
   }
-  .scrap :global(picture), .photo :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
-  .scrap :global(img), .photo :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .layer.contain { border: 0; }
+  .layer :global(picture), .art :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
+  .layer :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
+  .layer.contain :global(img) { object-fit: contain; }
+  .tile { overflow: clip; }
+  .sheet, .hairlines, .art { position: absolute; inset: calc(var(--b) * var(--u) * -1); }
+  .sheet { background: var(--sheet); opacity: var(--tl-tile-sheet-opacity); }
+  .hairlines {
+    background-image:
+      linear-gradient(90deg, var(--tl-grid-line) var(--tl-grid-w), transparent var(--tl-grid-w)),
+      linear-gradient(var(--tl-grid-line) var(--tl-grid-w), transparent var(--tl-grid-w));
+    background-size: calc(var(--tl-grid-step) * var(--u)) calc(var(--tl-grid-step) * var(--u));
+  }
+  .art :global(img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  .art.boxed {
+    inset: auto;
+    left: calc((var(--ax) - var(--b)) * var(--u)); top: calc((var(--ay) - var(--b)) * var(--u));
+    inline-size: calc(var(--aw) * var(--u)); block-size: calc(var(--ah) * var(--u));
+  }
   .tl-candy {
     --s: calc(max(var(--w), var(--h)) * var(--tl-candy-slot-scale));
     left: calc((var(--cx) - var(--s) / 2) * var(--u)); top: calc((var(--cy) - var(--s) / 2) * var(--u));
     inline-size: calc(var(--s) * var(--u)); block-size: calc(var(--s) * var(--u));
     rotate: calc(var(--r) * 1deg);
     padding: 0; border: 0; background: none; cursor: pointer;
-    transition: scale var(--duration-page) var(--ease-out);
   }
   .tl-candy:hover, .tl-candy:focus-visible { scale: var(--landing-tile-hover-scale); }
+
+  /* line-up (owner, 2026-10-27): hovering a collage straightens every piece into one row (positions from lineUp() in
+     the frontmatter) and fades in the credits; leaving it slides them back into the cluster */
+  .layer, .tile, .tl-candy {
+    transition: translate var(--duration-hero) var(--ease-hero), rotate var(--duration-hero) var(--ease-hero),
+      scale var(--duration-hero) var(--ease-hero);
+  }
+  .credit {
+    position: absolute; left: calc(var(--tl) * var(--u)); top: calc(var(--ty) * var(--u));
+    inline-size: calc(var(--tw) * var(--u));
+    font-family: var(--font-ui); font-size: var(--type-tl-credit-size); line-height: var(--type-tl-credit-leading);
+    color: var(--color-text-muted); text-align: start; text-wrap: pretty; white-space: pre-line; /* credits may hold line breaks */
+    opacity: 0; pointer-events: none; transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .chunk:hover :is(.layer, .tile, .tl-candy) {
+      translate: calc(var(--lx) * var(--u)) calc(var(--ly) * var(--u)); rotate: 0deg; scale: var(--ls);
+    }
+    .chunk:hover .tl-candy:is(:hover, :focus-visible) { scale: calc(var(--ls) * var(--landing-tile-hover-scale)); }
+    .chunk:hover .credit { opacity: 1; transition-delay: calc(var(--duration-hero) * 0.5); }
+  }
   .tl-candy :global(picture) { display: block; inline-size: 100%; block-size: 100%; }
   .tl-candy :global(img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
 
   /* 207:26 ff. era title: Shrikhand, red, uppercase, centred under the collage */
-  .figure { display: grid; justify-items: center; }
+  .figure { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--tl-era-title-gap); }
   .era-title {
     font-family: var(--font-title); font-weight: normal; font-size: var(--type-era-title-size);
     line-height: var(--type-title-leading); text-transform: uppercase; text-align: center; color: var(--color-title);
@@ -217,8 +337,8 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
     [data-reveal-ready] .era:not(.is-in) { opacity: 0; translate: 0 var(--tl-reveal-shift); }
   }
 
-  /* the pinned contents would run into the text column below ~1150 */
-  @media (max-width: 72em) { .toc { display: none; } }
+  /* the pinned contents would run into the (1.5x wide) collages below ~1280 */
+  @media (max-width: 80em) { .toc { display: none; } }
 
   /* below ~1024: no contents column; one centred text column */
   @media (max-width: 64em) {
@@ -228,5 +348,6 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
   }
   @media (max-width: 40em) {
     .title { font-size: var(--type-tl-title-size-sm); }
+    .era-title { font-size: var(--type-era-title-size-sm); }
   }
 </style>

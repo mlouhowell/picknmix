@@ -48,7 +48,7 @@ export const CandiesFileSchema = z
 export const SiteSchema = z.object({
   siteName: text,
   header: z.object({ viewLabel: text, grid: text, timeline: text }),
-  timeline: z.object({ label: text, contentsLabel: text, footnoteLabel: text.includes('{n}') }),
+  timeline: z.object({ label: text, contentsLabel: text, footnoteLabel: text.includes('{n}'), creditPending: text }),
   drawer: z.object({
     label: text, close: text, prev: text, next: text, detailsHeading: text, similarHeading: text,
     fields: z.object({ year: text, era: text, type: text }),
@@ -179,11 +179,17 @@ export const TimelineSchema = z.object({
     dates: text,
     title: text,
     figmaNode: figmaId,
-    collageTop: num,
-    scrap: placed.extend({ src: assetSrc, figmaNode: figmaId }),
-    photos: z.array(placed.extend({ src: assetSrc, alt: text, inset: num.min(0), figmaNode: figmaId })),
-    caption: z.object({ cx: num, cy: num, rotate: num }),
-    candySlots: z.array(z.object({ candy: z.string(), cx: num, cy: num, w: num.positive(), h: num.positive(), rotate: num })),
+    // 238:26 blueprint collage: 520x440, layers in drawing order
+    collage: z.object({
+      figmaNode: figmaId,
+      layers: z.array(z.discriminatedUnion('kind', [
+        placed.extend({ kind: z.literal('image'), src: assetSrc, alt: text, border: num.min(0), opacity: num.min(0).max(1),
+          fit: z.enum(['cover', 'contain']).optional(), pos: z.string().optional(), rotate: num.optional(), credit: text.optional() }),
+        placed.extend({ kind: z.literal('tile'), art: assetSrc, color: z.string().regex(/^#[0-9a-f]{6}$/i), border: num.min(0),
+          opacity: num.min(0).max(1).optional(), artBox: placed.optional(), credit: text.optional() }),
+      ])).min(1),
+    }),
+    candySlots: z.array(z.object({ candy: z.string(), cx: num, cy: num, w: num.positive(), h: num.positive(), rotate: num, credit: text.optional() })),
     story: z.array(storyPart).min(1),
   })).min(1),
 }).superRefine((t, ctx) => {

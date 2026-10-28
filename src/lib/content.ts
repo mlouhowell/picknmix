@@ -66,8 +66,8 @@ export const timeline = parse(TimelineSchema, timelineJson, 'content/timeline.js
 const eraIds = new Set(timeline.eras.map((e) => e.id));
 for (const c of gridCandies)
   if (c.era && !eraIds.has(c.era)) throw new Error(`content/grid/candies.json: ${c.slug} has unknown era "${c.era}" (not in content/timeline.json)`);
-for (const e of timeline.eras) for (const s of [e.scrap, ...e.photos])
-  if (!hasImg(s.src)) throw new Error(`content/timeline.json: no image for ${s.src}; run \`npm run images\``);
+for (const e of timeline.eras) for (const src of e.collage.layers.map((l) => (l.kind === 'tile' ? l.art : l.src)))
+  if (!hasImg(src)) throw new Error(`content/timeline.json: no image for ${src}; run \`npm run images\``);
 for (const e of timeline.eras) for (const s of e.candySlots)
   if (!gridCandies.some((c) => c.slug === s.candy)) throw new Error(`content/timeline.json: ${e.id} candy slot "${s.candy}" is not in content/grid/candies.json`);
 /** Grid candy + its index (the drawer opens by index) for a timeline candy slot. */

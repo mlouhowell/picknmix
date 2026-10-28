@@ -34,7 +34,8 @@
   "timeline": {
     "contentsLabel": "Contents",
     "label": "Timeline",
-    "footnoteLabel": "Source {n}"
+    "footnoteLabel": "Source {n}",
+    "creditPending": "Credit to come"
   },
   "drawer": {
     "label": "Candy details",

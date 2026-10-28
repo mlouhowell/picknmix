@@ -28,7 +28,9 @@
   --color-placeholder-bg: #f2f1f1;
   /* Grid landing 109:27 (2026-10-23): off-white page, not cream */
   --color-page: #f7f7f5;             /* page background */
-  --color-header-bg: rgb(247 247 245 / 0.4);   /* sticky header 179:291: page colour at 40% (owner 2026-10-26) */
+  /* sticky header 179:291: page colour fading to clear, no hard edge (owner 2026-10-27; was a flat 40%) */
+  --header-fade: linear-gradient(to bottom, rgb(247 247 245 / 0.9) 0%, rgb(247 247 245 / 0.6) 45%, rgb(247 247 245 / 0) 100%);
+  --header-fade-extra: 24px;         /* the fade runs this far below the header bar */
   --color-panel: #efefec;            /* panels (candy drawer) */
   --color-toggle: #e9e9e6;           /* view toggle pill 109:38 */
   --color-line: #e3e3e0;             /* hairlines */
@@ -44,6 +46,7 @@
   --font-body: "Geist", system-ui, sans-serif;                /* one text family: body copy matches the timeline + UI (was Funnel Sans; owner, 2026-10-27) */
   --font-ui: "Geist", system-ui, sans-serif;                 /* all small UI / label text (toggle, buttons, drawer labels) */
   --font-hand: "Homemade Apple", cursive;                    /* handwritten accents ("lösgodis archive" 109:31) */
+  --font-mono: "Geist Mono", ui-monospace, monospace;        /* timeline kicker */
   --font-title: "Shrikhand", Georgia, serif;                 /* 204:26 chosen titles: logo, timeline + era titles, drawer title (upright cut is already slanted, no synthetic italic) */
 
   /* ---------- Type scale ---------- */
@@ -176,15 +179,16 @@
   --tl-pad-bottom: 144px;            /* 9670 - 96 - 9430 */
   --tl-toc-top-gap: 24px;            /* pinned contents: gap under the header (owner, 2026-10-27) */
   --tl-toc-gap: 12px;  --tl-toc-dot: 5px;  --tl-toc-dot-gap: 8px;
-  --tl-era-gap: 48px;                /* 179:60 eras 48 apart; intro -> era 1 = 48 */
-  --tl-block-gap: 36px;              /* collage chunk -> story */
+  --tl-era-gap: 120px;               /* between eras (was 48, 179:60); wider so each era reads as its own section (owner, 2026-10-27) */
+  --tl-era-title-gap: 32px;          /* era title -> its collage (owner, 2026-10-27) */
+  --tl-block-gap: 56px;              /* collage chunk -> story (was 36; owner, 2026-10-27) */
   --tl-para-gap: 20px;               /* story part -> part (179:60 had 36; tighter, owner 2026-10-26) */
   --tl-fn-gap: 12px;                 /* 179:154 paragraph -> open footnote */
   --tl-fn-indent: 24px;              /* 179:158 pl 24 */
   --tl-fn-num-gap: 0.4em;            /* "⁵  Vipeholm" two spaces */
   --tl-ref-pad: 0.1em;               /* footnote marker hit area */
   --tl-intro-gap: 12px;              /* kicker -> title 138:428 */
-  --type-kicker-size: 12px;  --type-kicker-tracking: 0.08em;    /* 138:429 Geist, uppercase, 0.96px */
+  --type-kicker-size: 13px;  --type-kicker-tracking: 0.02em;   /* timeline kicker in Geist Mono, uppercase (owner, 2026-10-27) */
   --type-toc-size: 12px;             /* 138:402 */
   --type-tl-title-size: 67px;        /* 204:170 Shrikhand */
   --type-tl-title-size-sm: 40px;     /* phones (no Figma frame yet) */
@@ -194,9 +198,18 @@
   --type-fn-size: 14px;  --type-fn-leading: 22px;               /* 179:159 Geist */
   /* collage: unitless Figma px inside the 624 chunk, scaled by the chunk's width (container units) */
   --tl-chunk-units: 624;
-  --tl-collage-x: 28.8;  --tl-collage-w: 566.4;  --tl-collage-h: 417.6;   /* Collage 138:645 inside the chunk */
-  --tl-photo-shadow: 0 1.2px 3.6px rgb(0 0 0 / .08);          /* 138:647 */
-  --type-era-title-size: 22.4px;     /* 207:26 ff. era title under the collage, Shrikhand uppercase */
+  /* 238:26 blueprint collage: 520x440 centred in the 624 chunk; unitless (scaled) */
+  --tl-bp-x: 52;  --tl-bp-w: 520;  --tl-bp-h: 440;
+  /* film grain over timeline photos + tiles (owner, 2026-10-27): grey fractal noise, overlay-blended */
+  --tl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --tl-grain-size: 180px;  --tl-grain-opacity: 0.5;  --tl-grain-blend: overlay;
+  --type-tl-credit-size: 11px;  --type-tl-credit-leading: 1.35;   /* image credits under the lined-up collage */
+  --tl-collage-scale: 1.5;           /* image area 50% bigger than the 624 text column (owner, 2026-10-27) */
+  --tl-tile-sheet-opacity: 0.92;     /* colour sheet under the line art */
+  --tl-grid-step: 8;                 /* hairline grid every 8 */
+  --tl-grid-line: rgb(255 255 255 / 0.14);  --tl-grid-w: 0.35px;   /* 238:298 white 0.35 @ 14% */
+  --type-era-title-size: 32px;       /* era title above its collage, Shrikhand uppercase (owner, 2026-10-27; 207:26 was 22.4) */
+  --type-era-title-size-sm: 28px;    /* phones */
   --tl-candy-slot-scale: 1.15;       /* square PNG (with transparent margin) around Figma's tight cut-out box */
   --tl-reveal-shift: 24px;           /* fade-up distance */
   --tl-scroll-margin: 80px;          /* header 56 + 24 */

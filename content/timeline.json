@@ -1,5 +1,5 @@
 {
-  "_readme": "Timeline view (Figma 179:27 Timeline v3). Intro + 10 eras. Per era: collage (positions in Figma px inside the 624px era chunk: photos/scrap/candySlots relative to the collage box at x 28.8, y collageTop; caption centre relative to the chunk; rotate in CSS degrees) and story parts: { text } or { items: [{ lead, text }] } (a bullet list). [n] in a text is footnote n: a superscript that opens footnotes[n] under its part. candySlots name a grid candy (content/grid/candies.json slug); clicking it opens the candy drawer. Images: assets/timeline/<era>/ (npm run images).",
+  "_readme": "Timeline view (Figma 179:27 Timeline v3; collages from 236:1147 'Blueprint line art', red version). Intro + 9 eras. Per era: collage { figmaNode, layers }: the 520x440 blueprint collage, centred in the 624px era chunk; layers draw in order, kind 'image' (src, alt, box, white border px, opacity, optional fit/pos/rotate) or kind 'tile' (solid colour sheet at 92% + 8px hairline grid + AI line art from assets/timeline/<era>/line-art.png, optional artBox relative to the tile). candySlots (centre, tight box, rotate in CSS degrees, relative to the collage) name a grid candy (content/grid/candies.json slug) drawn on top; clicking one opens the candy drawer. Story parts: { text } or { items: [{ lead, text }] } (a bullet list). [n] in a text is footnote n: a superscript that opens footnotes[n] under its part. Images: assets/timeline/<era>/ (npm run images).",
   "intro": {
     "kicker": "A short history of Swedish candy",
     "title": [
@@ -10,20 +10,17 @@
   },
   "footnotes": {
     "1": "Polkagris / Amalia Eriksson: SKBL, Tekniska museet",
-    "2": "Cinemas: Film Sound Sweden",
-    "3": "US cinema snacks: Smithsonian; UCL thesis",
-    "4": "Sugar rationing: SvD Årsbok 1940, 1949",
-    "5": "Vipeholm: Lund University",
-    "6": "Lördagsgodis: sv.Wikipedia",
-    "7": "Ahlgrens bilar: Cloetta history",
-    "8": "Pastellfiskar / Swedish Fish: Cloetta, Wikipedia, Mental Floss",
-    "9": "Haribo Nappar: Nappar, Happy-Cola",
-    "10": "Marshmallow Santas: Cloetta history",
-    "11": "Gott & Blandat: Cloetta; sv.Wikipedia",
-    "12": "Pick-and-mix 1985: ICA-historien",
-    "13": "BUBS: BUBS, Grant Thornton",
-    "14": "Sockerbit: Our story, Swedes in the States, LA Weekly",
-    "15": "TikTok craze: CBC, Texas Monthly"
+    "2": "Sugar rationing: SvD Årsbok 1940, 1949",
+    "3": "Vipeholm: Lund University",
+    "4": "Lördagsgodis: sv.Wikipedia",
+    "5": "Ahlgrens bilar: Cloetta history",
+    "6": "Pastellfiskar / Swedish Fish: Cloetta, Wikipedia, Mental Floss",
+    "7": "Haribo Nappar: Nappar, Happy-Cola",
+    "8": "Marshmallow Santas: Cloetta history",
+    "9": "Gott & Blandat: Cloetta; sv.Wikipedia",
+    "10": "Pick-and-mix 1985: ICA-historien",
+    "11": "Sockerbit: Our story, Swedes in the States, LA Weekly",
+    "12": "TikTok craze: CBC, Texas Monthly"
   },
   "eras": [
     {
@@ -31,53 +28,68 @@
       "dates": "1850s–1890s",
       "title": "Beginnings",
       "figmaNode": "179:64",
-      "collageTop": 68.84,
-      "scrap": {
-        "src": "timeline/beginnings/scrap.png",
-        "x": 183.6,
-        "y": 180,
-        "w": 385.62,
-        "h": 300.18,
-        "figmaNode": "138:646"
+      "collage": {
+        "figmaNode": "236:1152",
+        "layers": [
+          {
+            "kind": "tile",
+            "art": "timeline/beginnings/line-art.png",
+            "x": 158.45,
+            "y": 220,
+            "w": 264,
+            "h": 194,
+            "border": 4,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after \"Lokomotivet Prins August\", Erik Arlebo, public domain"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/beginnings/apothecary.png",
+            "alt": "\"The Apothecary's Shop opened\", engraving",
+            "x": 194,
+            "y": 55,
+            "w": 228,
+            "h": 185,
+            "border": 4,
+            "opacity": 0.9
+          },
+          {
+            "kind": "image",
+            "src": "timeline/beginnings/amalia-eriksson.png",
+            "alt": "Amalia Eriksson portrait (B&W)",
+            "x": 48,
+            "y": 84,
+            "w": 158,
+            "h": 211,
+            "border": 4,
+            "opacity": 0.9,
+            "credit": "“Amalia Eriksson … polkagris in the 1850s”\nPublic domain · okänt · Wikimedia Commons"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/beginnings/polkagris-jars.png",
+            "alt": "Polkagris sticks",
+            "x": 353,
+            "y": 140,
+            "w": 137,
+            "h": 200,
+            "border": 4,
+            "opacity": 0.9
+          }
+        ]
       },
-      "photos": [
+      "candySlots": [
         {
-          "src": "timeline/beginnings/amalia-eriksson-portrait-b-w.png",
-          "alt": "Amalia Eriksson portrait (B&W)",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "138:647"
-        },
-        {
-          "src": "timeline/beginnings/polkagris-in-jars.png",
-          "alt": "Polkagris in jars",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "138:649"
-        },
-        {
-          "src": "timeline/beginnings/prins-august-locomotive-b-w.png",
-          "alt": "Prins August locomotive (B&W)",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "138:651"
+          "candy": "polkagris",
+          "cx": 183.44,
+          "cy": 270.44,
+          "w": 113.04,
+          "h": 113.04,
+          "rotate": -7,
+          "credit": "Polkagris Candy"
         }
       ],
-      "caption": {
-        "cx": 437.08,
-        "cy": 472.81,
-        "rotate": 4
-      },
-      "candySlots": [],
       "story": [
         {
           "text": "The first candies were medicinal in nature. Sugar was used to disguise the bad taste of a concoction of herbs prescribed by an apothecary for things like digestion issues and chest pain."
@@ -93,55 +105,59 @@
     {
       "id": "factories",
       "dates": "1900s–1928",
-      "title": "Factories",
+      "title": "Factories and liquorice",
       "figmaNode": "179:89",
-      "collageTop": 70.76,
-      "scrap": {
-        "src": "timeline/factories/scrap.png",
-        "x": -16.8,
-        "y": 95.44,
-        "w": 329.06,
-        "h": 291.45,
-        "figmaNode": "138:658"
+      "collage": {
+        "figmaNode": "236:1222",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/factories/engine.png",
+            "alt": "Willans and Robinson steam engine, 1903 engraving",
+            "x": 272,
+            "y": 119,
+            "w": 186,
+            "h": 227,
+            "border": 3,
+            "opacity": 0.9,
+            "credit": "Willans and Robinson engine, from Rankin Kennedy, Electrical Installations, Vol. III (1903)"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/factories/factory-floor.png",
+            "alt": "Candy factory floor (B&W)",
+            "x": 85,
+            "y": 66,
+            "w": 210,
+            "h": 154,
+            "border": 3,
+            "opacity": 0.9
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/factories/line-art.png",
+            "x": 132,
+            "y": 170,
+            "w": 173,
+            "h": 152.78,
+            "border": 3,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after a liquorice-plant photo"
+          }
+        ]
       },
-      "photos": [
+      "candySlots": [
         {
-          "src": "timeline/factories/biograf-piccadilly-1920s.png",
-          "alt": "Biograf Piccadilly, 1920s",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "138:659"
-        },
-        {
-          "src": "timeline/factories/cloetta-malmo-1901-engraving.png",
-          "alt": "Cloetta, Malmö (1901 engraving)",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "138:661"
-        },
-        {
-          "src": "timeline/factories/fazer-sweets-factory-floor-1912.png",
-          "alt": "Fazer sweets factory floor, 1912",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "138:663"
+          "candy": "djungelvral",
+          "cx": 430.5,
+          "cy": 360,
+          "w": 113.91,
+          "h": 113.91,
+          "rotate": 0,
+          "credit": "Djungelvrål Candy"
         }
       ],
-      "caption": {
-        "cx": 238.66,
-        "cy": 472.79,
-        "rotate": -3
-      },
-      "candySlots": [],
       "story": [
         {
           "text": "Once factories were able to make candy it became a real industry as one factory could make more in a day than a shop could make in months."
@@ -150,7 +166,7 @@
           "text": "Between about 1900 and 1930, electric motors replaced steam engines. Every machine could now run on its own, so factories set them up in a line from the cooking pot to the wrapper, with conveyor belts carrying candy between them and machines doing the wrapping. Cleaner, faster factories made candy even cheaper."
         },
         {
-          "text": "Cinemas spread fast in Sweden in the early 1900s and by 1916 there were about 500.[2] In the 1930s, US cinemas found that selling candy and popcorn helped them survive hard times, and candy became a ritual of going to the movies.[3]"
+          "text": "Liquorice candy became popular too, and many companies started making it in a wide variety of flavors and shapes. Liquorice was made from the liquorice plant."
         }
       ]
     },
@@ -159,62 +175,66 @@
       "dates": "1929",
       "title": "Great Depression",
       "figmaNode": "179:115",
-      "collageTop": 70.76,
-      "scrap": {
-        "src": "timeline/factories/scrap.png",
-        "x": -16.8,
-        "y": 95.44,
-        "w": 329.06,
-        "h": 291.45,
-        "figmaNode": "180:364"
+      "collage": {
+        "figmaNode": "236:1268",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/great-depression/nyse-crowd-1929.png",
+            "alt": "Crowd outside the New York Stock Exchange, 1929 (B&W)",
+            "x": 56,
+            "y": 101,
+            "w": 172,
+            "h": 241,
+            "border": 4,
+            "opacity": 0.9,
+            "credit": "Crowd outside NYSE, crash, 1929\n“1929 Great Depression”\nPublic domain · US-gov · Wikimedia Commons"
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/great-depression/line-art.png",
+            "x": 155,
+            "y": 250,
+            "w": 230,
+            "h": 132.15,
+            "border": 3.35,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "artBox": {
+              "x": -17,
+              "y": -25,
+              "w": 262,
+              "h": 157
+            },
+            "credit": "Line drawing made with Krea of a penny candy sign"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/great-depression/kexchoklad-ad.png",
+            "alt": "Cloetta Kexchoklad advertisement",
+            "x": 194,
+            "y": 49,
+            "w": 164,
+            "h": 228,
+            "border": 4,
+            "opacity": 0.95
+          },
+          {
+            "kind": "image",
+            "src": "timeline/great-depression/kex-bar.png",
+            "alt": "Kexchoklad bar",
+            "x": 262.81,
+            "y": 117.70999999999998,
+            "w": 191.05,
+            "h": 90.43,
+            "border": 0,
+            "opacity": 1,
+            "rotate": 30,
+            "fit": "contain"
+          }
+        ]
       },
-      "photos": [
-        {
-          "src": "timeline/factories/biograf-piccadilly-1920s.png",
-          "alt": "Biograf Piccadilly, 1920s",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "180:365"
-        },
-        {
-          "src": "timeline/factories/cloetta-malmo-1901-engraving.png",
-          "alt": "Cloetta, Malmö (1901 engraving)",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "180:367"
-        },
-        {
-          "src": "timeline/great-depression/lundholms-karamellfabrik-uppsala-1926.png",
-          "alt": "Lundholms karamellfabrik, Uppsala, 1926",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "180:369"
-        }
-      ],
-      "caption": {
-        "cx": 238.66,
-        "cy": 472.79,
-        "rotate": -3
-      },
-      "candySlots": [
-        {
-          "candy": "polkagris",
-          "cx": 474.4,
-          "cy": 302.94,
-          "w": 150,
-          "h": 109,
-          "rotate": -30
-        }
-      ],
+      "candySlots": [],
       "story": [
         {
           "text": "When the Great Depression hit in 1929, money got tight around the world, but candy held on. A small sweet was one of the few treats people could still afford. In the US, candy makers sold bigger, more filling bars for a nickel, almost as a cheap meal. Snickers (1930) and 3 Musketeers (1932) both date from those years."
@@ -229,59 +249,64 @@
       "dates": "1940s",
       "title": "War and rationing",
       "figmaNode": "179:137",
-      "collageTop": 70.34,
-      "scrap": {
-        "src": "timeline/war-and-rationing/scrap.png",
-        "x": 387.96,
-        "y": 213.6,
-        "w": 187.79,
-        "h": 162.81,
-        "figmaNode": "138:671"
-      },
-      "photos": [
-        {
-          "src": "timeline/war-and-rationing/vipeholm-former-hospital-main-building.png",
-          "alt": "Vipeholm, former hospital main building",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "138:672"
-        },
-        {
-          "src": "timeline/war-and-rationing/ration-card-for-coffee-and-tea-1945.png",
-          "alt": "Ration card for coffee and tea, 1945",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "138:674"
-        },
-        {
-          "src": "timeline/war-and-rationing/livsmedelskommissionen-1939.png",
-          "alt": "Livsmedelskommissionen, 1939",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "138:676"
-        }
-      ],
-      "caption": {
-        "cx": 432.9,
-        "cy": 472.81,
-        "rotate": 2
+      "collage": {
+        "figmaNode": "236:1333",
+        "layers": [
+          {
+            "kind": "tile",
+            "art": "timeline/war-and-rationing/line-art.png",
+            "x": 225,
+            "y": 41,
+            "w": 283,
+            "h": 193,
+            "border": 4,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after \"Vipeholms Gymnasieskola 2017\", winvide, CC BY-SA 3.0"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/war-and-rationing/vipeholm-children.png",
+            "alt": "School dentist checking a girl's teeth, Netherlands, 1935 (B&W)",
+            "x": 29,
+            "y": 114,
+            "w": 232,
+            "h": 212,
+            "border": 0,
+            "opacity": 0.8,
+            "credit": "School dentist, NL, 1935\n“Cavity studies → teeth”\nCredit: Attribution · Nationaal Archief · Wikimedia Commons"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/war-and-rationing/spitfires.png",
+            "alt": "Spitfire fighter planes in formation (B&W)",
+            "x": 240,
+            "y": 213,
+            "w": 223,
+            "h": 164,
+            "border": 4,
+            "opacity": 0.9
+          },
+          {
+            "kind": "image",
+            "src": "timeline/war-and-rationing/ration-card.png",
+            "alt": "Swedish ration card",
+            "x": 151,
+            "y": 289,
+            "w": 139,
+            "h": 110,
+            "border": 4,
+            "opacity": 0.9
+          }
+        ]
       },
       "candySlots": [],
       "story": [
         {
-          "text": "Sugar was rationed during the Second World War, from April 1940 to September 1949, which made making candy difficult.[4] With sugar rationed and cocoa nearly impossible to import, chocolate became scarce and factories used substitutes, made fewer products and sometimes paused lines. Sweets were a rare treat for kids growing up in those years. Sugar rationing lasted past the war, ending in the 1940s. The pent-up demand helped set off the candy boom of the 1950s."
+          "text": "Sugar was rationed during the Second World War, from April 1940 to September 1949, which made making candy difficult.[2] With sugar rationed and cocoa nearly impossible to import, chocolate became scarce and factories used substitutes, made fewer products and sometimes paused lines. Sweets were a rare treat for kids growing up in those years. Sugar rationing lasted past the war, ending in the 1940s. The pent-up demand helped set off the candy boom of the 1950s."
         },
         {
-          "text": "In the 1940s the Swedish government wanted to find out what was causing cavities in the Swedish people. From 1945 to 1955, the government ran studies to find out the cause. The tests showed that sticky sweets, eaten often, cause tooth decay.[5] Health officials ran a campaign to tell parents to give children sweets on just one day a week. That became lördagsgodis, which means \"Saturday sweets.\"[6] Today, Saturday is still the big day for sweets in Sweden for not just children but adults too."
+          "text": "In the 1940s the Swedish government wanted to find out what was causing cavities in the Swedish people. From 1945 to 1955, the government ran studies to find out the cause. The tests showed that sticky sweets, eaten often, cause tooth decay.[3] Health officials ran a campaign to tell parents to give children sweets on just one day a week. That became lördagsgodis, which means \"Saturday sweets.\"[4] Today, Saturday is still the big day for sweets in Sweden for not just children but adults too."
         }
       ]
     },
@@ -290,68 +315,54 @@
       "dates": "1950s",
       "title": "Boom",
       "figmaNode": "179:160",
-      "collageTop": 71.1,
-      "scrap": {
-        "src": "timeline/boom/scrap.png",
-        "x": 168,
-        "y": -53.19,
-        "w": 399.81,
-        "h": 266.2,
-        "figmaNode": "138:683"
-      },
-      "photos": [
-        {
-          "src": "timeline/boom/pressbyran-kiosk-sodra-bantorget-1957.png",
-          "alt": "Pressbyrån kiosk, Södra Bantorget, 1957",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "138:684"
-        },
-        {
-          "src": "timeline/boom/daim-wrapped.png",
-          "alt": "Daim, wrapped",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "138:686"
-        },
-        {
-          "src": "timeline/boom/malaco-assorted-candy.png",
-          "alt": "Malaco assorted candy",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "138:688"
-        }
-      ],
-      "caption": {
-        "cx": 236.38,
-        "cy": 472.8,
-        "rotate": -4
+      "collage": {
+        "figmaNode": "236:1408",
+        "layers": [
+          {
+            "kind": "tile",
+            "art": "timeline/boom/line-art.png",
+            "x": 120,
+            "y": 49,
+            "w": 211,
+            "h": 148.9,
+            "border": 3.07,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after \"Volvo PV 444 1950 im Museum Öhringen\", Buch-t, CC BY-SA 3.0 de"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/boom/candy-counter.png",
+            "alt": "Shoppers at a 1950s candy counter (B&W)",
+            "x": 100,
+            "y": 153,
+            "w": 273,
+            "h": 176,
+            "border": 4,
+            "opacity": 0.9
+          },
+          {
+            "kind": "image",
+            "src": "timeline/boom/swedish-fish-ad.png",
+            "alt": "\"Here's A New Look For An Old Favorite!\" Swedish Fish advertisement",
+            "x": 316,
+            "y": 105,
+            "w": 184,
+            "h": 242,
+            "border": 4,
+            "opacity": 0.9
+          }
+        ]
       },
       "candySlots": [
         {
           "candy": "pastellfiskar",
-          "cx": 170.99,
-          "cy": 323.79,
-          "w": 184.59,
-          "h": 68.98,
-          "rotate": 6
-        },
-        {
-          "candy": "pink-car",
-          "cx": 401.77,
-          "cy": 321.74,
-          "w": 132,
-          "h": 132,
-          "rotate": 8
+          "cx": 116.16,
+          "cy": 323.78,
+          "w": 134.78,
+          "h": 134.78,
+          "rotate": -13.34,
+          "credit": "Pastellfiskar Candy"
         }
       ],
       "story": [
@@ -359,10 +370,10 @@
           "text": "After the war, sugar was no longer rationed, wages were rising, and families had a little extra money to spend. Candy factories could turn out sweets faster and cheaper than ever. New methods like pouring candy into shapes pressed into trays of cornstarch made soft, chewy gummies and foam sweets easy to mass-produce."
         },
         {
-          "text": "Cars were the other big symbol of the era. Many Swedish families bought their first car in the 1950s. In 1953, Ahlgren's in Gävle launched Ahlgrens bilar, which means \"Ahlgren's cars\": little foam candies shaped like cars, in pink, green and white. Cloetta, which makes them today, still calls them \"the world's best-selling car.\"[7]"
+          "text": "Cars were the other big symbol of the era. Many Swedish families bought their first car in the 1950s. In 1953, Ahlgren's in Gävle launched Ahlgrens bilar, which means \"Ahlgren's cars\": little foam candies shaped like cars, in pink, green and white. Cloetta, which makes them today, still calls them \"the world's best-selling car.\"[5]"
         },
         {
-          "text": "Around the late 1950s, the Swedish candy maker Malaco created a small, chewy red fish to sell in North America. The fish shape was a nod to Sweden's fishing industry. In the US and Canada they became famous as Swedish Fish, and back home Swedes came to know them as pastellfiskar, or \"pastel fish.\" Today they're probably the best-known Swedish candy in the world.[8]"
+          "text": "Around the late 1950s, the Swedish candy maker Malaco created a small, chewy red fish to sell in North America. The fish shape was a nod to Sweden's fishing industry. In the US and Canada they became famous as Swedish Fish, and back home Swedes came to know them as pastellfiskar, or \"pastel fish.\" Today they're probably the best-known Swedish candy in the world.[6]"
         }
       ]
     },
@@ -371,76 +382,55 @@
       "dates": "1960s–1970s",
       "title": "Colour and pop",
       "figmaNode": "179:187",
-      "collageTop": 76.88,
-      "scrap": {
-        "src": "timeline/colour-and-pop/scrap.png",
-        "x": 305.95,
-        "y": 180,
-        "w": 286.21,
-        "h": 304.16,
-        "figmaNode": "138:696"
-      },
-      "photos": [
-        {
-          "src": "timeline/colour-and-pop/apollo-11-buzz-aldrin-1969.png",
-          "alt": "Apollo 11, Buzz Aldrin, 1969",
-          "x": 40.8,
-          "y": 4.8,
-          "w": 240,
-          "h": 295.2,
-          "inset": 3.6,
-          "figmaNode": "138:697"
-        },
-        {
-          "src": "timeline/colour-and-pop/haribo-happy-cola.png",
-          "alt": "Haribo Happy-Cola",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "138:699"
-        },
-        {
-          "src": "timeline/colour-and-pop/smedslattstorget-1964.png",
-          "alt": "Smedslättstorget, 1964",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "138:701"
-        }
-      ],
-      "caption": {
-        "cx": 434.01,
-        "cy": 484.78,
-        "rotate": 5
+      "collage": {
+        "figmaNode": "236:1481",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/colour-and-pop/skumtomtar.png",
+            "alt": "Marshmallow Santas (B&W)",
+            "x": 230,
+            "y": 66,
+            "w": 208,
+            "h": 184,
+            "border": 4,
+            "opacity": 0.9,
+            "pos": "bottom"
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/colour-and-pop/line-art.png",
+            "x": 128,
+            "y": 192,
+            "w": 132,
+            "h": 201.9,
+            "border": 3.1,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after \"Coca-Cola 1915 Contour bottle\", nagualdesign, CC0"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/colour-and-pop/coca-cola-logo.png",
+            "alt": "Coca-Cola logo",
+            "x": 206,
+            "y": 225,
+            "w": 265,
+            "h": 107,
+            "border": 4,
+            "opacity": 0.9
+          }
+        ]
       },
       "candySlots": [
         {
           "candy": "cola-bottle",
-          "cx": 73.13,
-          "cy": 295.79,
-          "w": 55.2,
-          "h": 124.8,
-          "rotate": 18
-        },
-        {
-          "candy": "cola-bottle",
-          "cx": 118.6,
-          "cy": 373.5,
-          "w": 45.6,
-          "h": 103.2,
-          "rotate": -14
-        },
-        {
-          "candy": "cola-bottle",
-          "cx": 168.4,
-          "cy": 317.88,
-          "w": 36,
-          "h": 81.6,
-          "rotate": 4
+          "cx": 116.84,
+          "cy": 187.84,
+          "w": 93,
+          "h": 130,
+          "rotate": -45,
+          "credit": "Cola Candy"
         }
       ],
       "story": [
@@ -451,11 +441,11 @@
           "items": [
             {
               "lead": "Sour and cola flavors:",
-              "text": "Haribo launched its Nappar in 1961, and sour cola versions came later.[9]"
+              "text": "Haribo launched its Nappar in 1961, and sour cola versions came later.[7]"
             },
             {
               "lead": "Marshmallow and foam:",
-              "text": "Cloetta made its first marshmallow Santas in the 1960s[10], and foam sweets in all kinds of shapes became shop staples."
+              "text": "Cloetta made its first marshmallow Santas in the 1960s[8], and foam sweets in all kinds of shapes became shop staples."
             },
             {
               "lead": "Kids with pocket money:",
@@ -464,7 +454,7 @@
           ]
         },
         {
-          "text": "In 1979 Malaco invented the concept of Gott & Blandat, which means \"good and mixed.\" It was a way of selling leftover candies they had by creating mixed bags of fruit gums and licorice.[11]"
+          "text": "In 1979 Malaco invented the concept of Gott & Blandat, which means \"good and mixed.\" It was a way of selling leftover candies they had by creating mixed bags of fruit gums and licorice.[9]"
         }
       ]
     },
@@ -473,138 +463,63 @@
       "dates": "1980s",
       "title": "Pick your own",
       "figmaNode": "179:217",
-      "collageTop": 69.56,
-      "scrap": {
-        "src": "timeline/pick-your-own/scrap.png",
-        "x": 238.91,
-        "y": 180,
-        "w": 335.38,
-        "h": 271.3,
-        "figmaNode": "180:378"
-      },
-      "photos": [
-        {
-          "src": "timeline/pick-your-own/loose-sweets-in-bins.png",
-          "alt": "Loose sweets in bins",
-          "x": 130,
-          "y": 40,
-          "w": 300,
-          "h": 200,
-          "inset": 3.6,
-          "figmaNode": "180:379"
-        }
-      ],
-      "caption": {
-        "cx": 242.16,
-        "cy": 473.19,
-        "rotate": 3
+      "collage": {
+        "figmaNode": "236:1550",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/pick-your-own/candy-bins-bw.png",
+            "alt": "Pick-and-mix candy bins (B&W)",
+            "x": 187,
+            "y": 161,
+            "w": 238,
+            "h": 194,
+            "border": 4,
+            "opacity": 0.9
+          },
+          {
+            "kind": "image",
+            "src": "timeline/pick-your-own/gott-och-blandat.png",
+            "alt": "Bag of Malaco Gott & Blandat",
+            "x": 297,
+            "y": 28,
+            "w": 195,
+            "h": 181,
+            "border": 0,
+            "opacity": 0.9,
+            "fit": "contain"
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/pick-your-own/line-art.png",
+            "x": 27,
+            "y": 89,
+            "w": 236,
+            "h": 160,
+            "border": 4,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after a candy photo"
+          }
+        ]
       },
       "candySlots": [
         {
           "candy": "fried-egg",
-          "cx": 372.29,
-          "cy": 331.4,
-          "w": 150,
-          "h": 98,
-          "rotate": 8
-        },
-        {
-          "candy": "strawberry",
-          "cx": 492.52,
-          "cy": 65.07,
-          "w": 84,
-          "h": 110,
-          "rotate": -12
-        },
-        {
-          "candy": "gummy-cherry",
-          "cx": 75.93,
-          "cy": 211.17,
-          "w": 92,
-          "h": 108,
-          "rotate": 10
-        },
-        {
-          "candy": "orange-disc",
-          "cx": 504.85,
-          "cy": 273.51,
-          "w": 100,
-          "h": 98,
-          "rotate": -6
-        },
-        {
-          "candy": "rambo",
-          "cx": 218.9,
-          "cy": 291.28,
-          "w": 150,
-          "h": 96,
-          "rotate": -5
+          "cx": 409.44,
+          "cy": 353.44,
+          "w": 113.04,
+          "h": 113.04,
+          "rotate": -7,
+          "credit": "Fried Egg Candy"
         }
       ],
       "story": [
         {
-          "text": "Until now, loose sweets were sold from behind a counter. In 1985 the state food agency said shops could let people pick their own from bins.[12] That is lösgodis, Swedish for loose sweets, better known as pick-and-mix. It fit the times, as self-service shops and big supermarkets spread."
+          "text": "Until now, loose sweets were sold from behind a counter. In 1985 the state food agency said shops could let people pick their own from bins.[10] That is lösgodis, Swedish for loose sweets, better known as pick-n-mix. It fit the times, as self-service shops and big supermarkets spread."
         },
         {
           "text": "The bins filled with staples that are still there today: a candy fried egg, strawberries, cherries, orange discs, and Rambo."
-        }
-      ]
-    },
-    {
-      "id": "sweden-opens-up",
-      "dates": "1990s–2000s",
-      "title": "BUBS",
-      "figmaNode": "179:239",
-      "collageTop": 68.36,
-      "scrap": {
-        "src": "timeline/sweden-opens-up/scrap.png",
-        "x": 0,
-        "y": 50.04,
-        "w": 275.1,
-        "h": 296.91,
-        "figmaNode": "139:98"
-      },
-      "photos": [
-        {
-          "src": "timeline/sweden-opens-up/nokia-3210.png",
-          "alt": "Nokia 3210",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "139:99"
-        },
-        {
-          "src": "timeline/sweden-opens-up/huskvarna-home-of-bubs.png",
-          "alt": "Huskvarna, home of BUBS",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "139:101"
-        },
-        {
-          "src": "timeline/sweden-opens-up/marabou-daim.png",
-          "alt": "Marabou Daim",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "139:103"
-        }
-      ],
-      "caption": {
-        "cx": 375.0,
-        "cy": 469.76,
-        "rotate": -3
-      },
-      "candySlots": [],
-      "story": [
-        {
-          "text": "In 1992 the Lindström family in Huskvarna, near Jönköping, put their house up as security for a bank loan. They used it to buy their first candy machine and started BUBS, a family candy maker. The name comes from four of them: Bernt, Ulrik, Birgitta and Stefan. They chose bold shapes such as skulls, ovals and diamonds.[13]"
         }
       ]
     },
@@ -613,56 +528,60 @@
       "dates": "2010s",
       "title": "Swedish candy abroad",
       "figmaNode": "179:256",
-      "collageTop": 63.56,
-      "scrap": {
-        "src": "timeline/candy-abroad/scrap.png",
-        "x": 164.1,
-        "y": -12,
-        "w": 363.06,
-        "h": 251.72,
-        "figmaNode": "139:111"
+      "collage": {
+        "figmaNode": "236:1611",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/candy-abroad/street-sign.png",
+            "alt": "Christopher Street and Stonewall street signs (B&W)",
+            "x": 87,
+            "y": 201,
+            "w": 217,
+            "h": 159,
+            "border": 4,
+            "opacity": 0.8,
+            "pos": "bottom"
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/candy-abroad/line-art.png",
+            "x": 196,
+            "y": 58,
+            "w": 223,
+            "h": 186,
+            "border": 4,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "credit": "Line drawing made with Krea after a New York subway map"
+          },
+          {
+            "kind": "image",
+            "src": "timeline/candy-abroad/sockerbit-shop.png",
+            "alt": "Inside the Sockerbit candy shop",
+            "x": 254,
+            "y": 164,
+            "w": 235,
+            "h": 159,
+            "border": 4,
+            "opacity": 1
+          }
+        ]
       },
-      "photos": [
+      "candySlots": [
         {
-          "src": "timeline/candy-abroad/christopher-street-west-village.png",
-          "alt": "Christopher Street, West Village",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "139:112"
-        },
-        {
-          "src": "timeline/candy-abroad/cloetta-ljungsbro.png",
-          "alt": "Cloetta, Ljungsbro",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "139:114"
-        },
-        {
-          "src": "timeline/candy-abroad/iphone-2010.png",
-          "alt": "iPhone, 2010",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "139:116"
+          "candy": "strawberry",
+          "cx": 187.44,
+          "cy": 86.73,
+          "w": 88,
+          "h": 116,
+          "rotate": 15,
+          "credit": "Strawberry Candy"
         }
       ],
-      "caption": {
-        "cx": 246.89,
-        "cy": 472.54,
-        "rotate": 4
-      },
-      "candySlots": [],
       "story": [
         {
-          "text": "In 2010 Stefan Ernberg and Florence Baras opened Sockerbit, a Swedish candy shop in New York, on Christopher Street in the West Village. In 2014 Sockerbit opened a second shop, in Los Angeles.[14]"
+          "text": "In 2010 Stefan Ernberg and Florence Baras opened Sockerbit, a Swedish candy shop in New York, on Christopher Street in the West Village. In 2014 Sockerbit opened a second shop, in Los Angeles.[11]"
         }
       ]
     },
@@ -671,65 +590,67 @@
       "dates": "2020s",
       "title": "The TikTok moment",
       "figmaNode": "179:273",
-      "collageTop": 63.56,
-      "scrap": {
-        "src": "timeline/tiktok-moment/scrap.png",
-        "x": 288,
-        "y": 165.59,
-        "w": 306.72,
-        "h": 276.08,
-        "figmaNode": "139:124"
-      },
-      "photos": [
-        {
-          "src": "timeline/tiktok-moment/bubs-in-a-pick-and-mix-aisle.png",
-          "alt": "BUBS in a pick-and-mix aisle",
-          "x": 84,
-          "y": 28.8,
-          "w": 180,
-          "h": 235.2,
-          "inset": 3.6,
-          "figmaNode": "139:125"
-        },
-        {
-          "src": "timeline/tiktok-moment/tiktok-by-marygracegraves-january-2024-swedish-c.png",
-          "alt": "TikTok by @marygracegraves, January 2024 (Swedish candy, BonBon NYC)",
-          "x": 278.4,
-          "y": 86.4,
-          "w": 240,
-          "h": 160.8,
-          "inset": 0,
-          "figmaNode": "139:127"
-        },
-        {
-          "src": "timeline/tiktok-moment/bubs-vinnarskalle-skull.png",
-          "alt": "BUBS Vinnarskalle skull",
-          "x": 201.6,
-          "y": 235.2,
-          "w": 216,
-          "h": 158.4,
-          "inset": 3.6,
-          "figmaNode": "139:129"
-        }
-      ],
-      "caption": {
-        "cx": 430.53,
-        "cy": 472.26,
-        "rotate": -4
+      "collage": {
+        "figmaNode": "236:1673",
+        "layers": [
+          {
+            "kind": "image",
+            "src": "timeline/tiktok-moment/tiktok-video.png",
+            "alt": "TikTok video: \"so I'm gonna do a little tasting\" (B&W)",
+            "x": 46,
+            "y": 101,
+            "w": 188,
+            "h": 253,
+            "border": 4,
+            "opacity": 0.9
+          },
+          {
+            "kind": "image",
+            "src": "timeline/tiktok-moment/tiktok-candy-shopping.png",
+            "alt": "TikTok video: \"this is gonna be so good\", Swedish candy shopping",
+            "x": 282,
+            "y": 46,
+            "w": 186,
+            "h": 232,
+            "border": 4,
+            "opacity": 0.9,
+            "pos": "bottom",
+            "credit": "Natalie Ludwig on TikTok"
+          },
+          {
+            "kind": "tile",
+            "art": "timeline/tiktok-moment/line-art.png",
+            "x": 203,
+            "y": 184,
+            "w": 178,
+            "h": 187,
+            "border": 4,
+            "color": "#db312e",
+            "opacity": 0.95,
+            "artBox": {
+              "x": 0,
+              "y": 0,
+              "w": 194,
+              "h": 204
+            },
+            "credit": "Line drawing made with Krea after a BUBS factory-line image"
+          }
+        ]
       },
       "candySlots": [
         {
           "candy": "blue-skull",
-          "cx": 117.01,
-          "cy": 286.4,
-          "w": 144,
-          "h": 144,
-          "rotate": -10
+          "cx": 398.79,
+          "cy": 364.79,
+          "w": 113.04,
+          "h": 113.04,
+          "rotate": -30,
+          "credit": "Skull Candy"
         }
       ],
       "story": [
         {
-          "text": "The pandemic began in 2020, and TikTok became a main way people found new things to buy. In January 2024 a TikTok video set off a craze for Swedish candy in the US. Chewy skull-shaped sweets led the way, many of them made by BUBS. Shops ran short, and some sweets were hard to find.[15]"
+          "text": "The pandemic began in 2020, and TikTok became a main way people found new things to buy. In January 2024 a TikTok video set off a craze for Swedish candy in the US. Chewy skull-shaped sweets led the way, many of them made by BUBS. Shops ran short, and some sweets were hard to find.[12]"
         }
       ]
     }

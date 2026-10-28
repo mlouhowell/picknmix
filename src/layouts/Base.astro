@@ -4,6 +4,7 @@ import '@fontsource/geist/400.css';
 import '@fontsource/geist/500.css';
 import '@fontsource/geist/600.css';
 import '@fontsource/shrikhand/400.css';
+import '@fontsource/geist-mono/400.css';
 import '@fontsource-variable/fraunces/full.css';
 import '@fontsource-variable/fraunces/full-italic.css'; // timeline: italic Swedish terms // SOFT + WONK axes (stand-in for Begum, OPEN)
 import '../styles/tokens.css';
@@ -21,6 +22,8 @@ const fullTitle = title ? `${title} · ${site.siteName}` : site.siteName;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
     <ClientRouter fallback="swap" />

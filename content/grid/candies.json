@@ -51,7 +51,7 @@
       "name": "Fried egg",
       "image": "/candies/09-fried-egg.png",
       "year": "1980s bin staple (no maker or year given)",
-      "era": "",
+      "era": "pick-your-own",
       "type": "Foam candy (skumgodis)",
       "body": "This sweet looks just like a fried egg: a white foam base with a round yellow \"yolk\" in the middle. It is a foam sweet, the soft, chewy kind Swedes call skumgodis. The candy egg became a staple of the pick-and-mix bins in the 1980s. That's when, in 1985, Swedish shops were first allowed to let people scoop their own sweets from self-service bins, called lösgodis, or loose sweets.",
       "caption": "an egg you can eat sunny side up"
@@ -62,7 +62,7 @@
       "name": "Strawberry",
       "image": "/candies/11-strawberry.png",
       "year": "1980s bin staple (exact year and maker unknown)",
-      "era": "",
+      "era": "pick-your-own",
       "type": "",
       "body": "This sweet is shaped and colored like a little red strawberry, with a strawberry taste. It is one of the staples that filled the pick-and-mix bins in the 1980s and is still there today. That decade, in 1985, Sweden's food agency first let shops sell loose sweets, called lösgodis, from self-service bins, so people could scoop exactly the sweets they wanted into a bag.",
       "caption": "a strawberry from the bin"
@@ -73,7 +73,7 @@
       "name": "Rambo",
       "image": "/candies/12-rambo.png",
       "year": "1980s bin staple (exact year and maker unknown)",
-      "era": "",
+      "era": "pick-your-own",
       "type": "",
       "body": "Rambo is a pick-and-mix favorite in Sweden. It is one of the staples that filled the self-service bins in the 1980s, and it is still there today. That decade, in 1985, the state food agency first let shops sell loose sweets, called lösgodis, from bins, so people could scoop their own.",
       "caption": "rambo"
@@ -84,7 +84,7 @@
       "name": "Pink marshmallow",
       "image": "/candies/13-pink-marshmallow.png",
       "year": "1960s (Cloetta's first marshmallow Santas)",
-      "era": "",
+      "era": "colour-and-pop",
       "type": "Marshmallow",
       "body": "Marshmallow is made by whipping air into sugar and gelatin, so it squashes when you squeeze it. Marshmallow sweets came to Swedish candy in the 1960s, when Cloetta, one of Sweden's oldest candy companies, made its first marshmallow Santas. Pink marshmallow pieces like this one are a familiar sight in the pick-and-mix bins today.",
       "caption": "pink and puffy"
@@ -95,7 +95,7 @@
       "name": "Polkagris",
       "image": "/candies/05-polkagris.png",
       "year": "1859",
-      "era": "",
+      "era": "beginnings",
       "type": "Hard peppermint candy (stick)",
       "body": "Polkagris is a red and white peppermint stick from Gränna, a small town in Sweden. Amalia Eriksson is thought to have been the inventor. Legend has it that she made a concoction out of peppermint, vinegar, water, and sugar one night when her daughter fell ill. As a young widow whose husband died days after her daughter was born, she needed money. In 1859 Amalia opened a bakery and sold peppermint candies there. The candy was a bestseller. It made her rich, and she died in 1923, aged 99.",
       "caption": "a peppermint stick from gränna"
@@ -117,7 +117,7 @@
       "name": "Sura Colanappar",
       "image": "/candies/04-sura-colanappar.png",
       "year": "1961 (Nappar in Sweden); sour cola version date unknown",
-      "era": "",
+      "era": "colour-and-pop",
       "type": "Sour gummy",
       "body": "Nappar means \"pacifiers,\" and these gummies are shaped like the dummies babies suck on. Haribo, a German candy maker, chose them as its very first sweets sold in Sweden, in 1961. Cola became one of the favorite flavors. Today there is a sour version, Sura Colanappar, which means \"sour cola pacifiers.\" The sweets are dusted with sour sugar, which gives them a sharp, tangy kick before the sweet cola taste comes through.",
       "caption": "sour cola pacifiers"
@@ -128,7 +128,7 @@
       "name": "Orange disc",
       "image": "/candies/08-orange-disc.png",
       "year": "1980s bin staple (exact year and maker unknown)",
-      "era": "",
+      "era": "pick-your-own",
       "type": "",
       "body": "This sweet is a round, flat orange disc with an orange taste. It is one of the bright staples that filled Sweden's pick-and-mix bins in the 1980s and still sits there today. In 1985 the state food agency first let shops sell loose sweets, called lösgodis, from self-service bins. Before that, sweets were sold from behind a counter, and you had to ask for what you wanted.",
       "caption": "a slice of orange sunshine"
@@ -139,7 +139,7 @@
       "name": "Cherry",
       "image": "/candies/10-gummy-cherry.png",
       "year": "1980s bin staple (exact year and maker unknown)",
-      "era": "",
+      "era": "pick-your-own",
       "type": "",
       "body": "This sweet looks like a pair of red cherries and tastes of cherry. It is one of the staples that filled Sweden's pick-and-mix bins in the 1980s, and you can still find it there today. In 1985 the state food agency first let shops set out loose sweets, called lösgodis, in self-service bins. For the first time, people could pick their own sweets instead of asking at a counter.",
       "caption": "a pair of cherries"
