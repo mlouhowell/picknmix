@@ -1,10 +1,8 @@
 {
   "_readme": "Timeline view (Figma 179:27 Timeline v3; collages from 236:1147 'Blueprint line art', red version). Intro + 9 eras. Per era: collage { figmaNode, layers }: the 520x440 blueprint collage, centred in the 624px era chunk; layers draw in order, kind 'image' (src, alt, box, white border px, opacity, optional fit/pos/rotate) or kind 'tile' (solid colour sheet at 92% + 8px hairline grid + AI line art from assets/timeline/<era>/line-art.png, optional artBox relative to the tile). candySlots (centre, tight box, rotate in CSS degrees, relative to the collage) name a grid candy (content/grid/candies.json slug) drawn on top; clicking one opens the candy drawer. Story parts: { text } or { items: [{ lead, text }] } (a bullet list). [n] in a text is footnote n: a superscript that opens footnotes[n] under its part. Images: assets/timeline/<era>/ (npm run images).",
   "intro": {
-    "kicker": "A short history of Swedish candy",
     "title": [
-      "From polkagris",
-      "to pick-n-mix"
+      "A short history of Swedish candy"
     ],
     "figmaNode": "179:61"
   },
@@ -76,7 +74,8 @@
             "w": 137,
             "h": 200,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Rows of polkagris sticks in many colours"
           }
         ]
       },
@@ -99,7 +98,7 @@
           "text": "In the 1850s in Sweden a widow called Amalia Eriksson invented a famous candy called polkagris. Polkagris is a red and white striped peppermint stick. The candy was first made for her sick daughter to help with a cold. It was made of sugar, peppermint, water, and vinegar. Soon after, she started selling them in her bakery. She died at age 99 a very wealthy woman because of the bestselling candy.[1]"
         },
         {
-          "text": "Once candy became less about curing ailments and more for pleasure, it was only the rich that could afford to buy it. A sign of a well-to-do home was to have bonbons in little bowls ready for guests. In the 1850s railways in Sweden and the rest of the world made sugar and other ingredients cheaper. This meant that ordinary people and not just the rich could afford to buy candy."
+          "text": "Over time, candy turned from a medicine into a treat. But sugar was still expensive, so sweets were a luxury for the rich. A little bowl of bonbons set out for guests was a sign of a well-to-do home. In the 1850s railways in Sweden and the rest of the world made sugar and other ingredients cheaper. This meant that ordinary people and not just the rich could afford to buy candy."
         }
       ]
     },
@@ -132,7 +131,8 @@
             "w": 210,
             "h": 154,
             "border": 3,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Inside an early candy factory"
           },
           {
             "kind": "tile",
@@ -218,7 +218,8 @@
             "w": 164,
             "h": 228,
             "border": 4,
-            "opacity": 0.95
+            "opacity": 0.95,
+            "credit": "Old Cloetta Kexchoklad ad: \"Härlig proviant för skidfärden och långpromenaden\" (lovely provisions for the ski trip and the long walk)"
           },
           {
             "kind": "image",
@@ -231,14 +232,15 @@
             "border": 0,
             "opacity": 1,
             "rotate": 30,
-            "fit": "contain"
+            "fit": "contain",
+            "credit": "Cloetta Kexchoklad bar"
           }
         ]
       },
       "candySlots": [],
       "story": [
         {
-          "text": "When the Great Depression hit in 1929, money got tight around the world, but candy held on. A small sweet was one of the few treats people could still afford. In the US, candy makers sold bigger, more filling bars for a nickel, almost as a cheap meal. Snickers (1930) and 3 Musketeers (1932) both date from those years."
+          "text": "When the Great Depression hit in 1929, money got tight around the world, but candy held on. A small sweet was one of the few treats people could still afford. In the US, candy makers sold bigger, more filling bars for a nickel, almost as a cheap meal. Snickers (1930) and 3 Musketeers (1932) both date from those years. In Sweden, a similar chocolate bar called Kex was made around the same time. It was a chocolate bar with wafers inside, marketed as the perfect ski snack."
         },
         {
           "text": "Sweden felt the slump later and less sharply, and it recovered faster than the US in the mid-1930s. Swedish candy makers kept going by selling cheap, everyday sweets, like loose candies sold one by one for a coin or two."
@@ -286,7 +288,8 @@
             "w": 223,
             "h": 164,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Spitfire fighter planes in formation, Second World War"
           },
           {
             "kind": "image",
@@ -297,7 +300,8 @@
             "w": 139,
             "h": 110,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Swedish restaurant ration card for meat, Statens Livsmedelskommission"
           }
         ]
       },
@@ -334,13 +338,14 @@
           {
             "kind": "image",
             "src": "timeline/boom/candy-counter.png",
-            "alt": "Shoppers at a 1950s candy counter (B&W)",
+            "alt": "Women selecting their candy of choice at a movie theatre (B&W)",
             "x": 100,
             "y": 153,
             "w": 273,
             "h": 176,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Women selecting their candy of choice at a movie theatre"
           },
           {
             "kind": "image",
@@ -351,7 +356,8 @@
             "w": 184,
             "h": 242,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Old Swedish Fish ad"
           }
         ]
       },
@@ -396,7 +402,8 @@
             "h": 184,
             "border": 4,
             "opacity": 0.9,
-            "pos": "bottom"
+            "pos": "bottom",
+            "credit": "Bowl of marshmallow Santas"
           },
           {
             "kind": "tile",
@@ -419,7 +426,8 @@
             "w": 265,
             "h": 107,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Coca-Cola logo: the drink behind the cola candy craze"
           }
         ]
       },
@@ -476,7 +484,8 @@
             "w": 238,
             "h": 194,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "Pick-n-mix candy bins"
           },
           {
             "kind": "image",
@@ -488,7 +497,8 @@
             "h": 181,
             "border": 0,
             "opacity": 0.9,
-            "fit": "contain"
+            "fit": "contain",
+            "credit": "Bag of Malaco Gott & Blandat"
           },
           {
             "kind": "tile",
@@ -566,7 +576,8 @@
             "w": 235,
             "h": 159,
             "border": 4,
-            "opacity": 1
+            "opacity": 1,
+            "credit": "Inside Sockerbit, a Swedish candy shop in New York"
           }
         ]
       },
@@ -604,7 +615,8 @@
             "w": 188,
             "h": 253,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "TikTok video: \"so I'm gonna do a little tasting\""
           },
           {
             "kind": "image",

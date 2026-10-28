@@ -172,7 +172,7 @@ const storyPart = z.union([
 ]);
 export const TimelineSchema = z.object({
   _readme: z.string(),
-  intro: z.object({ kicker: text, title: z.array(text).min(1), figmaNode: figmaId }),
+  intro: z.object({ title: z.array(text).min(1), figmaNode: figmaId }),
   footnotes: z.record(z.string().regex(/^\d+$/), text),
   eras: z.array(z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),

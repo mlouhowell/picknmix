@@ -116,7 +116,7 @@ test.describe('grid mode', () => {
     await tl.click();
     await expect(tl).toHaveAttribute('aria-pressed', 'true');
     await expect(page).toHaveURL(/\?view=timeline$/);
-    await expect(page.locator('.timeline .kicker')).toHaveText(timeline.intro.kicker);
+    await expect(page.locator('.timeline .intro .title')).toHaveText(timeline.intro.title.join(''));
     expect(await page.evaluate(() => (window as unknown as { marker?: number }).marker)).toBe(1); // no reload
     await expect(page.locator('.candy-grid')).toBeHidden();
     await page.getByRole('button', { name: site.header.grid }).click();
