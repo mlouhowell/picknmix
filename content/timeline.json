@@ -46,13 +46,14 @@
           {
             "kind": "image",
             "src": "timeline/beginnings/apothecary.png",
-            "alt": "\"The Apothecary's Shop opened\", engraving",
+            "alt": "\"The Apothecary's Shop opened\", engraving, London, 1657",
             "x": 194,
             "y": 55,
             "w": 228,
             "h": 185,
             "border": 4,
-            "opacity": 0.9
+            "opacity": 0.9,
+            "credit": "View of a seventeenth-century apothecary shop. Frontispiece to Pierre Morel, The expert doctors dispensatory… (London, 1657). Wellcome Collection."
           },
           {
             "kind": "image",
