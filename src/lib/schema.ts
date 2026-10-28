@@ -48,6 +48,7 @@ export const CandiesFileSchema = z
 export const SiteSchema = z.object({
   siteName: text,
   header: z.object({ viewLabel: text, grid: text, timeline: text }),
+  footer: z.object({ byline: text, href: z.string().url(), version: text, date: text }),
   timeline: z.object({ label: text, contentsLabel: text, footnoteLabel: text.includes('{n}'), creditPending: text }),
   drawer: z.object({
     label: text, close: text, prev: text, next: text, detailsHeading: text, similarHeading: text,

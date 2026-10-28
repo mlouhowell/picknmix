@@ -113,13 +113,13 @@ function init() {
     render(Number(btn.dataset.index));
     source = { btn, index: current };
     const pic = heroPicture();
-    if (!pic || reduce()) { dialog.showModal(); return; }
+    if (!pic || reduce()) { dialog.showModal(); dialog.focus(); return; }
     // open straight away (so Esc / close work at once) but hold everything at its start pose: candy over the page
     // candy, scrim and drawer not shown. Then wait for the image (a short wait beats an image that pops in
     // mid-flight) and one painted frame (layout, blur, image upload), and only then start the motion.
     const id = ++opening;
     dialog.classList.add('is-opening');
-    dialog.showModal();
+    dialog.showModal(); dialog.focus();
     const from = fromSource(btn, pic); // measured once the dialog has a layout
     pic.style.transform = from;
     btn.style.visibility = 'hidden';

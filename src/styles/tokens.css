@@ -45,6 +45,7 @@
   --font-display-variation: "SOFT" 0, "WONK" 1;            /* Fraunces only; drop with Begum */
   --font-body: "Geist", system-ui, sans-serif;                /* one text family: body copy matches the timeline + UI (was Funnel Sans; owner, 2026-10-27) */
   --font-ui: "Geist", system-ui, sans-serif;                 /* all small UI / label text (toggle, buttons, drawer labels) */
+  --font-footer: "Space Mono", ui-monospace, monospace;      /* footer, same as the owner's other sites */
   --font-hand: "Homemade Apple", cursive;                    /* handwritten accents ("lösgodis archive" 109:31) */
   --font-title: "Shrikhand", Georgia, serif;                 /* 204:26 chosen titles: logo, timeline + era titles, drawer title (upright cut is already slanted, no synthetic italic) */
 
@@ -201,6 +202,7 @@
   --tl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   --tl-grain-size: 180px;  --tl-grain-opacity: 0.5;  --tl-grain-blend: overlay;
   --type-tl-credit-size: 11px;  --type-tl-credit-leading: 1.35;   /* image credits under the lined-up collage */
+  --type-footer-size: 10px;  --footer-bottom: 24px;   /* footer (designersthatread.com), pinned bottom left */
   --tl-collage-scale: 1.5;           /* image area 50% bigger than the 624 text column (owner, 2026-10-27) */
   --tl-tile-sheet-opacity: 0.92;     /* colour sheet under the line art */
   --tl-grid-step: 8;                 /* hairline grid every 8 */

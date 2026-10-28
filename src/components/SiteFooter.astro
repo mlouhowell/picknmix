@@ -1,0 +1,19 @@
+---
+// Shared footer from the owner's other sites (designersthatread.com): byline link · version · date, Space Mono 10.
+// Pinned bottom left on every view (owner, 2026-10-27), lined up with the "Pick N Mix" logo in the header.
+import { site } from '../lib/content';
+const f = site.footer;
+---
+<footer class="site-footer">
+  <a href={f.href}>{f.byline}</a> &middot; {f.version} &middot; {f.date}
+</footer>
+
+<style>
+  .site-footer {
+    position: fixed; z-index: 2; left: var(--header-pad-inline); bottom: var(--footer-bottom);
+    font-family: var(--font-footer); font-size: var(--type-footer-size); line-height: 1; color: var(--color-ink);
+  }
+  /* same inset as the header on phones */
+  @media (max-width: 40em) { .site-footer { left: var(--grid-gutter); } }
+  .site-footer a { color: inherit; }
+</style>

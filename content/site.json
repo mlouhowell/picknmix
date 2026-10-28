@@ -49,5 +49,11 @@
     },
     "detailsHeading": "Details",
     "similarHeading": "Similar Candies"
+  },
+  "footer": {
+    "byline": "By ML Howell",
+    "href": "https://mary-louise.com",
+    "version": "V1.0",
+    "date": "October 2026"
   }
 }

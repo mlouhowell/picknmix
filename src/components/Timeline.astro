@@ -33,7 +33,9 @@ const TL_LINE_GAP = 14, TL_LINE_ROW_GAP = 16, TL_LINE_MAX_H = 210, TL_CREDIT_GAP
 // credit text size in chunk units (= --type-tl-credit-size 11px x --type-tl-credit-leading 1.35, over TL_SCALE) and a
 // typical character width, to estimate how many lines each credit wraps to so the rows leave room for it
 const TL_CREDIT_LINE = (11 * 1.35) / TL_SCALE, TL_CREDIT_CHAR = 5.8 / TL_SCALE;
-type Slot = { dx: number; dy: number; s: number; tx: number; ty: number; tw: number; th: number };
+// every piece gets a slot at least this wide (chunk units) so its credit has room; the picture sits at the slot's left
+const TL_SLOT_MIN_W = 140;
+type Slot = { dx: number; dy: number; s: number; tx: number; ty: number; tw: number; th: number; cw: number };
 const creditOf = (e: Era, key: string) => {
   const i = Number(key.slice(1));
   return key[0] === 'l'
@@ -45,8 +47,9 @@ const creditH = (text: string, w: number) => {
   return text.split('\n').reduce((t, p) => t + Math.max(1, Math.ceil(p.length / perLine)), 0) * TL_CREDIT_LINE + TL_CREDIT_GAP;
 };
 /** Hover state: every piece (layers + candies) straight, in two rows (left-to-right order kept, split so both rows are
- *  about as wide), all the same height, centred in the chunk; each row leaves room for its longest credit. Per piece:
- *  the move from its cluster centre (dx, dy), its scale, and the row box for its credit. */
+ *  about as wide), all the same height, centred in the chunk. Each piece sits in a slot at least TL_SLOT_MIN_W wide with
+ *  its credit underneath; each row leaves room for its longest credit. Per piece: the move from its cluster centre
+ *  (dx, dy), its scale, and the credit box. */
 const lineUp = (e: Era) => {
   const ex = extent(e);
   const items = [
@@ -58,31 +61,35 @@ const lineUp = (e: Era) => {
   for (let k = 1; k < items.length; k++)
     if (Math.abs(sum(items.slice(0, k)) - sum(items.slice(k))) < Math.abs(sum(items.slice(0, cut)) - sum(items.slice(cut)))) cut = k;
   const rows = items.length > 1 ? [items.slice(0, cut), items.slice(cut)] : [items];
-  const fitW = Math.min(...rows.map((r) => (TL_CHUNK_W - TL_LINE_GAP * (r.length - 1)) / sum(r)));
-  const rowCredit = (th: number) => rows.map((r) => Math.max(...r.map((i) => creditH(creditOf(e, i.key), i.a * th))));
+  const slotW = (i: (typeof items)[number], th: number) => Math.max(i.a * th, TL_SLOT_MIN_W);
+  const rowW = (r: typeof items, th: number) => r.reduce((t, i) => t + slotW(i, th), 0) + TL_LINE_GAP * (r.length - 1);
+  const rowCredit = (th: number) => rows.map((r) => Math.max(...r.map((i) => creditH(creditOf(e, i.key), slotW(i, th)))));
   const rowGaps = (rows.length - 1) * TL_LINE_ROW_GAP;
-  // credit heights depend on the row height (narrower pieces wrap more), so settle the two together
-  let th = Math.min(TL_LINE_MAX_H, fitW);
-  for (let k = 0; k < 4; k++) th = Math.min(TL_LINE_MAX_H, fitW, (ex.height - rowGaps - rowCredit(th).reduce((t, c) => t + c, 0)) / rows.length);
-  const credits = rowCredit(th);
-  const blockH = rows.length * th + credits.reduce((t, c) => t + c, 0) + rowGaps;
+  const blockH = (th: number) => rows.length * th + rowCredit(th).reduce((t, c) => t + c, 0) + rowGaps;
+  // largest row height (to TL_LINE_MAX_H) where every row fits the chunk width and the whole block fits its height
+  let lo = 20, hi = TL_LINE_MAX_H;
+  for (let k = 0; k < 24; k++) {
+    const mid = (lo + hi) / 2;
+    if (Math.max(...rows.map((r) => rowW(r, mid))) <= TL_CHUNK_W && blockH(mid) <= ex.height) lo = mid; else hi = mid;
+  }
+  const th = lo, credits = rowCredit(th);
   const out: Record<string, Slot> = {};
-  let top = ex.top + (ex.height - blockH) / 2;
+  let top = ex.top + (ex.height - blockH(th)) / 2;
   rows.forEach((r, ri) => {
-    let x = (TL_CHUNK_W - (th * sum(r) + TL_LINE_GAP * (r.length - 1))) / 2 - TL_BP_X;
+    let x = (TL_CHUNK_W - rowW(r, th)) / 2 - TL_BP_X;
     const ty = top + th / 2;
     for (const i of r) {
-      const tw = i.a * th, tx = x + tw / 2;
-      out[i.key] = { dx: tx - i.cx, dy: ty - i.cy, s: th / i.h, tx, ty, tw, th };
-      x += tw + TL_LINE_GAP;
+      const tw = i.a * th, cw = slotW(i, th), tx = x + tw / 2;
+      out[i.key] = { dx: tx - i.cx, dy: ty - i.cy, s: th / i.h, tx, ty, tw, th, cw };
+      x += cw + TL_LINE_GAP;
     }
     top += th + credits[ri]! + TL_LINE_ROW_GAP;
   });
   return out;
 };
 const lineVars = (t: Slot) => `--lx:${n(t.dx)};--ly:${n(t.dy)};--ls:${n(t.s)}`;
-// credit starts at its piece's left edge and never runs wider than the piece (owner, 2026-10-27), so neighbours never touch
-const creditVars = (t: Slot) => `--tl:${n(t.tx - t.tw / 2)};--ty:${n(t.ty + t.th / 2 + TL_CREDIT_GAP)};--tw:${n(t.tw)}`;
+// credit starts at its piece's left edge and fills the piece's slot (owner, 2026-10-27), so neighbours never touch
+const creditVars = (t: Slot) => `--tl:${n(t.tx - t.tw / 2)};--ty:${n(t.ty + t.th / 2 + TL_CREDIT_GAP)};--tw:${n(t.cw)}`;
 const box = (b: { x: number; y: number; w: number; h: number }, p = '') =>
   `--${p}x:${n(b.x)};--${p}y:${n(b.y)};--${p}w:${n(b.w)};--${p}h:${n(b.h)}`;
 /** Split copy into plain runs and footnote numbers ("[5]"). */

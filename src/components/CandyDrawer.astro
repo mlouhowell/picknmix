@@ -15,7 +15,8 @@ const eraName = (id: string) => {
 const heroW = 512; // = --hero-size (147:1481)
 const f = site.drawer.fields;
 ---
-<dialog class="drawer" aria-label={site.drawer.label} data-drawer data-figma="147:1415">
+<!-- tabindex -1: scripts/landing-grid.ts focuses the dialog itself on open, so the close button isn't ringed (iOS showed it) -->
+<dialog class="drawer" aria-label={site.drawer.label} data-drawer data-figma="147:1415" tabindex="-1">
   <div class="layout">
     <!-- figma 147:1467 stage: hero 147:1481 -->
     <div class="hero-area" data-hero-area data-figma="147:1467">
@@ -66,6 +67,7 @@ const f = site.drawer.fields;
 </dialog>
 
 <style>
+  .drawer:focus { outline: none; }
   .drawer {
     position: fixed; inset: 0; margin: 0; padding: 0; border: 0;
     inline-size: 100vw; block-size: 100dvh; max-inline-size: none; max-block-size: none;

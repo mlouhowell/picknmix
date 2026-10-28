@@ -9,6 +9,7 @@ import CandyUniverse from '../components/CandyUniverse.astro';
 import CandyGrid from '../components/CandyGrid.astro';
 import CornerOrnaments from '../components/CornerOrnaments.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import CandyDrawer from '../components/CandyDrawer.astro';
 import Timeline from '../components/Timeline.astro';
 import { site, landing } from '../lib/content';
@@ -56,6 +57,7 @@ import { site, landing } from '../lib/content';
     ) : null}
     {landing.mode !== 'grid' && <CornerOrnaments />}
   </main>
+  {landing.mode === 'grid' && <SiteFooter />}
 </Base>
 
 <script>
