@@ -349,6 +349,12 @@ const refLabel = (num: string) => site.timeline.footnoteLabel.replace('{n}', num
     .intro, .chunk { inline-size: 100%; }
   }
   @media (max-width: 40em) {
+    /* phones: scale each collage so its 520-wide frame spans the screen edge to edge (owner, 2026-10-27: too small) */
+    .timeline { overflow-x: clip; }
+    .chunk {
+      inline-size: calc((100vw - 2 * var(--tl-phone-collage-inset)) * var(--tl-chunk-units) / var(--tl-bp-w));
+      max-inline-size: none;
+    }
     .title { font-size: var(--type-tl-title-size-sm); }
     .era-title { font-size: var(--type-era-title-size-sm); }
   }

@@ -202,7 +202,8 @@
   --tl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   --tl-grain-size: 180px;  --tl-grain-opacity: 0.5;  --tl-grain-blend: overlay;
   --type-tl-credit-size: 11px;  --type-tl-credit-leading: 1.35;   /* image credits under the lined-up collage */
-  --type-footer-size: 10px;  --footer-bottom: 24px;   /* footer (designersthatread.com), pinned bottom left */
+  --type-footer-size: 10px;  --footer-bottom: 20px;  --footer-pad-block: 4px;   /* footer (designersthatread.com), pinned bottom left */
+  --tl-phone-collage-inset: 4px;     /* phones: gap between the collage frame and the screen edge */
   --tl-collage-scale: 1.5;           /* image area 50% bigger than the 624 text column (owner, 2026-10-27) */
   --tl-tile-sheet-opacity: 0.92;     /* colour sheet under the line art */
   --tl-grid-step: 8;                 /* hairline grid every 8 */

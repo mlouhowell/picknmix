@@ -15,6 +15,8 @@ import { site } from '../lib/content';
 interface Props { title?: string; description?: string; noindex?: boolean }
 const { title, description, noindex = true } = Astro.props; // noindex until reference-only images are replaced (PLAN §11)
 const fullTitle = title ? `${title} · ${site.siteName}` : site.siteName;
+// share preview: 1200x630 shot of the candy grid (scripts/og-image.mjs -> public/og.png)
+const ogImage = new URL('/og.png', Astro.site ?? Astro.url).href;
 ---
 <!doctype html>
 <html lang="en">
@@ -26,6 +28,13 @@ const fullTitle = title ? `${title} · ${site.siteName}` : site.siteName;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <ClientRouter fallback="swap" />
     <slot name="head" />
   </head>
